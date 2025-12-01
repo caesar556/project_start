@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Allow all hosts for Replit proxy
+  allowedDevOrigins: ["*"],
 };
 
 export default nextConfig;
