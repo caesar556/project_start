@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Clock, ThumbsUp, Star, Award } from "lucide-react";
 
 export default function Hero() {
-  console.log("env", process.env.DATABASE_URL);
   return (
     <section className="relative min-h-[85vh] lg:min-h-[90vh] flex items-center justify-center overflow-hidden py-8">
       {/* Premium Dark Navy Gradient Background */}
