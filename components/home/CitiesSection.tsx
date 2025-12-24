@@ -1,0 +1,163 @@
+import Link from "next/link";
+import { MapPin, ArrowRight, Truck, Users, Route, Globe } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+const CITIES = [
+  { id: 1, name: "Wien", slug: "wien", distance_km: 0 },
+  { id: 2, name: "Graz", slug: "graz", distance_km: 200 },
+  { id: 3, name: "Linz", slug: "linz", distance_km: 185 },
+  { id: 4, name: "Salzburg", slug: "salzburg", distance_km: 300 },
+  { id: 5, name: "Innsbruck", slug: "innsbruck", distance_km: 480 },
+  { id: 6, name: "Klagenfurt", slug: "klagenfurt", distance_km: 330 },
+  { id: 7, name: "Bregenz", slug: "bregenz", distance_km: 640 },
+  { id: 8, name: "St. Pölten", slug: "st-poelten", distance_km: 65 },
+  { id: 9, name: "Wels", slug: "wels", distance_km: 210 },
+  { id: 10, name: "Villach", slug: "villach", distance_km: 350 },
+  { id: 11, name: "Eisenstadt", slug: "eisenstadt", distance_km: 60 },
+];
+
+export default function CitiesSection() {
+  return (
+    <section className="py-24 bg-card relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-orange-500/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-900/5 rounded-full blur-[120px] pointer-events-none" />
+
+      {/* Grid pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(to bottom, hsl(var(--foreground)) 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
+        }}
+      />
+
+      <div className="container mx-auto px-4 relative">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <div
+            className="inline-flex items-center gap-2 rounded-full px-5 py-2 mb-6"
+            style={{
+              background:
+                "linear-gradient(135deg, rgba(13,22,40,0.1), rgba(26,38,66,0.1))",
+              border: "1px solid rgba(13,22,40,0.15)",
+            }}
+          >
+            <Route className="h-4 w-4 text-primary" />
+            <span className="text-primary font-semibold text-sm uppercase tracking-wider">
+              Richard Umzug Standorte
+            </span>
+          </div>
+
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-6">
+            Umzüge in{" "}
+            <span
+              style={{
+                background: "linear-gradient(90deg, #FF6A00, #FF8534)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              Österreich & Europa
+            </span>
+          </h2>
+
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-4">
+            Von Wien bis Bregenz und in ganz Europa – Richard Umzug ist Ihr
+            verlässlicher Partner für Umzüge.
+          </p>
+
+          <div
+            className="inline-flex items-center gap-2 rounded-full px-4 py-2"
+            style={{
+              background:
+                "linear-gradient(135deg, rgba(255,106,0,0.1), rgba(255,133,52,0.1))",
+              border: "1px solid rgba(255,106,0,0.2)",
+            }}
+          >
+            <Globe className="h-4 w-4 text-orange-500" />
+            <span className="text-orange-500 font-medium text-sm">
+              Österreichweit & Europaweit
+            </span>
+          </div>
+        </div>
+
+        {/* Cities Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-16">
+          {CITIES.map((city, index) => (
+            <Link
+              key={city.id}
+              href={`/${city.slug}`}
+              className="group relative flex flex-col items-center p-6 bg-background rounded-2xl border border-border/50 hover:border-orange-500/40 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-2 overflow-hidden"
+              style={{ animationDelay: `${index * 50}ms` }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-transparent to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+
+              <div className="relative z-10">
+                <div
+                  className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, rgba(255,106,0,0.1), rgba(13,22,40,0.1))",
+                  }}
+                >
+                  <MapPin className="h-7 w-7 text-orange-500" />
+                </div>
+
+                <span className="font-bold block text-center mb-1">
+                  {city.name}
+                </span>
+
+                <span className="text-xs text-muted-foreground bg-muted/50 px-2 py-1 rounded-full">
+                  {city.distance_km > 0 ? `${city.distance_km} km` : "Lokal"}
+                </span>
+              </div>
+
+              <ArrowRight className="absolute bottom-3 right-3 h-4 w-4 text-orange-500 opacity-0 group-hover:opacity-100 transition-all" />
+            </Link>
+          ))}
+        </div>
+
+        {/* Stats */}
+        <div
+          className="rounded-3xl p-10 md:p-14 text-white relative overflow-hidden"
+          style={{
+            background: "linear-gradient(135deg, #0D1628, #1A2642, #0D1628)",
+          }}
+        >
+          <div className="relative z-10 grid md:grid-cols-4 gap-10 text-center">
+            {[
+              {
+                icon: Truck,
+                value: `${CITIES.length}+`,
+                label: "Städte in Österreich",
+              },
+              { icon: Globe, value: "20+", label: "Länder in Europa" },
+              { icon: Route, value: "640 km", label: "Maximale Entfernung" },
+              { icon: Users, value: "1000+", label: "Erfolgreiche Umzüge" },
+            ].map((stat) => (
+              <div key={stat.label}>
+                <div className="w-20 h-20 bg-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                  <stat.icon className="h-9 w-9 text-white" />
+                </div>
+                <p className="text-5xl font-extrabold mb-2">{stat.value}</p>
+                <p className="text-white/70">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div className="text-center mt-14">
+          <Button asChild size="lg" variant="outline">
+            <Link href="/leistungen">
+              Alle Standorte & Leistungen von Richard Umzug
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+}
