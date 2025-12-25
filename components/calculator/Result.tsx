@@ -1,3 +1,5 @@
+"use client";
+
 import {
   AlertTriangle,
   ArrowRight,
@@ -171,7 +173,7 @@ export default function Result({
               </span>
             </div>
             <p
-              className="text-5xl md:text-6xl font-extrabold mb-3"
+              className="text-5xl md:text-6xl font-extrabold mb-3 border-2 border-red-700"
               style={{
                 background: "linear-gradient(135deg, #FF6A00 0%, #FFAB00 100%)",
                 WebkitBackgroundClip: "text",

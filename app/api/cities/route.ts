@@ -1,52 +1,24 @@
-import { prisma } from "@/lib/prisma";
-import { success } from "@/lib/api-response";
+import dbConnect from "@/lib/db";
+import City from "@/models/City";
+import { NextResponse } from "next/server";
 
 export async function GET() {
-  return success(
-    await prisma.city.findMany({
-      include: { services: true },
-    }),
-  );
+  await dbConnect();
+  try {
+    const cities = await City.find();
+    return NextResponse.json(cities);
+  } catch (err) {
+    return NextResponse.json({ error: err });
+  }
 }
 
 export async function POST(req: Request) {
-  const body = await req.json();
-
-  return success(
-    await prisma.city.create({
-      data: {
-        ...body,
-        services: body.serviceIds
-          ? {
-              connect: body.serviceIds.map((id: string) => ({ id })),
-            }
-          : undefined,
-      },
-    }),
-    201,
-  );
-}
-
-export async function PUT(req: Request) {
-  const body = await req.json();
-
-  return success(
-    await prisma.city.update({
-      where: { id: body.id },
-      data: {
-        ...body,
-        services: body.serviceIds
-          ? {
-              set: body.serviceIds.map((id: string) => ({ id })),
-            }
-          : undefined,
-      },
-    }),
-  );
-}
-
-export async function DELETE(req: Request) {
-  const { id } = await req.json();
-  await prisma.city.delete({ where: { id } });
-  return success({ deleted: true });
+  await dbConnect();
+  try {
+    const body = await req.json();
+    const city = await City.create(body);
+    return NextResponse.json(city, { status: 201 });
+  } catch (err) {
+    return NextResponse.json({ error: err });
+  }
 }

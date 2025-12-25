@@ -1,52 +1,16 @@
-import { prisma } from "@/lib/prisma";
-import { success, error } from "@/lib/api-response";
-import { requestSchema } from "@/lib/validation";
+import dbConnect from "@/lib/db";
+import Request from "@/models/Request";
+import { NextResponse } from "next/server";
 
 export async function GET() {
-  const requests = await prisma.request.findMany({
-    orderBy: { createdAt: "desc" },
-  });
-  return success(requests);
+  await dbConnect();
+  const requests = await Request.find();
+  return NextResponse.json(requests);
 }
 
 export async function POST(req: Request) {
-  try {
-    const body = requestSchema.parse(await req.json());
-
-    const request = await prisma.request.create({
-      data: body,
-    });
-
-    return success(request, 201);
-  } catch (e: any) {
-    return error(e.message);
-  }
-}
-
-/**
- * تحديث status فقط (Admin Dashboard)
- */
-export async function PUT(req: Request) {
-  try {
-    const { id, status } = await req.json();
-
-    const request = await prisma.request.update({
-      where: { id },
-      data: { status },
-    });
-
-    return success(request);
-  } catch (e: any) {
-    return error(e.message);
-  }
-}
-
-export async function DELETE(req: Request) {
-  try {
-    const { id } = await req.json();
-    await prisma.request.delete({ where: { id } });
-    return success({ deleted: true });
-  } catch (e: any) {
-    return error(e.message);
-  }
+  await dbConnect();
+  const body = await req.json();
+  const request = await Request.create(body);
+  return NextResponse.json(request, { status: 201 });
 }

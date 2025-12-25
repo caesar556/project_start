@@ -1,25 +1,32 @@
-import { prisma } from "@/lib/prisma";
-import { success, error } from "@/lib/api-response";
+import dbConnect from "@/lib/db";
+import GlobalSetting from "@/models/GlobalSetting";
+import { NextResponse } from "next/server";
 
 export async function GET() {
-  const settings = await prisma.globalSetting.findFirst();
-  return success(settings);
+  await dbConnect();
+  const setting = await GlobalSetting.findOne();
+  return NextResponse.json(setting);
+}
+
+export async function POST(req: Request) {
+  await dbConnect();
+  const body = await req.json();
+
+  const exists = await GlobalSetting.findOne();
+  if (exists) return NextResponse.json(exists);
+
+  const setting = await GlobalSetting.create(body);
+  return NextResponse.json(setting, { status: 201 });
 }
 
 export async function PUT(req: Request) {
+  await dbConnect();
   const body = await req.json();
 
-  const existing = await prisma.globalSetting.findFirst();
-
-  if (!existing) {
-    const created = await prisma.globalSetting.create({ data: body });
-    return success(created, 201);
-  }
-
-  const updated = await prisma.globalSetting.update({
-    where: { id: existing.id },
-    data: body,
+  const updated = await GlobalSetting.findOneAndUpdate({}, body, {
+    new: true,
+    upsert: true,
   });
 
-  return success(updated);
+  return NextResponse.json(updated);
 }

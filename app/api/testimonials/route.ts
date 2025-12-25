@@ -1,30 +1,16 @@
-import { prisma } from "@/lib/prisma";
-import { success } from "@/lib/api-response";
+import dbConnect from "@/lib/db";
+import Testimonials from "@/models/Testimonials";
+import { NextResponse } from "next/server";
 
 export async function GET() {
-  return success(await prisma.testimonial.findMany());
+  await dbConnect();
+  const items = await Testimonials.find();
+  return NextResponse.json(items);
 }
 
 export async function POST(req: Request) {
+  await dbConnect();
   const body = await req.json();
-  return success(
-    await prisma.testimonial.create({ data: body }),
-    201
-  );
-}
-
-export async function PUT(req: Request) {
-  const body = await req.json();
-  return success(
-    await prisma.testimonial.update({
-      where: { id: body.id },
-      data: body,
-    })
-  );
-}
-
-export async function DELETE(req: Request) {
-  const { id } = await req.json();
-  await prisma.testimonial.delete({ where: { id } });
-  return success({ deleted: true });
+  const item = await Testimonials.create(body);
+  return NextResponse.json(item, { status: 201 });
 }
