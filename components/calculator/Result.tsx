@@ -1,10 +1,84 @@
-import { AlertTriangle, Calculator, Info, Tag } from "lucide-react";
+import {
+  AlertTriangle,
+  ArrowRight,
+  Calculator,
+  Info,
+  Shield,
+  Tag,
+} from "lucide-react";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
-export default function Result({CALCULATOR_CONFIG}) {
+interface ResultProps {
+  estimate: {
+    min: number;
+    max: number;
+    midpoint: number;
+    fakeOriginalPrice: number;
+    distance: number | null;
+    usedFallback: boolean;
+  } | null;
+  CALCULATOR_CONFIG: any;
+  fromCity: string;
+  toCity: string;
+  area: number;
+  rooms: number;
+  fromFloor: number;
+  toFloor: number;
+  fromElevator: boolean;
+  toElevator: boolean;
+  packing: boolean;
+  assembly: boolean;
+  cleaning: boolean;
+  decluttering: boolean;
+  noParking: boolean;
+}
+
+export default function Result({
+  estimate,
+  CALCULATOR_CONFIG,
+  fromCity,
+  toCity,
+  area,
+  rooms,
+  fromFloor,
+  toFloor,
+  fromElevator,
+  toElevator,
+  packing,
+  assembly,
+  cleaning,
+  decluttering,
+  noParking,
+}: ResultProps) {
+  const router = useRouter();
+
+  const handleClick = () => {
+    const params = new URLSearchParams({
+      fromCity,
+      toCity,
+      area: String(area),
+      rooms: String(rooms),
+      fromFloor: String(fromFloor),
+      toFloor: String(toFloor),
+      fromElevator: String(fromElevator),
+      toElevator: String(toElevator),
+      packing: String(packing),
+      assembly: String(assembly),
+      cleaning: String(cleaning),
+      decluttering: String(decluttering),
+      noParking: String(noParking),
+      estimatedMin: String(estimate?.min || 0),
+      estimatedMax: String(estimate?.max || 0),
+      originalPrice: String(estimate?.fakeOriginalPrice || 0),
+    });
+
+    router.push(`/umzug-anfragen?${params.toString()}`);
+  };
+
   return (
     <>
-      {estimate && (
+      {estimate ? (
         <div
           className="rounded-3xl p-8 animate-fade-in relative"
           style={{
@@ -77,12 +151,11 @@ export default function Result({CALCULATOR_CONFIG}) {
             </div>
           </div>
 
-          {/* Price Display with Discount */}
+          {/* Price Display */}
           <div
             className="text-center py-8 mb-6 rounded-2xl"
             style={{ background: "rgba(255, 255, 255, 0.05)" }}
           >
-            {/* Original Price (Strikethrough) */}
             <div className="mb-2">
               <span className="text-red-400 text-lg">
                 {CALCULATOR_CONFIG.resultCard.originalpreisLabel}{" "}
@@ -92,7 +165,6 @@ export default function Result({CALCULATOR_CONFIG}) {
               </span>
             </div>
 
-            {/* Discounted Price */}
             <div className="mb-2">
               <span className="text-white/70 text-lg">
                 {CALCULATOR_CONFIG.resultCard.rabattpreisLabel}
@@ -136,35 +208,13 @@ export default function Result({CALCULATOR_CONFIG}) {
               background: "linear-gradient(135deg, #FF6A00 0%, #FF8534 100%)",
               boxShadow: "0 10px 40px rgba(255, 106, 0, 0.4)",
             }}
-            onClick={() => {
-              const params = new URLSearchParams({
-                fromCity,
-                toCity,
-                area: String(area),
-                rooms: String(rooms),
-                fromFloor: String(fromFloor),
-                toFloor: String(toFloor),
-                fromElevator: String(fromElevator),
-                toElevator: String(toElevator),
-                packing: String(packing),
-                assembly: String(assembly),
-                cleaning: String(cleaning),
-                decluttering: String(decluttering),
-                noParking: String(noParking),
-                estimatedMin: String(estimate?.min || 0),
-                estimatedMax: String(estimate?.max || 0),
-                originalPrice: String(estimate?.fakeOriginalPrice || 0),
-              });
-              navigate(`/umzug-anfragen?${params.toString()}`);
-            }}
+            onClick={handleClick}
           >
             {CALCULATOR_CONFIG.resultCard.ctaText}
             <ArrowRight className="ml-2 h-6 w-6" />
           </Button>
         </div>
-      )}
-
-      {!estimate && (
+      ) : (
         <div
           className="rounded-3xl p-10 text-center"
           style={{

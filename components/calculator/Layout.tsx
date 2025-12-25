@@ -10,6 +10,7 @@ import Floors from "./Floors";
 import { Building2, MapPin, Package, Sparkles, Truck } from "lucide-react";
 import ExtraServices from "./ExtraSerivces";
 import { useEstimate } from "@/hooks/useEstimate";
+import Result from "./Result";
 
 const CALCULATOR_CONFIG: CalculatorConfig = {
   labels: {
@@ -153,6 +154,23 @@ export default function CalculatorLayout() {
             setToFloor={setToFloor}
           />
           <ExtraServices extraServices={extraServices} />
+          <Result
+            estimate={estimate}
+            CALCULATOR_CONFIG={CALCULATOR_CONFIG}
+            fromCity={fromCity}
+            toCity={toCity}
+            area={area}
+            rooms={rooms}
+            fromFloor={fromFloor}
+            toFloor={toFloor}
+            fromElevator={fromElevator}
+            toElevator={toElevator}
+            packing={packing}
+            assembly={assembly}
+            cleaning={cleaning}
+            decluttering={decluttering}
+            noParking={noParking}
+          />
         </CardContent>
       </Card>
     </div>
