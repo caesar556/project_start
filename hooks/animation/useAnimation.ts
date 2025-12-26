@@ -8,7 +8,6 @@ import { ScrollTrigger, SplitText } from "gsap/all";
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
 type AnimationRefs = {
-  titleRef: RefObject<HTMLElement | null>;
   descRef: RefObject<HTMLElement | null>;
   actionsRef: RefObject<HTMLDivElement | null>; // ⬅️ الجديد
   cardsRef?: RefObject<HTMLDivElement | null>;

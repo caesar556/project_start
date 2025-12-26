@@ -141,9 +141,7 @@ export default function Hero() {
           </div>
 
           {/* CTA */}
-          <div
-            className="flex flex-col sm:flex-row gap-4 justify-center mb-14"
-          >
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-14">
             <Button
               asChild
               size="lg"
