@@ -9,7 +9,7 @@ import { useState } from "react";
 const testimonials = [
   {
     id: 1,
-    name: "Michael Berger",
+    name: "Michael",
     city: "Wien",
     rating: 5,
     text: "Top Service! Sehr professionell, pünktlich und extrem vorsichtig mit den Möbeln.",
@@ -18,7 +18,7 @@ const testimonials = [
   },
   {
     id: 2,
-    name: "Anna Müller",
+    name: "Anna",
     city: "Graz",
     rating: 5,
     text: "Der Umzug lief reibungslos. Freundliches Team und faire Preise.",
@@ -27,7 +27,7 @@ const testimonials = [
   },
   {
     id: 3,
-    name: "Thomas Schneider",
+    name: "Thomas",
     city: "Linz",
     rating: 5,
     text: "Ich kann Richard Umzug nur empfehlen. Alles wurde sicher transportiert.",
@@ -36,12 +36,30 @@ const testimonials = [
   },
   {
     id: 4,
-    name: "Sabine Koch",
+    name: "Sabine",
     city: "Salzburg",
     rating: 4,
     text: "Sehr guter Service, kleine Verzögerung aber insgesamt zufrieden.",
     date: "2023-11-05",
-    featured: false,
+    featured: true,
+  },
+  {
+    id: 5,
+    name: "Julia",
+    city: "Innsbruck",
+    rating: 5,
+    text: "Alles top!",
+    date: "2024-02-02",
+    featured: true,
+  },
+  {
+    id: 6,
+    name: "Lukas",
+    city: "Klagenfurt",
+    rating: 5,
+    text: "Sehr zufrieden!",
+    date: "2024-01-30",
+    featured: true,
   },
 ];
 
@@ -157,7 +175,7 @@ export default function TestimonialsSection() {
 
         {/* Navigation */}
         {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-6">
+          <div className="flex justify-center items-center gap-4">
             <Button
               variant="outline"
               size="icon"
@@ -167,6 +185,21 @@ export default function TestimonialsSection() {
             >
               <ChevronLeft />
             </Button>
+
+            {/* Page numbers */}
+            <div className="flex gap-2">
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <Button
+                  key={i}
+                  variant={i === currentIndex ? "default" : "outline"}
+                  size="icon"
+                  className="w-8 h-8 rounded-full"
+                  onClick={() => setCurrentIndex(i)}
+                >
+                  {i + 1}
+                </Button>
+              ))}
+            </div>
 
             <Button
               variant="outline"

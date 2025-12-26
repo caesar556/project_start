@@ -12,7 +12,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import logo from "@/assets/react.svg";
+import logo from "@/assets/logo.jpeg";
 
 const settings = {
   companyName: "Richard Umzug",

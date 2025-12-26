@@ -23,6 +23,7 @@ export default function GoogleReviews() {
     if (diffDays < 365) return `vor ${Math.floor(diffDays / 30)} Monaten`;
     return `vor ${Math.floor(diffDays / 365)} Jahren`;
   };
+  
 
   const getInitial = (name: string) => name.charAt(0).toUpperCase();
 

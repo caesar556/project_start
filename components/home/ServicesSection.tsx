@@ -132,7 +132,7 @@ export default function ServicesSection() {
               <Card
                 key={service.id}
                 className="group relative overflow-hidden rounded-2xl
-                  border border-red-700 
+                  
                   shadow-lg transition-all duration-500
                   hover:-translate-y-3 hover:shadow-2xl
                   will-change-transform"

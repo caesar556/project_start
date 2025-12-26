@@ -1,5 +1,3 @@
-import { Sidebar } from "@/components/admin";
-
 export default function DashboardPage() {
-  return <Sidebar />;
+  return <h2>Welcome in Admin dashboard</h2>;
 }

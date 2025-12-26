@@ -4,19 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
-  FileText,
   Briefcase,
   MapPin,
   HelpCircle,
-  Tag,
   Star,
-  Scale,
   Settings,
-  Users,
   Menu,
   X,
   BarChart3,
-  Image,
   LifeBuoy,
 } from "lucide-react";
 import {
@@ -28,26 +23,21 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 const menuItems = [
-  { path: "/admin", icon: LayoutDashboard, label: "Dashboard" },
+  { path: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
   {
-    path: "/admin/analytics",
+    path: "/dashboard/analytics",
     icon: BarChart3,
     label: "Analytics & Statistiken",
   },
-  { path: "/admin/anfragen", icon: FileText, label: "Anfragen" },
-  { path: "/admin/leistungen", icon: Briefcase, label: "Leistungen" },
-  { path: "/admin/staedte", icon: MapPin, label: "Städte-Seiten" },
-  { path: "/admin/faq", icon: HelpCircle, label: "FAQ" },
-  { path: "/admin/angebote", icon: Tag, label: "Angebote / Rabatte" },
-  { path: "/admin/bewertungen", icon: Star, label: "Bewertungen" },
-  { path: "/admin/medienverwaltung", icon: Image, label: "Medienverwaltung" },
-  { path: "/admin/rechtstexte", icon: Scale, label: "Rechtstexte" },
+  { path: "/dashboard/services", icon: Briefcase, label: "Leistungen" },
+  { path: "/dashboard/cities", icon: MapPin, label: "Städte-Seiten" },
+  { path: "/dashboard/faq", icon: HelpCircle, label: "FAQ" },
+  { path: "/dashboard/testimonials", icon: Star, label: "Bewertungen" },
   {
-    path: "/admin/einstellungen",
+    path: "/dashboard/settings",
     icon: Settings,
     label: "Globale Einstellungen",
   },
-  { path: "/admin/benutzer", icon: Users, label: "Benutzerverwaltung" },
 ];
 
 export default function AdminSidebar() {
@@ -83,8 +73,10 @@ export default function AdminSidebar() {
         <div className="flex flex-col h-full">
           {/* Logo */}
           <div className="p-6 border-b border-gray-200">
-            <h1 className="text-xl font-bold text-gray-900">Richard Umzug</h1>
-            <p className="text-sm text-gray-500">Admin Panel</p>
+            <h1 className="text-2xl font-bold text-gray-900 text-center">
+              Richard Umzug
+            </h1>
+            <p className="text-md text-gray-500 text-center">Admin Panel</p>
           </div>
 
           {/* Navigation */}
@@ -92,7 +84,7 @@ export default function AdminSidebar() {
             {menuItems.map((item) => {
               const isActive =
                 pathname === item.path ||
-                (item.path !== "/admin" && pathname.startsWith(item.path));
+                (item.path !== "/dashboard" && pathname.startsWith(item.path));
 
               return (
                 <Link

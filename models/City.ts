@@ -4,7 +4,7 @@ const CitySchema = new Schema(
   {
     name: { type: String, required: true },
     slug: { type: String, unique: true, required: true },
-    distanceKm: { type: Number, default: 0 },
+    distance: { type: Number, default: 0 },
     introText: String,
     detailsText: String,
     priceMin: Number,
@@ -12,7 +12,7 @@ const CitySchema = new Schema(
     isActive: { type: Boolean, default: true },
     services: [{ type: Schema.Types.ObjectId, ref: "Service" }],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default models.City || model("City", CitySchema);

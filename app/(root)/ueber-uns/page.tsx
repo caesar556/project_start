@@ -13,7 +13,7 @@ import {
   MapPin,
   ArrowRight,
 } from "lucide-react";
-import logo from "@/assets/react.svg";
+import logo from "@/assets/logo.jpeg";
 
 export default function UeberUns() {
   return (

@@ -88,3 +88,13 @@ export interface ResultProps {
   noParking: boolean;
   CALCULATOR_CONFIG: CalculatorConfig;
 }
+
+export type City = {
+  _id: string;
+  name: string;
+  slug: string;
+  introText?: string;
+  distance: number;
+  priceMin: number;
+  priceMax: number;
+}

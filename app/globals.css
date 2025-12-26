@@ -277,7 +277,20 @@
   --radius-4xl: calc(var(--radius) + 16px);
 }
 
-  
+/* Words created by GSAP */
+.gsap-word {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* 🔥 Preserve gradient INSIDE span */
+.gradient-text .gsap-word {
+  background: linear-gradient(90deg, #ff6a00 0%, #ff8534 50%, #ff6a00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 @layer utilities {
   .animate-fade-in {
     animation: fade-in 0.6s ease-out forwards;

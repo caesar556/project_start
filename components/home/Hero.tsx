@@ -3,8 +3,20 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Clock, ThumbsUp, Star, Award } from "lucide-react";
+import { useAnimationGsap } from "@/hooks/animation/useAnimation";
+import { useRef } from "react";
 
 export default function Hero() {
+  const descRef = useRef<HTMLParagraphElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
+  const actionsRef = useRef<HTMLDivElement>(null);
+
+  useAnimationGsap({
+    descRef,
+    cardsRef,
+    actionsRef,
+  });
+
   return (
     <section className="relative min-h-[85vh] lg:min-h-[90vh] flex items-center justify-center overflow-hidden py-8">
       {/* Premium Dark Navy Gradient Background */}
@@ -71,6 +83,7 @@ export default function Hero() {
         <div className="max-w-5xl mx-auto text-center">
           {/* Badge */}
           <div
+            ref={actionsRef}
             className="inline-flex items-center gap-2 px-5 py-2.5 mb-8 rounded-full"
             style={{
               background: "linear-gradient(135deg, #FF6A00 0%, #FF8534 100%)",
@@ -101,7 +114,10 @@ export default function Hero() {
           </h1>
 
           {/* Subheadline */}
-          <p className="text-lg md:text-xl text-white/80 mb-10 max-w-3xl mx-auto">
+          <p
+            ref={descRef}
+            className="text-lg md:text-xl text-white/80 mb-10 max-w-3xl mx-auto"
+          >
             Professionelle Umzüge & Entrümpelungen in Wien, ganz Österreich und
             europaweit.
             <span className="block mt-2 text-white/60">
@@ -125,11 +141,13 @@ export default function Hero() {
           </div>
 
           {/* CTA */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-14">
+          <div
+            className="flex flex-col sm:flex-row gap-4 justify-center mb-14"
+          >
             <Button
               asChild
               size="lg"
-              className="px-10 py-6 font-bold rounded-xl"
+              className="px-10 py-6 font-bold rounded-xl text-white"
               style={{
                 background: "linear-gradient(135deg, #FF6A00 0%, #FF8534 100%)",
               }}
@@ -151,7 +169,10 @@ export default function Hero() {
           </div>
 
           {/* Trust Badges */}
-          <div className="grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto ">
+          <div
+            ref={cardsRef}
+            className="grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto "
+          >
             {[
               { icon: Shield, label: "Vollversichert" },
               { icon: Clock, label: "Pünktlich" },

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -16,8 +16,13 @@ import {
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { NAV_ITEMS } from "@/constants";
-import react from "@/assets/react.svg";
+import logo from "@/assets/logo.jpeg";
 import HeaderBox from "../common/HeaderBox";
+import gsap from "gsap";
+import { SplitText } from "gsap/all";
+
+gsap.registerPlugin(SplitText);
+
 
 const COMPANY_INFO = {
   name: "Richard Umzug",
@@ -32,6 +37,8 @@ export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
+  const desktopLinksRef = useRef<HTMLDivElement>(null);
+  const mobileLinksRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 20);
@@ -42,6 +49,37 @@ export default function NavBar() {
   useEffect(() => {
     setIsMenuOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    if (desktopLinksRef.current) {
+      const links = desktopLinksRef.current.querySelectorAll("a");
+      links.forEach((link) => {
+        const split = new SplitText(link, { type: "chars" });
+        gsap.from(split.chars, {
+          opacity: 0,
+          y: 80,
+          stagger: 0.1,
+          duration: 0.5,
+          delay: 0.3,
+          ease: "power2.out",
+        });
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isMenuOpen && mobileLinksRef.current) {
+      const links = mobileLinksRef.current.querySelectorAll("a");
+      gsap.from(links, {
+        opacity: 0,
+        x: 80,
+        stagger: 0.2,
+        delay: 0.3,
+        duration: 0.4,
+        ease: "power2.out",
+      });
+    }
+  }, [isMenuOpen]);
 
   return (
     <header
@@ -106,7 +144,7 @@ export default function NavBar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-4 ">
             <Image
-              src={react}
+              src={logo}
               alt={`${COMPANY_INFO.name} Umzugsfirma`}
               width={70}
               height={70}
@@ -125,7 +163,7 @@ export default function NavBar() {
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden lg:flex gap-1">
+          <div ref={desktopLinksRef} className="hidden lg:flex gap-1">
             {NAV_ITEMS.map((item) => {
               const isActive = pathname === item.href;
               return (
@@ -145,18 +183,18 @@ export default function NavBar() {
           </div>
 
           {/* Mobile Toggle */}
-          <button
+          <Button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="lg:hidden p-2 rounded-xl hover:bg-muted"
             aria-label="Toggle menu"
           >
             {isMenuOpen ? <X /> : <Menu />}
-          </button>
+          </Button>
         </div>
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden mt-4 bg-muted/30 rounded-2xl p-4 space-y-2">
+          <div ref={mobileLinksRef} className="lg:hidden mt-4 bg-muted/30 rounded-2xl p-4 space-y-2">
             <div className="w-full flex justify-center">
               <Button
                 asChild

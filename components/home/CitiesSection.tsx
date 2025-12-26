@@ -1,22 +1,10 @@
 import Link from "next/link";
 import { MapPin, ArrowRight, Truck, Users, Route, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getCities } from "@/lib/cities";
 
-const CITIES = [
-  { id: 1, name: "Wien", slug: "wien", distance_km: 0 },
-  { id: 2, name: "Graz", slug: "graz", distance_km: 200 },
-  { id: 3, name: "Linz", slug: "linz", distance_km: 185 },
-  { id: 4, name: "Salzburg", slug: "salzburg", distance_km: 300 },
-  { id: 5, name: "Innsbruck", slug: "innsbruck", distance_km: 480 },
-  { id: 6, name: "Klagenfurt", slug: "klagenfurt", distance_km: 330 },
-  { id: 7, name: "Bregenz", slug: "bregenz", distance_km: 640 },
-  { id: 8, name: "St. Pölten", slug: "st-poelten", distance_km: 65 },
-  { id: 9, name: "Wels", slug: "wels", distance_km: 210 },
-  { id: 10, name: "Villach", slug: "villach", distance_km: 350 },
-  { id: 11, name: "Eisenstadt", slug: "eisenstadt", distance_km: 60 },
-];
-
-export default function CitiesSection() {
+export default async function CitiesSection() {
+  const cities = await getCities();
   return (
     <section className="py-24 bg-card relative overflow-hidden">
       {/* Background decoration */}
@@ -85,11 +73,11 @@ export default function CitiesSection() {
 
         {/* Cities Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-16">
-          {CITIES.map((city, index) => (
+          {cities.map((city, index) => (
             <Link
               key={city.id}
               href={`/${city.slug}`}
-              className="group relative flex flex-col items-center p-6 bg-background rounded-2xl border border-border/50 hover:border-orange-500/40 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-2 overflow-hidden"
+              className="group relative flex flex-col items-center p-6 bg-background rounded-2xl border hover:border-orange-500/40 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-2 overflow-hidden"
               style={{ animationDelay: `${index * 50}ms` }}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-transparent to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -110,7 +98,7 @@ export default function CitiesSection() {
                 </span>
 
                 <span className="text-xs text-muted-foreground bg-muted/50 px-2 py-1 rounded-full">
-                  {city.distance_km > 0 ? `${city.distance_km} km` : "Lokal"}
+                  {city.distance > 0 ? `${city.distance} km` : "Lokal"}
                 </span>
               </div>
 
@@ -130,7 +118,7 @@ export default function CitiesSection() {
             {[
               {
                 icon: Truck,
-                value: `${CITIES.length}+`,
+                value: `${cities.length}+`,
                 label: "Städte in Österreich",
               },
               { icon: Globe, value: "20+", label: "Länder in Europa" },
