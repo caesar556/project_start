@@ -29,22 +29,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-// Wrapper component for each field group
-const FieldGroup = ({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) => (
-  <div className="space-y-4">
-    <h3 className="font-semibold text-foreground">{title}</h3>
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{children}</div>
-  </div>
-);
-
 export default function FormRequest() {
-  const form = useForm<MoveRequestFormValues>({
+  const form = useForm({
     resolver: zodResolver(moveRequestSchema),
     defaultValues: {
       firstName: "",
@@ -78,283 +64,370 @@ export default function FormRequest() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        {/* Persönliche Daten */}
-        <FieldGroup title="Persönliche Daten">
-          {["firstName", "lastName", "email", "phone"].map((field) => (
+        <div className="space-y-4">
+          <h3 className="font-semibold text-foreground">Persönliche Daten</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField
-              key={field}
               control={form.control}
-              name={field as keyof MoveRequestFormValues}
-              render={({ field: f }) => (
+              name="firstName"
+              render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
-                    {field === "firstName"
-                      ? "Vorname *"
-                      : field === "lastName"
-                        ? "Nachname *"
-                        : field === "email"
-                          ? "E-Mail *"
-                          : "Telefon *"}
-                  </FormLabel>
+                  <FormLabel>Vorname *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Max" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="lastName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nachname *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Mustermann" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>E-Mail *</FormLabel>
                   <FormControl>
                     <Input
-                      type={
-                        field === "email"
-                          ? "email"
-                          : field === "phone"
-                            ? "tel"
-                            : "text"
-                      }
-                      placeholder={
-                        field === "firstName"
-                          ? "Max"
-                          : field === "lastName"
-                            ? "Mustermann"
-                            : field === "email"
-                              ? "max@beispiel.at"
-                              : "+43 660 123 4567"
-                      }
-                      {...f}
+                      type="email"
+                      placeholder="max@beispiel.at"
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-          ))}
-        </FieldGroup>
-
-        {/* Auszugsadresse */}
-        <FieldGroup title="Auszugsadresse">
-          <FormField
-            control={form.control}
-            name="fromCity"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Stadt / Ort *</FormLabel>
-                <FormControl>
-                  <Input placeholder="z. B. Wien, Salzburg" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="fromAddress"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Adresse (optional)</FormLabel>
-                <FormControl>
-                  <Input placeholder="Straße und Hausnummer" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="fromFloor"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Stockwerk</FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Telefon *</FormLabel>
                   <FormControl>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
+                    <Input
+                      type="tel"
+                      placeholder="+43 660 123 4567"
+                      {...field}
+                    />
                   </FormControl>
-                  <SelectContent>
-                    {[...Array(11)].map((_, i) => (
-                      <SelectItem key={i} value={String(i)}>
-                        {i === 0 ? "Erdgeschoss" : `${i}. Stock`}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="fromElevator"
-            render={({ field }) => (
-              <FormItem className="flex items-center gap-2 space-y-0 pt-6">
-                <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-                <FormLabel className="font-normal">Aufzug vorhanden</FormLabel>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </FieldGroup>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
 
-        {/* Einzugsadresse */}
-        <FieldGroup title="Einzugsadresse">
-          <FormField
-            control={form.control}
-            name="toCity"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Stadt / Ort *</FormLabel>
-                <FormControl>
-                  <Input placeholder="z. B. Graz, Linz" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="toAddress"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Adresse (optional)</FormLabel>
-                <FormControl>
-                  <Input placeholder="Straße und Hausnummer" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="toFloor"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Stockwerk</FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
+        {/* From Address */}
+        <div className="space-y-4">
+          <h3 className="font-semibold text-foreground">Auszugsadresse</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="fromCity"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Stadt / Ort *</FormLabel>
                   <FormControl>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
+                    <Input placeholder="z. B. Wien, Salzburg" {...field} />
                   </FormControl>
-                  <SelectContent>
-                    {[...Array(11)].map((_, i) => (
-                      <SelectItem key={i} value={String(i)}>
-                        {i === 0 ? "Erdgeschoss" : `${i}. Stock`}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="toElevator"
-            render={({ field }) => (
-              <FormItem className="flex items-center gap-2 space-y-0 pt-6">
-                <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-                <FormLabel className="font-normal">Aufzug vorhanden</FormLabel>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </FieldGroup>
-
-        {/* Umzugsdetails */}
-        <FieldGroup title="Umzugsdetails">
-          <FormField
-            control={form.control}
-            name="rooms"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Anzahl Zimmer</FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="fromAddress"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Adresse (optional)</FormLabel>
                   <FormControl>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
+                    <Input placeholder="Straße und Hausnummer" {...field} />
                   </FormControl>
-                  <SelectContent>
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
-                      <SelectItem key={n} value={String(n)}>
-                        {n} Zimmer
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="area"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Wohnfläche (m²)</FormLabel>
-                <FormControl>
-                  <Input type="number" placeholder="z.B. 75" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="moveDate"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Umzugsdatum *</FormLabel>
-                <FormControl>
-                  <Input type="date" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </FieldGroup>
-
-        {/* Zusatzleistungen */}
-        <FieldGroup title="Zusatzleistungen">
-          {["packing", "assembly", "cleaning", "decluttering", "noParking"].map(
-            (field) => (
-              <FormField
-                key={field}
-                control={form.control}
-                name={field as keyof MoveRequestFormValues}
-                render={({ field: f }) => (
-                  <FormItem className="flex items-center gap-2 space-y-0">
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="fromFloor"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Stockwerk</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
-                      <Checkbox
-                        checked={f.value}
-                        onCheckedChange={f.onChange}
-                      />
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
                     </FormControl>
-                    <FormLabel className="font-normal">
-                      {field === "packing"
-                        ? "Verpackungsservice (+200€)"
-                        : field === "assembly"
-                          ? "Möbelmontage (+150€)"
-                          : field === "cleaning"
-                            ? "Endreinigung (+100€)"
-                            : field === "decluttering"
-                              ? "Entrümpelung (+300€)"
-                              : "Halteverbotszone (+100€)"}
-                    </FormLabel>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            ),
-          )}
-        </FieldGroup>
+                    <SelectContent>
+                      {[...Array(11)].map((_, i) => (
+                        <SelectItem key={i} value={String(i)}>
+                          {i === 0 ? "Erdgeschoss" : `${i}. Stock`}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="fromElevator"
+              render={({ field }) => (
+                <FormItem className="flex items-center gap-2 space-y-0 pt-6">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormLabel className="font-normal">
+                    Aufzug vorhanden
+                  </FormLabel>
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
 
-        {/* Nachricht */}
-        <FieldGroup title="Nachricht (optional)">
+        <div className="space-y-4">
+          <h3 className="font-semibold text-foreground">Einzugsadresse</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="toCity"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Stadt / Ort *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="z. B. Graz, Linz" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="toAddress"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Adresse (optional)</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Straße und Hausnummer" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="toFloor"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Stockwerk</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {[...Array(11)].map((_, i) => (
+                        <SelectItem key={i} value={String(i)}>
+                          {i === 0 ? "Erdgeschoss" : `${i}. Stock`}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="toElevator"
+              render={({ field }) => (
+                <FormItem className="flex items-center gap-2 space-y-0 pt-6">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormLabel className="font-normal">
+                    Aufzug vorhanden
+                  </FormLabel>
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="font-semibold text-foreground">Umzugsdetails</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <FormField
+              control={form.control}
+              name="rooms"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Anzahl Zimmer</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+                        <SelectItem key={n} value={String(n)}>
+                          {n} Zimmer
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="area"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Wohnfläche (m²)</FormLabel>
+                  <FormControl>
+                    <Input type="number" placeholder="z.B. 75" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="moveDate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Umzugsdatum *</FormLabel>
+                  <FormControl>
+                    <Input type="date" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="font-semibold text-foreground">Zusatzleistungen</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <FormField
+              control={form.control}
+              name="packing"
+              render={({ field }) => (
+                <FormItem className="flex items-center gap-2 space-y-0">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormLabel className="font-normal">
+                    Verpackungsservice (+200€)
+                  </FormLabel>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="assembly"
+              render={({ field }) => (
+                <FormItem className="flex items-center gap-2 space-y-0">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormLabel className="font-normal">
+                    Möbelmontage (+150€)
+                  </FormLabel>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="cleaning"
+              render={({ field }) => (
+                <FormItem className="flex items-center gap-2 space-y-0">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormLabel className="font-normal">
+                    Endreinigung (+100€)
+                  </FormLabel>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="decluttering"
+              render={({ field }) => (
+                <FormItem className="flex items-center gap-2 space-y-0">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormLabel className="font-normal">
+                    Entrümpelung (+300€)
+                  </FormLabel>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="noParking"
+              render={({ field }) => (
+                <FormItem className="flex items-center gap-2 space-y-0">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormLabel className="font-normal">
+                    Halteverbotszone (+100€)
+                  </FormLabel>
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="font-semibold text-foreground">
+            Nachricht (optional)
+          </h3>
           <FormField
             control={form.control}
             name="message"
@@ -371,7 +444,7 @@ export default function FormRequest() {
               </FormItem>
             )}
           />
-        </FieldGroup>
+        </div>
 
         <Button
           type="submit"
@@ -381,7 +454,7 @@ export default function FormRequest() {
             background: "linear-gradient(135deg, #FF6A00 0%, #FF8534 100%)",
           }}
         >
-          Absenden
+          Submit
         </Button>
 
         <p className="text-xs text-muted-foreground text-center">
