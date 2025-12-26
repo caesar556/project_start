@@ -3,6 +3,7 @@ import { ArrowRight, Globe, MapPin, Phone, Shield, Star } from "lucide-react";
 import Link from "next/link";
 import { COMPANY_INFO } from "@/constants";
 
+//@ts-ignore 
 export default function CityHero({ city }) {
   return (
     <section

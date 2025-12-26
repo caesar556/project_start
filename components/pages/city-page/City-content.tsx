@@ -9,7 +9,7 @@ import {
   Truck,
 } from "lucide-react";
 import Link from "next/link";
-
+//@ts-ignore 
 export default function CityContent({ city }) {
   return (
     <section className="py-20 bg-background">
@@ -58,31 +58,7 @@ export default function CityContent({ city }) {
                 Häufige Fragen zu Umzügen in {city.name}
               </h2>
             </div>
-            <div
-              className="rounded-2xl overflow-hidden"
-              style={{
-                background: "linear-gradient(135deg, #0D1628 0%, #121A2F 100%)",
-                border: "1px solid rgba(255, 255, 255, 0.1)",
-              }}
-            >
-              <Accordion type="single" collapsible className="w-full">
-                {faqs.map((faq, index) => (
-                  <AccordionItem
-                    key={index}
-                    value={`faq-${index}`}
-                    className="border-b border-white/10 last:border-b-0"
-                  >
-                    <AccordionTrigger className="text-left px-6 py-5 text-white hover:text-orange-400 hover:no-underline [&>svg]:text-orange-400">
-                      {faq.q}
-                    </AccordionTrigger>
-                    <AccordionContent className="px-6 pb-5 text-white/70">
-                      {faq.a}
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            </div>
-          </div>
+            faqs 
           {/* CTA */}
           <Card
             className="border-0 shadow-xl overflow-hidden"
