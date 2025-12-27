@@ -1,10 +1,9 @@
 "use client";
 
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Shield, Clock, ThumbsUp, Star, Award } from "lucide-react";
+import { Shield, Clock, ThumbsUp, Award } from "lucide-react";
 import { useAnimationGsap } from "@/hooks/animation/useAnimation";
 import { useRef } from "react";
+import { Geometric, HeroCta, HeroRating } from "@/components/common";
 
 export default function Hero() {
   const descRef = useRef<HTMLParagraphElement>(null);
@@ -19,7 +18,6 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-[85vh] lg:min-h-[90vh] flex items-center justify-center overflow-hidden py-8">
-      {/* Premium Dark Navy Gradient Background */}
       <div
         className="absolute inset-0"
         style={{
@@ -28,7 +26,6 @@ export default function Hero() {
         }}
       />
 
-      {/* Subtle Animated Gradient Overlay */}
       <div className="absolute inset-0 opacity-50">
         <div
           className="absolute inset-0"
@@ -46,29 +43,8 @@ export default function Hero() {
         />
       </div>
 
-      {/* Subtle Geometric Shapes */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="absolute -top-1/3 -right-1/4 w-[600px] h-[600px] opacity-5"
-          style={{
-            background:
-              "linear-gradient(45deg, transparent 0%, rgba(255,106,0,0.2) 50%, transparent 100%)",
-            transform: "rotate(45deg)",
-            borderRadius: "30%",
-          }}
-        />
-        <div
-          className="absolute -bottom-1/3 -left-1/4 w-[500px] h-[500px] opacity-5"
-          style={{
-            background:
-              "linear-gradient(-45deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%)",
-            transform: "rotate(-45deg)",
-            borderRadius: "30%",
-          }}
-        />
-      </div>
+      <Geometric />
 
-      {/* Grid Pattern */}
       <div
         className="absolute inset-0 opacity-[0.02]"
         style={{
@@ -78,10 +54,8 @@ export default function Hero() {
         }}
       />
 
-      {/* Content */}
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-5xl mx-auto text-center">
-          {/* Badge */}
           <div
             ref={actionsRef}
             className="inline-flex items-center gap-2 px-5 py-2.5 mb-8 rounded-full"
@@ -96,7 +70,6 @@ export default function Hero() {
             </span>
           </div>
 
-          {/* Heading */}
           <h1 className="text-4xl md:text-6xl xl:text-7xl font-black text-white mb-6 leading-tight">
             Ihr{" "}
             <span
@@ -113,7 +86,6 @@ export default function Hero() {
             in besten Händen.
           </h1>
 
-          {/* Subheadline */}
           <p
             ref={descRef}
             className="text-lg md:text-xl text-white/80 mb-10 max-w-3xl mx-auto"
@@ -125,48 +97,9 @@ export default function Hero() {
             </span>
           </p>
 
-          {/* Rating */}
-          <div className="flex items-center justify-center gap-3 mb-10">
-            <div className="flex">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  className="h-5 w-5 fill-amber-400 text-amber-400"
-                />
-              ))}
-            </div>
-            <span className="text-white/70 text-sm">
-              5.0 Bewertung • 1.000+ Kunden
-            </span>
-          </div>
+          <HeroRating />
+          <HeroCta />
 
-          {/* CTA */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-14">
-            <Button
-              asChild
-              size="lg"
-              className="px-10 py-6 font-bold rounded-xl text-white"
-              style={{
-                background: "linear-gradient(135deg, #FF6A00 0%, #FF8534 100%)",
-              }}
-            >
-              <Link href="/umzug-anfragen">
-                Umzugsangebot anfordern
-                <ArrowRight className="ml-2 h-5 w-5 inline-block" />
-              </Link>
-            </Button>
-
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="px-10 py-6 rounded-xl text-white"
-            >
-              <Link href="/umzugskosten-rechner">Kosten berechnen</Link>
-            </Button>
-          </div>
-
-          {/* Trust Badges */}
           <div
             ref={cardsRef}
             className="grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto "

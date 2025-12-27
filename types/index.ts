@@ -97,4 +97,21 @@ export type City = {
   distance: number;
   priceMin: number;
   priceMax: number;
-}
+};
+
+export type Service = {
+  _id: string;
+  title: string;
+  description: string;
+  icon: string;
+};
+
+export type Testimonials = {
+  _id: string;
+  name: string;
+  city: string;
+  rating: number;
+  text: string;
+  date: Date;
+  isFeatured: boolean;
+};

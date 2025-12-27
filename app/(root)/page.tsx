@@ -4,13 +4,15 @@ import GoogleReviewsSection from "@/components/home/GoogleReviews";
 import HeroSection from "@/components/home/Hero";
 import ServicesSection from "@/components/home/ServicesSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
+import { getServices } from "@/lib/services/services";
 
-export default function Home() {
+export default async function Home() {
+  const services = await getServices();
   return (
     <section>
       <HeroSection />
       <GoogleReviewsSection />
-      <ServicesSection />
+      <ServicesSection services={services} />
       <CitiesSection />
       <TestimonialsSection />
       <CtaSection />
