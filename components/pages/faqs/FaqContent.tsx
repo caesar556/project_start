@@ -7,9 +7,15 @@ import {
 } from "@/components/ui/accordion";
 import Link from "next/link";
 import { useState } from "react";
+import { FAQ_ITEMS } from "@/constants";
 
+type FaqItem = {
+  id: number;
+  question: string;
+  answer: string;
+};
 export default function FaqContent() {
-  const [faqItems, setFaqItems] = useState([]);
+  const [faqItems, setFaqItems] = useState<FaqItem[]>(FAQ_ITEMS);
   const [isLoading, setIsLoading] = useState(false);
 
   return (

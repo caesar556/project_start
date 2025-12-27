@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function ReviewsCta() {
   return (
-    <div className="mt-16">
+    <div className="mt-16 mb-14">
       <Card className="bg-primary/5 border-primary/20">
         <CardContent className="pt-8 pb-8 text-center">
           <h3 className="text-2xl font-bold text-foreground mb-4">

@@ -319,41 +319,49 @@ export const TESTIMONIALS = [
 // FAQ Items
 export const FAQ_ITEMS = [
   {
+    id: 1,
     question: "Wie viel kostet ein Umzug in Wien?",
     answer:
       "Die Kosten für einen Umzug in Wien hängen von verschiedenen Faktoren ab: Wohnungsgröße, Etage, Entfernung und gewünschte Zusatzleistungen. Ein lokaler Umzug in Wien beginnt bei etwa 200€. Nutzen Sie unseren Umzugskosten-Rechner für eine erste Schätzung.",
   },
   {
+    id: 2,
     question: "Wie früh sollte ich meinen Umzug buchen?",
     answer:
       "Wir empfehlen, mindestens 2-4 Wochen im Voraus zu buchen. In Stoßzeiten (Monatsende, Sommer) sollten Sie noch früher planen. Kurzfristige Anfragen sind je nach Verfügbarkeit möglich.",
   },
   {
+    id: 3,
     question: "Bieten Sie auch Entrümpelung an?",
     answer:
       "Ja, wir bieten professionelle Entrümpelung und Haushaltsauflösung an. Wir kümmern uns um die fachgerechte Entsorgung und spenden noch brauchbare Gegenstände wenn gewünscht.",
   },
   {
+    id: 4,
     question: "Sind meine Möbel während des Transports versichert?",
     answer:
       "Ja, alle Transporte sind durch unsere Transportversicherung abgedeckt. Bei wertvollen Gegenständen empfehlen wir eine zusätzliche Wertversicherung, die wir gerne für Sie organisieren.",
   },
   {
+    id: 5,
     question: "Bieten Sie Verpackungsmaterial an?",
     answer:
       "Ja, wir liefern alle notwendigen Verpackungsmaterialien: Umzugskartons, Luftpolsterfolie, Klebeband und Schutzdecken. Diese können im Voraus geliefert oder am Umzugstag mitgebracht werden.",
   },
   {
+    id: 6,
     question: "Was passiert bei schlechtem Wetter?",
     answer:
       "Wir führen Umzüge bei jedem Wetter durch. Unsere LKWs sind überdacht und wir verwenden wasserdichte Schutzhüllen für Ihre Möbel. Nur bei extremen Wetterbedingungen vereinbaren wir einen Ersatztermin.",
   },
   {
+    id: 7,
     question: "Können Sie auch Klaviere transportieren?",
     answer:
       "Ja, wir sind auf Klaviertransporte spezialisiert. Unsere Mitarbeiter sind geschult und verfügen über die notwendige Ausrüstung für den sicheren Transport von Klavieren und Flügeln.",
   },
   {
+    id: 8,
     question: "Bieten Sie auch Lagerung an?",
     answer:
       "Ja, wir bieten sichere Einlagerungsmöglichkeiten für kurz- oder langfristige Lagerung. Unsere Lagerräume sind trocken, sicher und klimatisiert.",
