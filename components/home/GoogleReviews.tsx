@@ -20,7 +20,6 @@ export default function GoogleReviews() {
   return (
     <section className="py-16 bg-card relative overflow-hidden">
       <div className="container mx-auto px-4">
-        {/* Header */}
         <div className="text-center mb-10">
           <h2 className="text-2xl md:text-3xl font-bold mb-3">AUSGEZEICHNET</h2>
 
@@ -39,26 +38,46 @@ export default function GoogleReviews() {
           </p>
         </div>
 
-        {/* Carousel */}
-        <Carousel opts={{ align: "start", loop: true }} className="w-full">
-          <CarouselContent className="-ml-2 md:-ml-4">
-            {reviews.map((review) => (
+        <Carousel
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          className="w-full  p-5"
+        >
+          <CarouselContent className="-ml-2 md:-ml-4  py-3 ">
+            {reviews?.map((review) => (
               <CarouselItem
                 key={review.id}
                 className="pl-2 md:pl-4 basis-full sm:basis-1/2 lg:basis-1/3"
               >
-                <Card className="h-full rounded-2xl border card-hover">
-                  <CardContent className="p-6">
-                    {/* Header */}
+                <Card className=" px-3 pt-2 rounded-lg shadow-xl bg-orange-700/10">
+                  <div
+                    className="h-1"
+                    style={{
+                      background:
+                        "linear-gradient(90deg, #0D1628 0%, #FF6A00 50%, #0D1628 100%)",
+                    }}
+                  />
+                  <CardContent className="p-6 ">
                     <div className="flex items-start gap-3 mb-4">
-                      <div className="w-12 h-12 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold">
+                      <div
+                        className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0"
+                        style={{
+                          background:
+                            "linear-gradient(135deg, #0D1628 0%, #1A2642 100%)",
+                          boxShadow: "0 4px 15px rgba(13, 22, 40, 0.2)",
+                        }}
+                      >
                         {getInitial(review.name)}
                       </div>
 
-                      <div>
+                      <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <h3 className="font-semibold">{review.name}</h3>
-                          <CheckCircle className="h-4 w-4 text-blue-500" />
+                          <h3 className="font-semibold text-foreground truncate">
+                            {review.name}
+                          </h3>
+                          <CheckCircle className="h-4 w-4 text-blue-500 flex-shrink-0" />
                         </div>
                         <p className="text-sm text-muted-foreground">
                           {formatDate(review.date)}
@@ -66,8 +85,7 @@ export default function GoogleReviews() {
                       </div>
                     </div>
 
-                    {/* Stars */}
-                    <div className="flex gap-0.5 mb-3">
+                    <div className="flex items-center gap-0.5 mb-3">
                       {[...Array(review.rating)].map((_, i) => (
                         <Star
                           key={i}
@@ -76,18 +94,21 @@ export default function GoogleReviews() {
                       ))}
                     </div>
 
-                    {/* Text */}
-                    <p className="text-sm leading-relaxed line-clamp-4">
+                    <p className="text-foreground/90 text-sm leading-relaxed line-clamp-4 mb-3">
                       {review.text}
                     </p>
+
+                    <button className="text-orange-500 text-sm font-medium hover:underline">
+                      Weiterlesen
+                    </button>
                   </CardContent>
                 </Card>
               </CarouselItem>
             ))}
           </CarouselContent>
 
-          <CarouselPrevious className="hidden md:flex" />
-          <CarouselNext className="hidden md:flex" />
+          <CarouselPrevious className="hidden md:flex -left-4 bg-card border-border hover:bg-muted rounded-xl" />
+          <CarouselNext className="hidden md:flex -right-4 bg-card border-border hover:bg-muted rounded-xl" />
         </Carousel>
       </div>
     </section>

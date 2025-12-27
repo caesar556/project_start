@@ -127,7 +127,7 @@ export const NAV_ITEMS = [
   { label: "Bewertungen", href: "/bewertungen" },
   { label: "Über uns", href: "/ueber-uns" },
   { label: "Kontakt", href: "/kontakt" },
-  { label: "FAQ", href: "/faq" },
+  { label: "FAQ", href: "/faqs" },
 ];
 
 export const reviews = [

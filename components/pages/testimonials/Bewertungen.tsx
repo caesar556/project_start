@@ -1,19 +1,11 @@
-"use client"; 
-import Link from "next/link";
+"use client";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import {
-  Star,
-  Quote,
-  Globe,
-  ArrowRight,
-  Shield,
-  Award,
-  Users,
-} from "lucide-react";
+import { Star, Quote, Globe } from "lucide-react";
 import { TESTIMONIALS } from "@/constants";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect, useState } from "react";
+import ReviewsCta from "@/components/common/cta/ReviewsCta";
+import Badges from "./Badges";
 
 export default function Bewertungen() {
   const [isLoading, setIsLoading] = useState(true);
@@ -66,47 +58,7 @@ export default function Bewertungen() {
       </section>
 
       {/* Trust Stats */}
-      <section className="bg-card border-b">
-        <div className="container mx-auto px-4 py-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="flex items-center justify-center gap-4 p-4">
-              <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center">
-                <Award className="h-7 w-7 text-primary" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-foreground">
-                  {averageRating}
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Durchschnittliche Bewertung
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center justify-center gap-4 p-4">
-              <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center">
-                <Users className="h-7 w-7 text-primary" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-foreground">1.000+</p>
-                <p className="text-sm text-muted-foreground">
-                  Zufriedene Kunden
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center justify-center gap-4 p-4">
-              <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center">
-                <Shield className="h-7 w-7 text-primary" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-foreground">20+</p>
-                <p className="text-sm text-muted-foreground">
-                  Länder in Europa
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Badges averageRating={averageRating} />
 
       {/* Testimonials Grid */}
       <div className="container mx-auto px-4">
@@ -179,33 +131,7 @@ export default function Bewertungen() {
         )}
 
         {/* CTA Section */}
-        <div className="mt-16">
-          <Card className="bg-primary/5 border-primary/20">
-            <CardContent className="pt-8 pb-8 text-center">
-              <h3 className="text-2xl font-bold text-foreground mb-4">
-                Werden Sie unser nächster zufriedener Kunde!
-              </h3>
-              <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-                Richard Umzug steht für Qualität, Zuverlässigkeit und
-                Kundenzufriedenheit – in ganz Österreich und europaweit. Fordern
-                Sie jetzt Ihr kostenloses Angebot an!
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/umzug-anfragen" passHref>
-                  <Button size="lg">
-                    Jetzt Angebot anfordern
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </Link>
-                <Link href="/kontakt" passHref>
-                  <Button variant="outline" size="lg">
-                    Kontakt aufnehmen
-                  </Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+        <ReviewsCta />
       </div>
     </>
   );
