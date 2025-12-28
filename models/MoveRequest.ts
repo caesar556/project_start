@@ -36,21 +36,17 @@ const MoveRequestSchema = new Schema(
     },
     toElevator: {
       type: Boolean,
-      required: true,
     },
 
     rooms: {
       type: String,
-      required: true,
     },
     area: {
       type: String,
-      required: true,
     },
 
     moveDate: {
       type: String,
-      required: true,
     },
 
     packing: Boolean,

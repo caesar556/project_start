@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import {
   Phone,
@@ -13,16 +14,9 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/logo.jpeg";
+import { useGlobalSettings } from "@/hooks/useGlobalSettings";
 
-const settings = {
-  companyName: "Richard Umzug",
-  phone: "004368120697499",
-  email: "Info@RichardUmzug.at",
-  whatsapp: "4368120697499",
-  openingHours: "Mo-Sa: 07:00 - 20:00 Uhr",
-  addressStreet: "Alxingergasse",
-  addressZip: "1100",
-  addressCity: "Wien",
+const url = {
   logoUrl: logo.src,
   copyright:
     "© 2025 Richard Umzug. Alle Rechte vorbehalten. | Umzüge in Österreich & Europa",
@@ -49,6 +43,7 @@ const cities = [
 ];
 
 export default function Footer() {
+  const { settings } = useGlobalSettings();
   return (
     <footer
       className="text-white relative overflow-hidden"
@@ -79,13 +74,13 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-4 mb-6">
               <img
-                src={settings.logoUrl}
-                alt={`${settings.companyName} Logo`}
+                src={url.logoUrl}
+                alt={`${settings?.companyName} Logo`}
                 className="h-16 w-auto rounded-xl shadow-lg"
               />
               <div>
                 <span className="text-xl font-bold block">
-                  {settings.companyName}
+                  {settings?.companyName}
                 </span>
                 <span className="text-white/60 text-sm">
                   Umzug & Entrümpelung
@@ -123,33 +118,33 @@ export default function Footer() {
             <SectionTitle title="Kontakt" />
             <ul className="space-y-4">
               <ContactItem icon={MapPin}>
-                {settings.addressStreet}
+                {settings?.addressStreet}
                 <br />
-                {settings.addressZip} {settings.addressCity}
+                {settings?.addressZip} {settings?.addressCity}
               </ContactItem>
 
               <ContactLink
-                href={`tel:+${settings.phone}`}
+                href={`tel:+${settings?.phone}`}
                 icon={Phone}
-                label={settings.phone}
+                label={settings?.phone}
                 hover="orange"
               />
 
               <ContactLink
-                href={`https://wa.me/${settings.whatsapp}`}
+                href={`https://wa.me/${settings?.whatsapp}`}
                 icon={MessageCircle}
                 label="WhatsApp"
                 hover="green"
               />
 
               <ContactLink
-                href={`mailto:${settings.email}`}
+                href={`mailto:${settings?.email}`}
                 icon={Mail}
-                label={settings.email}
+                label={settings?.email}
                 hover="orange"
               />
 
-              <ContactItem icon={Clock}>{settings.openingHours}</ContactItem>
+              <ContactItem icon={Clock}>{settings?.openingHours}</ContactItem>
             </ul>
           </div>
 
@@ -197,7 +192,7 @@ export default function Footer() {
         <div className="mt-12 pt-10 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <h4 className="font-bold text-lg">
-              Bereit für Ihren Umzug mit {settings.companyName}?
+              Bereit für Ihren Umzug mit {settings?.companyName}?
             </h4>
             <p className="text-white/60">
               Umzüge in Österreich und ganz Europa
@@ -263,15 +258,15 @@ export default function Footer() {
       {/* Bottom */}
       <div className="border-t border-white/10">
         <div className="container mx-auto px-4 py-6 text-center">
-          <p className="text-sm text-white/50 mb-2">{settings.copyright}</p>
+          <p className="text-sm text-white/50 mb-2">{url.copyright}</p>
           <p className="text-xs text-white/40">
             Entwickelt von{" "}
             <a
-              href={settings.attributionUrl}
+              href={url.attributionUrl}
               target="_blank"
               className="text-orange-400 hover:text-orange-300"
             >
-              {settings.attributionLabel}
+              {url.attributionLabel}
             </a>
           </p>
         </div>

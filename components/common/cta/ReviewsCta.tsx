@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function ReviewsCta() {
   return (
     <div className="mt-16 mb-14">
-      <Card className="bg-primary/5 border-primary/20">
+      <Card className="bg-orange-700/10 border-none">
         <CardContent className="pt-8 pb-8 text-center">
           <h3 className="text-2xl font-bold text-foreground mb-4">
             Werden Sie unser nächster zufriedener Kunde!
@@ -17,13 +17,21 @@ export default function ReviewsCta() {
             jetzt Ihr kostenloses Angebot an!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/umzug-anfragen" passHref>
+            <Link
+              className="bg-orange-400 rounded-lg shadow-lg text-white"
+              href="/umzug-anfragen"
+              passHref
+            >
               <Button size="lg">
                 Jetzt Angebot anfordern
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
-            <Link href="/kontakt" passHref>
+            <Link
+              className="border border-gray-400  rounded-lg shadow-lg"
+              href="/kontakt"
+              passHref
+            >
               <Button variant="outline" size="lg">
                 Kontakt aufnehmen
               </Button>

@@ -45,9 +45,6 @@ export default function FormRequest() {
       toAddress: "",
       toFloor: "",
       toElevator: false,
-      rooms: "",
-      area: "",
-      moveDate: "",
       packing: false,
       assembly: false,
       cleaning: false,
@@ -57,8 +54,30 @@ export default function FormRequest() {
     },
   });
 
-  const onSubmit = (data: MoveRequestFormValues) => {
-    console.log("FORM DATA:", data);
+  const onSubmit = async (data: MoveRequestFormValues) => {
+    try {
+      const res = await fetch("/api/move-requests", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        throw new Error(result.message || "Something went wrong");
+      }
+
+      console.log("Saved:", result.data);
+
+      form.reset();
+      alert("Anfrage erfolgreich gesendet");
+    } catch (error) {
+      console.error(error);
+      alert("Fehler beim Senden der Anfrage");
+    }
   };
 
   const baseInput =
@@ -270,6 +289,186 @@ export default function FormRequest() {
             />
           </div>
         </section>
+        <div className="space-y-4">
+          <h3 className="font-semibold text-foreground">Umzugsdetails</h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Rooms */}
+            <FormField
+              control={form.control}
+              name="rooms"
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <FormLabel className={fieldState.error ? "text-red-600" : ""}>
+                    Anzahl Zimmer *
+                  </FormLabel>
+
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <FormControl>
+                      <SelectTrigger className={baseInput}>
+                        <SelectValue placeholder="Bitte wählen" />
+                      </SelectTrigger>
+                    </FormControl>
+
+                    <SelectContent className="bg-white text-foreground shadow-xl border">
+                      {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+                        <SelectItem key={n} value={String(n)}>
+                          {n} Zimmer
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
+                  <FormMessage className="text-red-700 text-sm" />
+                </FormItem>
+              )}
+            />
+
+            {/* Area */}
+            <FormField
+              control={form.control}
+              name="area"
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <FormLabel className={fieldState.error ? "text-red-600" : ""}>
+                    Wohnfläche (m²)
+                  </FormLabel>
+
+                  <FormControl>
+                    <Input
+                      type="number"
+                      placeholder="z.B. 75"
+                      className={baseInput}
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormMessage className="text-red-700 text-sm" />
+                </FormItem>
+              )}
+            />
+
+            {/* Move Date */}
+            <FormField
+              control={form.control}
+              name="moveDate"
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <FormLabel className={fieldState.error ? "text-red-600" : ""}>
+                    Umzugsdatum *
+                  </FormLabel>
+
+                  <FormControl>
+                    <Input type="date" className={baseInput} {...field} />
+                  </FormControl>
+
+                  <FormMessage className="text-red-700 text-sm" />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="font-semibold text-foreground">Zusatzleistungen</h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Packing */}
+            <FormField
+              control={form.control}
+              name="packing"
+              render={({ field }) => (
+                <FormItem className="flex items-center gap-2 space-y-0 rounded-md bg-orange-800/10 p-3">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={(v) => field.onChange(!!v)}
+                    />
+                  </FormControl>
+                  <FormLabel className="font-normal cursor-pointer">
+                    Verpackungsservice (+200€)
+                  </FormLabel>
+                </FormItem>
+              )}
+            />
+
+            {/* Assembly */}
+            <FormField
+              control={form.control}
+              name="assembly"
+              render={({ field }) => (
+                <FormItem className="flex items-center gap-2 space-y-0 rounded-md bg-orange-800/10 p-3">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={(v) => field.onChange(!!v)}
+                    />
+                  </FormControl>
+                  <FormLabel className="font-normal cursor-pointer">
+                    Möbelmontage (+150€)
+                  </FormLabel>
+                </FormItem>
+              )}
+            />
+
+            {/* Cleaning */}
+            <FormField
+              control={form.control}
+              name="cleaning"
+              render={({ field }) => (
+                <FormItem className="flex items-center gap-2 space-y-0 rounded-md bg-orange-800/10 p-3">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={(v) => field.onChange(!!v)}
+                    />
+                  </FormControl>
+                  <FormLabel className="font-normal cursor-pointer">
+                    Endreinigung (+100€)
+                  </FormLabel>
+                </FormItem>
+              )}
+            />
+
+            {/* Decluttering */}
+            <FormField
+              control={form.control}
+              name="decluttering"
+              render={({ field }) => (
+                <FormItem className="flex items-center gap-2 space-y-0 rounded-md bg-orange-800/10 p-3">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={(v) => field.onChange(!!v)}
+                    />
+                  </FormControl>
+                  <FormLabel className="font-normal cursor-pointer">
+                    Entrümpelung (+300€)
+                  </FormLabel>
+                </FormItem>
+              )}
+            />
+
+            {/* No Parking */}
+            <FormField
+              control={form.control}
+              name="noParking"
+              render={({ field }) => (
+                <FormItem className="flex items-center gap-2 space-y-0 rounded-md bg-orange-800/10 p-3">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={(v) => field.onChange(!!v)}
+                    />
+                  </FormControl>
+                  <FormLabel className="font-normal cursor-pointer">
+                    Halteverbotszone (+100€)
+                  </FormLabel>
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
 
         {/* ================= Message ================= */}
         <FormField

@@ -1,3 +1,5 @@
+import WelcomePage from "@/components/admin/content/home/WelcomePage";
+
 export default function DashboardPage() {
-  return <h2>Welcome in Admin dashboard</h2>;
+  return <WelcomePage />;
 }

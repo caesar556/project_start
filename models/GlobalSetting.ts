@@ -10,9 +10,6 @@ const GlobalSettingSchema = new Schema(
     addressZip: { type: String, default: "1010" },
     addressCity: { type: String, default: "Wien" },
     openingHours: { type: String, default: "Mo-Sa: 07:00 - 20:00 Uhr" },
-    footerCopyrightText: String,
-    attributionLabel: String,
-    attributionUrl: String,
   },
   { timestamps: true },
 );

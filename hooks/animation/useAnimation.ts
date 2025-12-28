@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 
 type AnimationRefs = {
   descRef: RefObject<HTMLElement | null>;
-  actionsRef: RefObject<HTMLDivElement | null>; // ⬅️ الجديد
+  actionsRef: RefObject<HTMLDivElement | null>;
   cardsRef?: RefObject<HTMLDivElement | null>;
 };
 
@@ -61,7 +61,7 @@ export const useAnimationGsap = ({
           stagger: 0.15,
           duration: 0.6,
         },
-        "-=0.2",
+        "-=0.4",
       );
     }
 

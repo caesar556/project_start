@@ -73,8 +73,6 @@ export default function CitiesAdmin() {
     city.name.toLowerCase().includes(search.toLowerCase()),
   );
 
-  const inputStyles = "";
-
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Cities Admin</h1>

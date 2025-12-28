@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Card, CardContent, CardDescription } from "@/components/ui/card";
-import { Trash } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Star, Quote, Trash } from "lucide-react";
 
 type TestimonialType = {
   _id: string;
@@ -13,8 +13,6 @@ type TestimonialType = {
   rating: number;
   text: string;
   date: string;
-  isFeatured?: boolean;
-  isPublished?: boolean;
 };
 
 export default function DashboardTestimonials() {
@@ -40,92 +38,105 @@ export default function DashboardTestimonials() {
 
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this testimonial?")) return;
+
     try {
-      const res = await fetch(`/api/testimonials/${id}`, { method: "DELETE" });
-      if (!res.ok) throw new Error("Failed to delete testimonial");
-      setTestimonials(testimonials.filter((t) => t._id !== id));
+      const res = await fetch(`/api/testimonials/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) throw new Error("Delete failed");
+
+      setTestimonials((prev) => prev.filter((t) => t._id !== id));
     } catch (err) {
       console.error(err);
       alert("Error deleting testimonial");
     }
   };
 
-  return (
-    <div className="space-y-6">
-      {loading ? (
-        [...Array(3)].map((_, idx) => (
-          <Card key={idx} className="bg-card border-0 shadow-xl rounded-2xl">
-            <CardContent className="pt-10 pb-8 px-7">
-              <Skeleton className="h-4 w-24 mb-5" />
-              <Skeleton className="h-20 w-full mb-8" />
-              <div className="flex items-center gap-4">
-                <Skeleton className="w-12 h-12 rounded-full" />
-                <div>
-                  <Skeleton className="h-4 w-24 mb-1" />
-                  <Skeleton className="h-3 w-16" />
-                </div>
-              </div>
+  if (loading) {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[...Array(3)].map((_, i) => (
+          <Card key={i} className="rounded-2xl shadow-xl">
+            <CardContent className="p-7 space-y-4">
+              <Skeleton className="h-4 w-24" />
+              <Skeleton className="h-20 w-full" />
+              <Skeleton className="h-10 w-40" />
             </CardContent>
           </Card>
-        ))
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {testimonials.map((testimonial) => (
-            <Card
-              key={testimonial._id}
-              className="relative bg-card border border-border/50 shadow-xl rounded-2xl"
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {testimonials.map((t) => (
+        <Card
+          key={t._id}
+          className="relative bg-card border shadow-xl rounded-2xl overflow-hidden
+                     transition-all hover:-translate-y-2"
+        >
+          {/* Gradient top bar */}
+          <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-slate-900 via-orange-500 to-slate-900" />
+
+          <CardContent className="pt-10 pb-8 px-7 relative">
+            {/* Delete button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => handleDelete(t._id)}
+              className="absolute top-0  left-0   text-red-500 hover:bg-red-500/10"
             >
-              <CardContent className="pt-10 pb-8 px-7 relative z-10">
-                {/* Stars */}
-                <div className="flex gap-1 mb-5">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <span
-                      key={star}
-                      className={`h-5 w-5 ${star <= testimonial.rating ? "text-orange-500" : "text-muted"}`}
-                    >
-                      ★
-                    </span>
-                  ))}
+              <Trash size={25} />
+            </Button>
+
+            {/* Quote icon */}
+            <div className="absolute top-6 right-6 w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center">
+              <Quote className="h-5 w-5 text-orange-500" />
+            </div>
+
+            {/* Stars */}
+            <div className="flex gap-1 mb-5">
+              {[1, 2, 3, 4, 5].map((s) => (
+                <Star
+                  key={s}
+                  className={`h-5 w-5 ${
+                    s <= t.rating
+                      ? "fill-orange-500 text-orange-500"
+                      : "text-muted-foreground"
+                  }`}
+                />
+              ))}
+            </div>
+
+            {/* Text */}
+            <p className="italic text-sm mb-8 leading-relaxed line-clamp-4">
+              "{t.text}"
+            </p>
+
+            {/* Footer */}
+            <div className="flex items-center justify-between pt-5 border-t border-border/50">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold">
+                  {t.name.charAt(0)}
                 </div>
-
-                <CardDescription className="mb-6 italic line-clamp-4">
-                  "{testimonial.text}"
-                </CardDescription>
-
-                <div className="flex items-center justify-between pt-5 border-t border-border/50">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg bg-gray-500">
-                      {testimonial.name.charAt(0)}
-                    </div>
-                    <div>
-                      <p className="font-bold">{testimonial.name}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {testimonial.city}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-2">
-                    <p className="text-xs text-muted-foreground">
-                      {new Date(testimonial.date).toLocaleDateString("de-AT", {
-                        month: "short",
-                        year: "numeric",
-                      })}
-                    </p>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => handleDelete(testimonial._id)}
-                    >
-                      <Trash className="h-4 w-4 text-red-500" />
-                    </Button>
-                  </div>
+                <div>
+                  <p className="font-bold">{t.name}</p>
+                  <p className="text-sm text-muted-foreground">{t.city}</p>
                 </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
+              </div>
+
+              <span className="text-xs text-muted-foreground">
+                {new Date(t.date).toLocaleDateString("de-AT", {
+                  month: "short",
+                  year: "numeric",
+                })}
+              </span>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
     </div>
   );
 }

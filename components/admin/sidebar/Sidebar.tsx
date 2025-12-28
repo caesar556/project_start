@@ -6,7 +6,6 @@ import {
   LayoutDashboard,
   Briefcase,
   MapPin,
-  HelpCircle,
   Star,
   Settings,
   Menu,
@@ -21,6 +20,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useGlobalSettings } from "@/hooks/useGlobalSettings";
 
 const menuItems = [
   { path: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -31,7 +31,6 @@ const menuItems = [
   },
   { path: "/dashboard/services", icon: Briefcase, label: "Leistungen" },
   { path: "/dashboard/cities", icon: MapPin, label: "Städte-Seiten" },
-  { path: "/dashboard/faq", icon: HelpCircle, label: "FAQ" },
   { path: "/dashboard/testimonials", icon: Star, label: "Bewertungen" },
   {
     path: "/dashboard/settings",
@@ -43,7 +42,7 @@ const menuItems = [
 export default function AdminSidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-
+  const { settings } = useGlobalSettings();
   return (
     <>
       {/* Mobile Toggle */}
@@ -74,7 +73,7 @@ export default function AdminSidebar() {
           {/* Logo */}
           <div className="p-6 border-b border-gray-200">
             <h1 className="text-2xl font-bold text-gray-900 text-center">
-              Richard Umzug
+              {settings?.companyName}
             </h1>
             <p className="text-md text-gray-500 text-center">Admin Panel</p>
           </div>

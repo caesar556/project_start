@@ -114,7 +114,7 @@ export default function Header() {
           return (
             <Card
               key={service.id}
-              className="overflow-hidden rounded-2xl border border-border/50 shadow-lg hover:shadow-xl transition-shadow"
+              className="overflow-hidden rounded-2xl border border-orange-400 shadow-lg hover:shadow-xl transition-shadow"
             >
               <div className="md:flex">
                 <div

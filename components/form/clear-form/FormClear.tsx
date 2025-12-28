@@ -68,19 +68,34 @@ export default function ClearanceRequestForm() {
 
   const onSubmit = async (data: ClearanceRequestFormValues) => {
     try {
+      const res = await fetch("/api/clear-requests", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
       setIsSubmitting(true);
 
-      // TODO: replace with real API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const result = await res.json();
 
-      setIsSubmitted(true);
+      if (!res.ok) {
+        throw new Error(result.message || "Something went wrong");
+      }
+
+      console.log("Saved:", result.data);
+
       form.reset();
+      alert("Anfrage erfolgreich gesendet");
     } catch (error) {
-      console.error("Submission failed", error);
+      console.error(error);
+      alert("Fehler beim Senden der Anfrage");
     } finally {
       setIsSubmitting(false);
     }
   };
+  const baseInput =
+    "rounded-md bg-orange-800/10 shadow-lg border-none focus-visible:bg-orange-800/20";
 
   if (isSubmitted) {
     return (
@@ -101,7 +116,7 @@ export default function ClearanceRequestForm() {
   }
 
   return (
-    <Card className="max-w-3xl mx-auto ">
+    <Card className="max-w-3xl mx-auto bg-orange-400/10 shadow-lg border-none ">
       <CardHeader>
         <CardTitle>Entrümpelung anfragen</CardTitle>
         <CardDescription>
@@ -114,74 +129,50 @@ export default function ClearanceRequestForm() {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             {/* Personal Information */}
-            <div className="space-y-4 ">
-              <h3 className="font-semibold">Persönliche Daten</h3>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-2 gap-4">
+              {[
+                { name: "firstName", label: "Vorname *", placeholder: "Max" },
+                {
+                  name: "lastName",
+                  label: "Nachname *",
+                  placeholder: "Mustermann",
+                },
+                {
+                  name: "email",
+                  label: "E-Mail *",
+                  placeholder: "max@beispiel.at",
+                  type: "email",
+                },
+                {
+                  name: "phone",
+                  label: "Telefon *",
+                  placeholder: "+43 660 123 4567",
+                },
+              ].map((field: any) => (
                 <FormField
+                  key={field.name}
                   control={form.control}
-                  name="firstName"
-                  render={({ field }) => (
+                  name={field.name}
+                  render={({ field: f, fieldState }) => (
                     <FormItem>
-                      <FormLabel>Vorname *</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Max" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="lastName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Nachname *</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Mustermann" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>E-Mail *</FormLabel>
+                      <FormLabel
+                        className={fieldState.error ? "text-red-600" : ""}
+                      >
+                        {field.label}
+                      </FormLabel>
                       <FormControl>
                         <Input
-                          type="email"
-                          placeholder="max@beispiel.at"
-                          {...field}
+                          {...f}
+                          type={field.type ?? "text"}
+                          placeholder={field.placeholder}
+                          className={baseInput}
                         />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-red-700 text-sm" />
                     </FormItem>
                   )}
                 />
-
-                <FormField
-                  control={form.control}
-                  name="phone"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Telefon *</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="tel"
-                          placeholder="+43 660 123 4567"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+              ))}
             </div>
 
             {/* Property Details */}
@@ -246,7 +237,7 @@ export default function ClearanceRequestForm() {
                             <SelectValue />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent>
+                        <SelectContent className="bg-white">
                           <SelectItem value="wohnung">Wohnung</SelectItem>
                           <SelectItem value="haus">Haus</SelectItem>
                           <SelectItem value="keller">Keller</SelectItem>
@@ -303,7 +294,7 @@ export default function ClearanceRequestForm() {
                             <SelectValue />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent>
+                        <SelectContent className="bg-white">
                           {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
                             <SelectItem key={n} value={String(n)}>
                               {n} Zimmer
@@ -319,13 +310,24 @@ export default function ClearanceRequestForm() {
                 <FormField
                   control={form.control}
                   name="area"
-                  render={({ field }) => (
+                  render={({ field, fieldState }) => (
                     <FormItem>
-                      <FormLabel>Fläche (m²)</FormLabel>
+                      <FormLabel
+                        className={fieldState.error ? "text-red-600" : ""}
+                      >
+                        Wohnfläche (m²)
+                      </FormLabel>
+
                       <FormControl>
-                        <Input type="number" placeholder="z.B. 75" {...field} />
+                        <Input
+                          type="number"
+                          placeholder="z.B. 75"
+                          className={baseInput}
+                          {...field}
+                        />
                       </FormControl>
-                      <FormMessage />
+
+                      <FormMessage className="text-red-700 text-sm" />
                     </FormItem>
                   )}
                 />

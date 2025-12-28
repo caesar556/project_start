@@ -1,19 +1,10 @@
-import z from "zod/v3";
+import z from "zod";
 
 export const moveRequestSchema = z.object({
-  firstName: z
-    .string()
-    .min(2, "Vorname muss mindestens 2 Zeichen haben")
-    .max(50),
-  lastName: z
-    .string()
-    .min(2, "Nachname muss mindestens 2 Zeichen haben")
-    .max(50),
+  firstName: z.string().min(2, "Vorname muss mindestens 2 Zeichen haben").max(50),
+  lastName: z.string().min(2, "Nachname muss mindestens 2 Zeichen haben").max(50),
   email: z.string().email("Bitte geben Sie eine gültige E-Mail-Adresse ein"),
-  phone: z
-    .string()
-    .min(6, "Bitte geben Sie eine gültige Telefonnummer ein")
-    .max(20),
+  phone: z.string().min(6, "Bitte geben Sie eine gültige Telefonnummer ein").max(20),
   fromCity: z.string().min(1, "Bitte geben Sie den Startort ein"),
   fromAddress: z.string().max(200).optional(),
   fromFloor: z.string(),

@@ -21,12 +21,10 @@ const ClearanceRequestSchema = new Schema(
     },
     elevator: {
       type: Boolean,
-      required: true,
     },
 
     propertyType: {
       type: String,
-      required: true,
     },
     rooms: {
       type: String,
@@ -39,7 +37,6 @@ const ClearanceRequestSchema = new Schema(
 
     preferredDate: {
       type: String,
-      required: true,
     },
 
     fullClearance: Boolean,

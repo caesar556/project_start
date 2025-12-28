@@ -1,4 +1,5 @@
 "use client";
+import Loading from "@/app/loading";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Service } from "@/types";
@@ -52,14 +53,14 @@ export default function CityServices({ name }: { name: string }) {
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {isLoading ? (
-          <p>Loading...</p>
+          <Loading />
         ) : (
           services?.map((service) => {
             const Icon = iconMap[service.icon] || Check;
             return (
               <Card
                 key={service._id}
-                className="border border-border/50 shadow-md hover:shadow-lg transition-all hover:-translate-y-1 hover:border-orange-500/30"
+                className="border border-orange-400 shadow-lg hover:shadow-lg transition-all hover:-translate-y-1 hover:border-orange-500/30"
               >
                 <CardContent className="p-5 flex items-start gap-4">
                   <div

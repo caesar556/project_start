@@ -9,9 +9,6 @@ import {
   GlobalSettingFormValues,
 } from "@/lib/validation/global-setting";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Form,
   FormField,
@@ -20,10 +17,15 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 
 export default function AdminSettingsPage() {
   const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
 
   const form = useForm<GlobalSettingFormValues>({
     resolver: zodResolver(globalSettingSchema),
@@ -36,45 +38,67 @@ export default function AdminSettingsPage() {
       addressZip: "",
       addressCity: "",
       openingHours: "",
-      footerCopyrightText: "",
-      attributionLabel: "",
-      attributionUrl: "",
     },
   });
 
-  /** Fetch existing settings */
+  /* -------- Fetch settings -------- */
   useEffect(() => {
     const fetchSettings = async () => {
-      const res = await fetch("/api/admin/settings");
-      if (!res.ok) return;
-      const data = await res.json();
-      form.reset(data);
+      try {
+        const res = await fetch("/api/global-settings");
+        if (!res.ok) return;
+
+        const data = await res.json();
+
+        form.reset({
+          companyName: data?.companyName ?? "",
+          phone: data?.phone ?? "",
+          email: data?.email ?? "",
+          whatsapp: data?.whatsapp ?? "",
+          addressStreet: data?.addressStreet ?? "",
+          addressZip: data?.addressZip ?? "",
+          addressCity: data?.addressCity ?? "",
+          openingHours: data?.openingHours ?? "",
+        });
+      } catch (error) {
+        console.error("Failed to load settings", error);
+      } finally {
+        setFetching(false);
+      }
     };
+
     fetchSettings();
   }, [form]);
 
+  /* -------- Submit -------- */
   const onSubmit = async (values: GlobalSettingFormValues) => {
     try {
       setLoading(true);
-      await fetch("/api/admin/settings", {
+      await fetch("/api/global-settings", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       });
+    } catch (error) {
+      console.error("Failed to save settings", error);
     } finally {
       setLoading(false);
     }
   };
 
+  if (fetching) {
+    return <div className="text-sm text-muted-foreground">Loading...</div>;
+  }
+
   return (
-    <Card className="max-w-4xl">
+    <Card className="max-w-4xl bg-orange-700/10 shadow-lg">
       <CardHeader>
         <CardTitle>Global Website Settings</CardTitle>
       </CardHeader>
 
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
             {/* Company Info */}
             <Section title="Company Information">
               <TwoCols>
@@ -99,32 +123,21 @@ export default function AdminSettingsPage() {
             </Section>
 
             {/* Footer */}
-            <Section title="Footer & Attribution">
+            <Section title="Footer">
               <TwoCols>
                 <InputField
                   form={form}
                   name="openingHours"
                   label="Opening Hours"
                 />
-                <InputField
-                  form={form}
-                  name="footerCopyrightText"
-                  label="Footer Copyright"
-                />
-                <InputField
-                  form={form}
-                  name="attributionLabel"
-                  label="Attribution Label"
-                />
-                <InputField
-                  form={form}
-                  name="attributionUrl"
-                  label="Attribution URL"
-                />
               </TwoCols>
             </Section>
 
-            <Button disabled={loading}>
+            <Button
+              className="bg-orange-800 text-white"
+              type="submit"
+              disabled={loading}
+            >
               {loading ? "Saving..." : "Save Settings"}
             </Button>
           </form>
@@ -145,7 +158,7 @@ function Section({
 }) {
   return (
     <div className="space-y-4">
-      <h3 className="font-semibold text-lg">{title}</h3>
+      <h3 className="text-lg font-semibold">{title}</h3>
       <Separator />
       {children}
     </div>

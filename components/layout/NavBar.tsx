@@ -20,18 +20,13 @@ import logo from "@/assets/logo.jpeg";
 import HeaderBox from "../common/HeaderBox";
 import gsap from "gsap";
 import { SplitText } from "gsap/all";
+import { useGlobalSettings } from "@/hooks/useGlobalSettings";
+import { COMPANY_INFO } from "@/constants";
+import NavBadge from "../common/navbar/NavBadge";
 
 gsap.registerPlugin(SplitText);
 
-
-const COMPANY_INFO = {
-  name: "Richard Umzug",
-  phone: "004368120697499",
-  email: "Info@RichardUmzug.at",
-  whatsapp: "4368120697499",
-  openingHours: "Mo-Sa: 07:00 - 20:00 Uhr",
-  serviceArea: "Österreich & Europaweit",
-};
+const serviceArea = "Österreich & Europaweit";
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -39,6 +34,7 @@ export default function NavBar() {
   const pathname = usePathname();
   const desktopLinksRef = useRef<HTMLDivElement>(null);
   const mobileLinksRef = useRef<HTMLDivElement>(null);
+  const { settings } = useGlobalSettings();
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 20);
@@ -97,17 +93,19 @@ export default function NavBar() {
         <div className="container mx-auto px-4 py-2.5 flex justify-between items-center text-sm">
           <div className="flex items-center gap-4">
             <a
-              href={`tel:+${COMPANY_INFO.phone}`}
+              href={`tel:+${settings?.phone || COMPANY_INFO.phone}`}
               className="flex items-center gap-2 font-medium"
             >
               <div className="bg-yellow-900 rounded-full p-2 ">
                 <Phone className="h-4 w-4" />
               </div>
-              <span className="hidden sm:inline">{COMPANY_INFO.phone}</span>
+              <span className="hidden sm:inline">
+                {settings?.phone || COMPANY_INFO.phone}
+              </span>
             </a>
 
             <a
-              href={`https://wa.me/${COMPANY_INFO.whatsapp}`}
+              href={`https://wa.me/${settings?.whatsapp || COMPANY_INFO.whatsapp}`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 font-medium"
@@ -119,20 +117,20 @@ export default function NavBar() {
             </a>
 
             <a
-              href={`mailto:${COMPANY_INFO.email}`}
+              href={`mailto:${settings?.email || COMPANY_INFO.email}`}
               className="hidden lg:flex items-center gap-2 font-medium"
             >
               <div className="bg-gray-600 rounded-full p-2 ">
                 <Mail className="h-4 w-4" />
               </div>
-              {COMPANY_INFO.email}
+              {settings?.email || COMPANY_INFO.email}
             </a>
           </div>
           <div className="flex gap-4">
             <HeaderBox />
             <div className="hidden xl:flex items-center gap-2 font-medium">
               <Globe className="h-4 w-4" />
-              {COMPANY_INFO.openingHours}
+              {settings?.openingHours || COMPANY_INFO.openingHours}
             </div>
           </div>
         </div>
@@ -145,7 +143,7 @@ export default function NavBar() {
           <Link href="/" className="flex items-center gap-4 ">
             <Image
               src={logo}
-              alt={`${COMPANY_INFO.name} Umzugsfirma`}
+              alt={`${settings?.companyName || COMPANY_INFO.name} Umzugsfirma`}
               width={70}
               height={70}
               className="p-2 rounded-lg shadow-md"
@@ -153,11 +151,11 @@ export default function NavBar() {
             />
             <div className="hidden sm:block">
               <span className="text-xl font-bold block">
-                {COMPANY_INFO.name}
+                {settings?.companyName || COMPANY_INFO.name}
               </span>
               <span className="flex items-center text-sm text-muted-foreground">
                 <MapPin className="h-3 w-3 mr-1" />
-                {COMPANY_INFO.serviceArea}
+                {serviceArea}
               </span>
             </div>
           </Link>
@@ -194,19 +192,11 @@ export default function NavBar() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div ref={mobileLinksRef} className="lg:hidden mt-4 bg-muted/30 rounded-2xl p-4 space-y-2">
-            <div className="w-full flex justify-center">
-              <Button
-                asChild
-                size="lg"
-                className="rounded-lg font-bold w-[40%] bg-violet-700 "
-              >
-                <Link href="/umzug-anfragen">
-                  Jetzt Angebot anfordern
-                  <ChevronRight className="ml-1 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
+          <div
+            ref={mobileLinksRef}
+            className="lg:hidden mt-4 bg-muted/30 rounded-2xl p-4 space-y-2"
+          >
+            <NavBadge />
             {NAV_ITEMS.map((item) => (
               <Link
                 key={item.href}
@@ -214,7 +204,6 @@ export default function NavBar() {
                 className="flex items-center justify-between px-4 py-3 rounded-xl hover:bg-card"
               >
                 {item.label}
-                <ChevronRight className="h-4 w-4" />
               </Link>
             ))}
           </div>
