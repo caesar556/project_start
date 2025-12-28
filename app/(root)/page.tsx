@@ -1,20 +1,26 @@
-import CitiesSection from "@/components/home/CitiesSection";
-import CtaSection from "@/components/home/CtaSection";
-import GoogleReviewsSection from "@/components/home/GoogleReviews";
-import HeroSection from "@/components/home/Hero";
-import ServicesSection from "@/components/home/ServicesSection";
-import TestimonialsSection from "@/components/home/TestimonialsSection";
+import {
+  Hero,
+  ServicesSection,
+  TestimonialsSection,
+  CtaSection,
+  GoogleReviews,
+  CitiesSection,
+  RabattBanner,
+  ContactSection,
+} from "@/components/home";
 import { getServices } from "@/lib/services/services";
 
 export default async function Home() {
   const services = await getServices();
   return (
     <section>
-      <HeroSection />
-      <GoogleReviewsSection />
+      <Hero />
+      <GoogleReviews />
       <ServicesSection services={services} />
       <CitiesSection />
+      <RabattBanner />
       <TestimonialsSection />
+      <ContactSection />
       <CtaSection />
     </section>
   );

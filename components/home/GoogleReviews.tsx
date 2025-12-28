@@ -51,7 +51,18 @@ export default function GoogleReviews() {
                 key={review.id}
                 className="pl-2 md:pl-4 basis-full sm:basis-1/2 lg:basis-1/3"
               >
-                <Card className=" px-3 pt-2 rounded-lg shadow-xl bg-orange-700/10">
+                <Card
+                  tabIndex={0}
+                  className="
+                    px-3 pt-2 rounded-lg shadow-xl bg-orange-700/10
+                    transition-all duration-300 ease-out
+                    cursor-pointer
+                    hover:scale-[1.01] hover:shadow-2xl
+                    focus:scale-[1.01] focus:shadow-2xl
+                    focus:outline-none focus:ring-2 focus:ring-orange-500
+                    active:scale-[0.98]
+                  "
+                >
                   <div
                     className="h-1"
                     style={{

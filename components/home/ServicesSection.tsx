@@ -54,21 +54,29 @@ export default function ServicesSection({ services }: ServicesSectionProps) {
             return (
               <Card
                 key={service._id}
-                className="group relative overflow-hidden rounded-2xl
+                tabIndex={0}
+                role="button"
+                className="
+                  group relative overflow-hidden rounded-2xl
+                  shadow-lg transition-all duration-300 ease-out
+                  cursor-pointer
 
-                  shadow-lg transition-all duration-500
-                  hover:-translate-y-3 hover:shadow-2xl
-                  will-change-transform"
+                  hover:scale-[1.03] hover:shadow-2xl
+                  focus:scale-[1.03] focus:shadow-2xl
+                  focus:outline-none focus:ring-2 focus:ring-orange-500
+                  active:scale-[0.97]
+                "
               >
                 <CardHeader className="pb-4 relative z-10">
                   <div
                     className="
-                    w-16 h-16 mb-6 rounded-2xl
-                    flex items-center justify-center
-                    bg-orange-500/10
-                    transition-transform duration-300
-                    group-hover:scale-110
-                  "
+                      w-16 h-16 mb-6 rounded-2xl
+                      flex items-center justify-center
+                      bg-orange-500/10
+                      transition-transform duration-300 ease-out
+                      group-hover:scale-110 group-hover:rotate-12
+                      group-focus:scale-110 group-focus:rotate-12
+                    "
                   >
                     <Icon className="h-8 w-8 text-orange-500" />
                   </div>

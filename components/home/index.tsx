@@ -1,9 +1,11 @@
 import CitiesSection from "./CitiesSection";
 import GoogleReviews from "./GoogleReviews";
-import Hero from "./Hero";
 import ServicesSection from "./ServicesSection";
 import TestimonialsSection from "./TestimonialsSection";
 import CtaSection from "./CtaSection";
+import RabattBanner from "./RabattBanner";
+import Hero from "./Hero";
+import ContactSection from "./ContactSection";
 
 export {
   CitiesSection,
@@ -12,4 +14,6 @@ export {
   ServicesSection,
   TestimonialsSection,
   CtaSection,
+  RabattBanner,
+  ContactSection,
 };
