@@ -1,29 +1,19 @@
+"use client"; 
 import { Phone, Mail, MapPin, MessageCircle, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-interface Address {
-  street: string;
-  zip: string;
-  city: string;
-}
+import { useGlobalSettings } from "@/hooks/useGlobalSettings";
 
 interface ContactInfoBlockProps {
-  phone: string;
-  email: string;
-  whatsapp: string;
-  address: Address;
   showHeading?: boolean;
   variant?: "default" | "compact";
 }
 
 export default function ContactInfoBlock({
-  phone,
-  email,
-  whatsapp,
-  address,
   showHeading = true,
   variant = "default",
 }: ContactInfoBlockProps) {
+  const { settings } = useGlobalSettings();
+
   if (variant === "compact") {
     return (
       <div
@@ -39,27 +29,28 @@ export default function ContactInfoBlock({
           <div className="flex items-center gap-3">
             <MapPin className="h-5 w-5 text-orange-400" />
             <span className="text-white/80 text-sm">
-              {address.street}, {address.zip} {address.city}
+              {settings?.addressCity}, {settings?.addressZip}{" "}
+              {settings?.addressCity}
             </span>
           </div>
 
           <div className="flex items-center gap-3">
             <Phone className="h-5 w-5 text-orange-400" />
             <a
-              href={`tel:${phone}`}
+              href={`tel:${settings?.phone}`}
               className="text-white/80 text-sm hover:text-orange-400"
             >
-              {phone}
+              {settings?.phone}
             </a>
           </div>
 
           <div className="flex items-center gap-3">
             <Mail className="h-5 w-5 text-orange-400" />
             <a
-              href={`mailto:${email}`}
+              href={`mailto:${settings?.email}`}
               className="text-white/80 text-sm hover:text-orange-400"
             >
-              {email}
+              {settings?.email}
             </a>
           </div>
         </div>
@@ -70,7 +61,7 @@ export default function ContactInfoBlock({
             size="sm"
             className="flex-1 rounded-lg border-0 bg-orange-500"
           >
-            <a href={`tel:${phone}`} className="text-white">
+            <a href={`tel:${settings?.phone}`} className="text-white">
               <Phone className="mr-2 h-4 w-4" />
               Anrufen
             </a>
@@ -82,7 +73,7 @@ export default function ContactInfoBlock({
             className="flex-1 rounded-lg bg-red-600 hover:bg-green-700 border-0 "
           >
             <a
-              href={`https://wa.me/${whatsapp}`}
+              href={`https://wa.me/${settings?.whatsapp}`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -109,20 +100,23 @@ export default function ContactInfoBlock({
 
       <div className="space-y-5">
         <InfoItem icon={<MapPin />} title="Adresse">
-          {address.street}
+          {settings?.addressStreet}
           <br />
-          {address.zip} {address.city}, Österreich
+          {settings?.addressZip} {settings?.addressCity}, Österreich
         </InfoItem>
 
         <InfoItem icon={<Phone />} title="Telefon">
-          <a href={`tel:${phone}`} className="hover:text-orange-400">
-            {phone}
+          <a href={`tel:${settings?.phone}`} className="hover:text-orange-400">
+            {settings?.phone}
           </a>
         </InfoItem>
 
         <InfoItem icon={<Mail />} title="E-Mail">
-          <a href={`mailto:${email}`} className="hover:text-orange-400">
-            {email}
+          <a
+            href={`mailto:${settings?.email}`}
+            className="hover:text-orange-400"
+          >
+            {settings?.email}
           </a>
         </InfoItem>
 
@@ -132,8 +126,12 @@ export default function ContactInfoBlock({
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4 mt-8">
-        <Button asChild size="lg" className="flex-1 bg-orange-500 rounded-xl text-white">
-          <a href={`tel:${phone}`}>
+        <Button
+          asChild
+          size="lg"
+          className="flex-1 bg-orange-500 rounded-xl text-white"
+        >
+          <a href={`tel:${settings?.phone}`}>
             <Phone className="mr-2 h-5 w-5" />
             Jetzt anrufen
           </a>
@@ -145,7 +143,7 @@ export default function ContactInfoBlock({
           className="flex-1 bg-green-600 hover:bg-green-700 rounded-xl text-white"
         >
           <a
-            href={`https://wa.me/${whatsapp}`}
+            href={`https://wa.me/${settings?.whatsapp}`}
             target="_blank"
             rel="noopener noreferrer"
           >

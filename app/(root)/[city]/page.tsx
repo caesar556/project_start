@@ -13,17 +13,6 @@ type PageProps = {
   };
 };
 
-const CONTACT_DUMMY_DATA = {
-  phone: "+43 660 1234567",
-  email: "info@richard-umzug.at",
-  whatsapp: "436601234567",
-  address: {
-    street: "Hauptstraße 12",
-    zip: "1010",
-    city: "Wien",
-  },
-};
-
 export default async function CityPage({ params }: PageProps) {
   const { city } = await params;
   const data = await getCityBySlug(city);
@@ -45,14 +34,7 @@ export default async function CityPage({ params }: PageProps) {
                 maxPrice={data.priceMax}
                 minPrice={data.priceMin}
               />
-              <ContactInfoBlock
-                phone={CONTACT_DUMMY_DATA.phone}
-                email={CONTACT_DUMMY_DATA.email}
-                whatsapp={CONTACT_DUMMY_DATA.whatsapp}
-                address={CONTACT_DUMMY_DATA.address}
-                showHeading
-                variant="default"
-              />
+              <ContactInfoBlock showHeading variant="default" />
               <CityServices name={data.name} />
               <CityCta name={data.name} />
             </div>

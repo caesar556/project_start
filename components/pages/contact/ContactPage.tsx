@@ -42,19 +42,23 @@ export default function ContactPage() {
           </p>
         </div>
       </section>
-      <section className="py-16 bg-background">
+      <section className="py-16 bg-background overflow-hidden">
         <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12">
-            <div>
-              <h2 className="text-2xl font-bold text-foreground mb-4">
-                Kontaktdaten
-              </h2>
-              <p className="text-muted-foreground mb-8">
-                Wir bieten professionelle Umzüge und Entrümpelungen in ganz
-                Österreich und europaweit an. Kontaktieren Sie uns für ein
-                kostenloses Angebot!
-              </p>
-              Info contact
+          <div className="grid lg:grid-cols-2 gap-12 items-start">
+            <div className="space-y-8">
+              <div>
+                <h2 className="text-2xl font-bold text-foreground mb-4">
+                  Kontaktdaten
+                </h2>
+                <p className="text-muted-foreground mb-6">
+                  Wir bieten professionelle Umzüge und Entrümpelungen in ganz
+                  Österreich und europaweit an. Kontaktieren Sie uns für ein
+                  kostenloses Angebot!
+                </p>
+              </div>
+              <ContactInfo variant="compact" />
+            </div>
+            <div className="bg-white/5 p-6 rounded-2xl border border-orange-500/10 shadow-xl">
               <ContactForm />
             </div>
           </div>
