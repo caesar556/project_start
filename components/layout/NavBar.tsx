@@ -138,12 +138,15 @@ export default function NavBar() {
 
       <nav className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-4 group">
+          <Link
+            href="/"
+            className="group flex items-center gap-4 focus:outline-none"
+          >
             <Image
               src={logo}
               alt={`${settings?.companyName || COMPANY_INFO.name} Umzugsfirma`}
-              width={80}
-              height={80}
+              width={70}
+              height={70}
               className="
                 p-2
                 rounded-lg
@@ -151,7 +154,10 @@ export default function NavBar() {
                 transition-transform
                 duration-300
                 ease-out
+                will-change-transform
                 group-hover:scale-110
+                group-focus-visible:scale-110
+                active:scale-105
               "
               priority
             />

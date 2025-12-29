@@ -152,6 +152,55 @@ export const reviews = [
     date: "2024-08-03",
     text: "Guter Service, pünktlich und zuverlässig. Gerne wieder.",
   },
+  {
+    id: 4,
+    name: "Laura Hoffmann",
+    rating: 5,
+    date: "2024-11-02",
+    text: "Von der Anfrage bis zur Durchführung alles perfekt organisiert.",
+  },
+  {
+    id: 5,
+    name: "Sebastian König",
+    rating: 4,
+    date: "2024-10-20",
+    text: "Sehr hilfsbereit und professionell. Preis-Leistung stimmt.",
+  },
+  {
+    id: 6,
+    name: "Miriam Fischer",
+    rating: 5,
+    date: "2024-09-15",
+    text: "Stressfreier Umzug dank eines eingespielten Teams. Absolut empfehlenswert.",
+  },
+  {
+    id: 7,
+    name: "Thomas Bauer",
+    rating: 5,
+    date: "2024-08-29",
+    text: "Pünktlich, sauber gearbeitet und sehr freundlich. Jederzeit wieder.",
+  },
+  {
+    id: 8,
+    name: "Nina Wagner",
+    rating: 4,
+    date: "2024-07-18",
+    text: "Gute Kommunikation und schnelle Abwicklung. Kleine Wartezeit, sonst top.",
+  },
+  {
+    id: 9,
+    name: "Markus Schneider",
+    rating: 5,
+    date: "2024-06-30",
+    text: "Sehr sorgfältiger Umgang mit Möbeln und Kartons. Vielen Dank!",
+  },
+  {
+    id: 10,
+    name: "Julia Becker",
+    rating: 5,
+    date: "2024-06-05",
+    text: "Professionell, zuverlässig und transparent bei den Kosten.",
+  },
 ];
 export const TESTIMONIALS = [
   {

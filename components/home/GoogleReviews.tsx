@@ -1,6 +1,7 @@
 "use client";
 
 import { Star, CheckCircle } from "lucide-react";
+import Autoplay from "embla-carousel-autoplay"
 import {
   Carousel,
   CarouselContent,
@@ -43,6 +44,11 @@ export default function GoogleReviews() {
         </div>
 
         <Carousel
+          plugins={[
+            Autoplay({
+              delay: 2000,
+            }),
+          ]}
           opts={{
             align: "start",
             loop: true,
