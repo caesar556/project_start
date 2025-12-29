@@ -14,3 +14,5 @@ export async function POST(req: Request) {
   const service = await Service.create(body);
   return NextResponse.json(service, { status: 201 });
 }
+
+
