@@ -48,7 +48,6 @@ export function useApi<T = any>(endpoint: string) {
     }
   }, [endpoint]);
 
-  // GET helper that runs on mount
   useEffect(() => {
     fetchData();
   }, [fetchData]);
@@ -64,15 +63,12 @@ export function useApi<T = any>(endpoint: string) {
     return fetchData({
       method: "PUT",
       body: JSON.stringify(body),
-      // Update endpoint for detail routes if needed, or assume endpoint handles it
-      // For this project, usually it's /api/resource/id
     });
   };
 
   const del = async (id: string) => {
     const res = await fetch(`${endpoint}/${id}`, { method: "DELETE" });
     if (!res.ok) throw new Error("Delete failed");
-    // Refresh local data after delete
     fetchData();
   };
 
