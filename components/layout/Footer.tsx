@@ -305,7 +305,7 @@ const ContactLink = ({
 }: {
   href: string;
   icon: any;
-  label: string;
+  label: string | undefined;
   hover: "orange" | "green";
 }) => (
   <li>
