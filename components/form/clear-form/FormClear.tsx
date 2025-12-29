@@ -67,6 +67,7 @@ export default function ClearanceRequestForm() {
   });
 
   const onSubmit = async (data: ClearanceRequestFormValues) => {
+    setIsSubmitting(true);
     try {
       const res = await fetch("/api/clear-requests", {
         method: "POST",
@@ -75,21 +76,19 @@ export default function ClearanceRequestForm() {
         },
         body: JSON.stringify(data),
       });
-      setIsSubmitting(true);
 
       const result = await res.json();
 
       if (!res.ok) {
-        throw new Error(result.message || "Something went wrong");
+        throw new Error(result.error || "Something went wrong");
       }
 
-      console.log("Saved:", result.data);
-
+      console.log("Saved:", result);
+      setIsSubmitted(true);
       form.reset();
-      alert("Anfrage erfolgreich gesendet");
     } catch (error) {
       console.error(error);
-      alert("Fehler beim Senden der Anfrage");
+      alert(error instanceof Error ? error.message : "Fehler beim Senden der Anfrage");
     } finally {
       setIsSubmitting(false);
     }
