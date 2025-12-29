@@ -16,12 +16,23 @@ const ibmPlexSerif = IBM_Plex_Serif({
 
 export const metadata: Metadata = {
   title: "Entrümpelung & Umzug | Professioneller Service",
-  description: "Professionelle Entrümpelung und Umzüge in Ihrer Nähe. Schnell, zuverlässig und zum fairen Preis. Fordern Sie jetzt Ihr unverbindliches Angebot an.",
-  keywords: ["Entrümpelung", "Umzug", "Haushaltsauflösung", "Wohnungsauflösung", "Entsorgung"],
+  icons: {
+    icon: "/favicon.ico",
+  },
+  description:
+    "Professionelle Entrümpelung und Umzüge in Ihrer Nähe. Schnell, zuverlässig und zum fairen Preis. Fordern Sie jetzt Ihr unverbindliches Angebot an.",
+  keywords: [
+    "Entrümpelung",
+    "Umzug",
+    "Haushaltsauflösung",
+    "Wohnungsauflösung",
+    "Entsorgung",
+  ],
   authors: [{ name: "Entrümpelung Service" }],
   openGraph: {
     title: "Entrümpelung & Umzug | Professioneller Service",
-    description: "Professionelle Entrümpelung und Umzüge in Ihrer Nähe. Schnell, zuverlässig und zum fairen Preis.",
+    description:
+      "Professionelle Entrümpelung und Umzüge in Ihrer Nähe. Schnell, zuverlässig und zum fairen Preis.",
     type: "website",
     locale: "de_DE",
   },

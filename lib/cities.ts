@@ -21,7 +21,15 @@ export async function getCityBySlug(slug: string) {
 
   const city = await City.findOne(
     { slug },
-    { name: 1, slug: 1, distance: 1, introText: 1, priceMax: 1, priceMin: 1 },
+    {
+      name: 1,
+      slug: 1,
+      distance: 1,
+      introText: 1,
+      priceMax: 1,
+      priceMin: 1,
+      detailsText: 1,
+    },
   ).lean();
 
   if (!city) return null;
@@ -32,6 +40,7 @@ export async function getCityBySlug(slug: string) {
     slug: city.slug,
     distance: city.distance,
     introText: city.introText,
+    detailsText: city.detailsText,
     priceMax: city.priceMax,
     priceMin: city.priceMin,
   };

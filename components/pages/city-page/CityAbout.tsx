@@ -1,14 +1,12 @@
-import { cityContent } from "@/constants/content";
 import { Truck } from "lucide-react";
 
 type CityAboutProps = {
   name: string;
-  slug: keyof typeof cityContent;
+  details: string;
   distance: number;
 };
 
-export default function CityAbout({ name, distance, slug }: CityAboutProps) {
-  const content = cityContent[slug];
+export default function CityAbout({ name, distance, details }: CityAboutProps) {
   return (
     <div className="mb-16">
       <span className="inline-block text-orange-500 font-semibold text-sm uppercase tracking-wider mb-4">
@@ -18,7 +16,7 @@ export default function CityAbout({ name, distance, slug }: CityAboutProps) {
         Umzüge in {name} – Österreichweit & Europaweit
       </h2>
       <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-        content details
+        {details}
       </p>
 
       {distance > 0 && (

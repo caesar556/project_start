@@ -78,7 +78,6 @@ export default function ContactForm() {
 
     try {
       console.log("FORM DATA:", data);
-      // Simulating API call since it's missing in original code
       await new Promise(resolve => setTimeout(resolve, 1000));
       toast.success("Anfrage erfolgreich gesendet");
       form.reset();

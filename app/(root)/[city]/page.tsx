@@ -26,7 +26,7 @@ export default async function CityPage({ params }: PageProps) {
             <CityAbout
               name={data.name}
               distance={data.distance}
-              slug={data.slug}
+              details={data.detailsText}
             />
             <div className="flex flex-col  gap-8 mb-16">
               <CityPrice

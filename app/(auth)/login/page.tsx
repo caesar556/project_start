@@ -1,5 +1,5 @@
-export default function  LoginPage(){
-  return (
-    <h1>Belal</h1>
-  );
+import AdminLogin from "@/components/admin/auth/Login";
+
+export default function LoginPage() {
+  return <AdminLogin />;
 }
