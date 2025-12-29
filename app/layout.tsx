@@ -16,6 +16,8 @@ const ibmPlexSerif = IBM_Plex_Serif({
 
 export const metadata: Metadata = {
   title: "Entrümpelung & Umzug | Professioneller Service",
+  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
+  robots: "index, follow",
   icons: {
     icon: "/logo.jpeg",
   },
@@ -35,6 +37,8 @@ export const metadata: Metadata = {
       "Professionelle Entrümpelung und Umzüge in Ihrer Nähe. Schnell, zuverlässig und zum fairen Preis.",
     type: "website",
     locale: "de_DE",
+    url: "https://richard-umzug.at",
+    siteName: "Richard Umzug",
   },
 };
 

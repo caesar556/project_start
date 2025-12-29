@@ -73,12 +73,7 @@ export default function Hero() {
           <h1 className="text-4xl md:text-6xl xl:text-7xl font-black text-white mb-6 leading-tight">
             Ihr{" "}
             <span
-              style={{
-                background:
-                  "linear-gradient(90deg, #FF6A00 0%, #FF8534 50%, #FF6A00 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
+              className="bg-clip-text text-transparent bg-gradient-to-r from-[#FF6A00] via-[#FF8534] to-[#FF6A00]"
             >
               günstiger Umzug
             </span>
