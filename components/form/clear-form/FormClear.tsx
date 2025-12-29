@@ -39,6 +39,7 @@ import {
   clearanceRequestSchema,
 } from "@/lib/form-validation/clear-request";
 
+import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 export default function ClearanceRequestForm() {
