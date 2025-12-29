@@ -17,7 +17,7 @@ const ibmPlexSerif = IBM_Plex_Serif({
 export const metadata: Metadata = {
   title: "Entrümpelung & Umzug | Professioneller Service",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/logo.jpeg",
   },
   description:
     "Professionelle Entrümpelung und Umzüge in Ihrer Nähe. Schnell, zuverlässig und zum fairen Preis. Fordern Sie jetzt Ihr unverbindliches Angebot an.",
