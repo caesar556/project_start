@@ -60,10 +60,15 @@ export function useApi<T = any>(endpoint: string) {
   };
 
   const put = async (id: string, body: any) => {
-    return fetchData({
+    const res = await fetch(`${endpoint}/${id}`, {
       method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(body),
     });
+    if (!res.ok) throw new Error("Update failed");
+    fetchData();
   };
 
   const del = async (id: string) => {

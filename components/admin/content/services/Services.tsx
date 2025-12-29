@@ -32,7 +32,7 @@ export default function ServiceManager() {
   const [editDescription, setEditDescription] = useState("");
 
   const {
-    data: services,
+    data: services = [],
     loading: fetching,
     post,
     del,
