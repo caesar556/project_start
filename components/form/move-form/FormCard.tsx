@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import FormRequset from "./FormRequset";
+import FormRequest from "./FormRequest";
 
 export default function FormCard() {
   return (
@@ -18,7 +18,7 @@ export default function FormCard() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <FormRequset />
+        <FormRequest />
       </CardContent>
     </Card>
   );

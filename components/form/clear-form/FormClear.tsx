@@ -37,7 +37,7 @@ import { Loader2, CheckCircle } from "lucide-react";
 import {
   ClearanceRequestFormValues,
   clearanceRequestSchema,
-} from "@/lib/form-validtion/clear-requset";
+} from "@/lib/form-validation/clear-request";
 
 export default function ClearanceRequestForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);

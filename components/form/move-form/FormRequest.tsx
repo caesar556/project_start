@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   moveRequestSchema,
   MoveRequestFormValues,
-} from "@/lib/form-validtion/move-requset";
+} from "@/lib/form-validation/move-request";
 
 import {
   Form,
