@@ -58,7 +58,7 @@ export default function ContactPage() {
               </div>
               <ContactInfo variant="compact" />
             </div>
-            <div className="bg-white/5 p-6 rounded-2xl border border-orange-500/10 shadow-xl">
+            <div className="bg-white/5 p-2 sm:p-4 md:p-6 rounded-2xl border border-orange-500/10 shadow-xl">
               <ContactForm />
             </div>
           </div>

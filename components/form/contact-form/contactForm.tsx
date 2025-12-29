@@ -91,7 +91,7 @@ export default function ContactForm() {
     "rounded-md bg-orange-800/10 shadow-lg border-none focus-visible:bg-orange-800/20";
 
   return (
-    <div className="bg-orange-700/10 rounded-2xl shadow-xl p-6 md:p-8 m-8 ">
+    <div className="bg-orange-700/10 rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 m-2 sm:m-4 md:m-8">
       <h3 className="text-xl font-semibold mb-6 text-center">
         Schnellanfrage – Richard Umzug
       </h3>
