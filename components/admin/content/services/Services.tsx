@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/card";
 import { Trash } from "lucide-react";
 
+import { useApi } from "@/hooks/useApi";
+
 type ServiceType = {
   _id: string;
   title: string;
@@ -21,46 +23,24 @@ type ServiceType = {
 export default function ServiceManager() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [services, setServices] = useState<ServiceType[]>([]);
-  const [fetching, setFetching] = useState(false);
-
-  // fetch services
-  const fetchServices = async () => {
-    setFetching(true);
-    const res = await fetch("/api/services");
-    const data = await res.json();
-    setServices(data);
-    setFetching(false);
-  };
-
-  useEffect(() => {
-    fetchServices();
-  }, []);
+  const { data: services, loading: fetching, post, del } = useApi<ServiceType[]>("/api/services");
+  const [adding, setAdding] = useState(false);
 
   // add service
   const handleSubmit = async () => {
     if (!title || !description) return alert("Title and description required");
 
-    setLoading(true);
+    setAdding(true);
     try {
-      const res = await fetch("/api/services", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, description }),
-      });
-
-      if (!res.ok) throw new Error("Failed to add service");
-
+      await post({ title, description });
       alert("Service added successfully!");
       setTitle("");
       setDescription("");
-      fetchServices();
     } catch (err) {
       console.error(err);
       alert("Error adding service");
     } finally {
-      setLoading(false);
+      setAdding(false);
     }
   };
 
@@ -69,10 +49,7 @@ export default function ServiceManager() {
     if (!confirm("Are you sure you want to delete this service?")) return;
 
     try {
-      const res = await fetch(`/api/services/${id}`, { method: "DELETE" });
-      if (!res.ok) throw new Error("Failed to delete service");
-
-      setServices(services.filter((s) => s._id !== id));
+      await del(id);
     } catch (err) {
       console.error(err);
       alert("Error deleting service");
@@ -103,8 +80,8 @@ export default function ServiceManager() {
           />
         </div>
 
-        <Button onClick={handleSubmit} disabled={loading}>
-          {loading ? "Adding..." : "Add Service"}
+        <Button onClick={handleSubmit} disabled={adding}>
+          {adding ? "Adding..." : "Add Service"}
         </Button>
       </div>
 
@@ -115,7 +92,7 @@ export default function ServiceManager() {
           <p>Loading services...</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {services.map((service) => (
+            {services?.map((service) => (
               <Card key={service._id} className="relative">
                 <CardContent>
                   <CardTitle className="mb-4">{service.title}</CardTitle>

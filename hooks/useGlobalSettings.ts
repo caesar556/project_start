@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useApi } from "./useApi";
 
 export type GlobalSettings = {
   companyName: string;
@@ -14,47 +14,18 @@ export type GlobalSettings = {
 };
 
 export function useGlobalSettings() {
-  const [settings, setSettings] = useState<GlobalSettings | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { data, loading } = useApi<GlobalSettings>("/api/global-settings");
 
-  useEffect(() => {
-    let mounted = true;
-
-    const fetchSettings = async () => {
-      try {
-        const res = await fetch("/api/global-settings", {
-          cache: "no-store",
-        });
-
-        if (!res.ok) return;
-
-        const data = await res.json();
-
-        if (mounted) {
-          setSettings({
-            companyName: data?.companyName ?? "",
-            phone: data?.phone ?? "",
-            email: data?.email ?? "",
-            whatsapp: data?.whatsapp ?? "",
-            openingHours: data?.openingHours ?? "",
-            addressStreet: data?.addressStreet ?? "",
-            addressZip: data?.addressZip ?? "",
-            addressCity: data?.addressCity ?? "",
-          });
-        }
-      } catch (error) {
-        console.error("Failed to fetch global settings", error);
-      } finally {
-        mounted && setLoading(false);
-      }
-    };
-
-    fetchSettings();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
+  const settings = data ? {
+    companyName: data?.companyName ?? "",
+    phone: data?.phone ?? "",
+    email: data?.email ?? "",
+    whatsapp: data?.whatsapp ?? "",
+    openingHours: data?.openingHours ?? "",
+    addressStreet: data?.addressStreet ?? "",
+    addressZip: data?.addressZip ?? "",
+    addressCity: data?.addressCity ?? "",
+  } : null;
 
   return { settings, loading };
 }

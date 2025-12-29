@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Star, Quote, Trash } from "lucide-react";
 
+import { useApi } from "@/hooks/useApi";
+
 type TestimonialType = {
   _id: string;
   name: string;
@@ -16,37 +18,13 @@ type TestimonialType = {
 };
 
 export default function DashboardTestimonials() {
-  const [testimonials, setTestimonials] = useState<TestimonialType[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  const fetchTestimonials = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch("/api/testimonials");
-      const data = await res.json();
-      setTestimonials(data);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchTestimonials();
-  }, []);
+  const { data: testimonials, loading, del } = useApi<TestimonialType[]>("/api/testimonials");
 
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this testimonial?")) return;
 
     try {
-      const res = await fetch(`/api/testimonials/${id}`, {
-        method: "DELETE",
-      });
-
-      if (!res.ok) throw new Error("Delete failed");
-
-      setTestimonials((prev) => prev.filter((t) => t._id !== id));
+      await del(id);
     } catch (err) {
       console.error(err);
       alert("Error deleting testimonial");
@@ -71,7 +49,7 @@ export default function DashboardTestimonials() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {testimonials.map((t) => (
+      {testimonials?.map((t) => (
         <Card
           key={t._id}
           className="relative bg-card border shadow-xl rounded-2xl overflow-hidden

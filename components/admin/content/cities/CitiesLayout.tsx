@@ -13,8 +13,10 @@ import {
 import { City } from "@/types";
 import { Edit, Trash } from "lucide-react";
 
+import { useApi } from "@/hooks/useApi";
+
 export default function CitiesAdmin() {
-  const [cities, setCities] = useState<City[]>([]);
+  const { data: cities, loading, refresh: fetchCities, post, del, put } = useApi<City[]>("/api/cities");
   const [search, setSearch] = useState("");
   const [editingCity, setEditingCity] = useState<City | null>(null);
   const [newCity, setNewCity] = useState<Omit<City, "_id">>({
@@ -26,27 +28,12 @@ export default function CitiesAdmin() {
     priceMax: 0,
   });
 
-  useEffect(() => {
-    fetchCities();
-  }, []);
-
-  const fetchCities = async () => {
-    const res = await fetch("/api/cities");
-    const data: City[] = await res.json();
-    setCities(data);
-  };
-
   const deleteCity = async (id: string) => {
-    await fetch(`/api/cities/${id}`, { method: "DELETE" });
-    fetchCities();
+    await del(id);
   };
 
   const addCity = async () => {
-    await fetch("/api/cities", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newCity),
-    });
+    await post(newCity);
     setNewCity({
       name: "",
       slug: "",
@@ -55,7 +42,6 @@ export default function CitiesAdmin() {
       priceMin: 0,
       priceMax: 0,
     });
-    fetchCities();
   };
 
   const updateCity = async () => {
@@ -69,7 +55,7 @@ export default function CitiesAdmin() {
     fetchCities();
   };
 
-  const filteredCities = cities.filter((city) =>
+  const filteredCities = (cities || []).filter((city) =>
     city.name.toLowerCase().includes(search.toLowerCase()),
   );
 
