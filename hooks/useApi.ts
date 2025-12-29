@@ -53,10 +53,12 @@ export function useApi<T = any>(endpoint: string) {
   }, [fetchData]);
 
   const post = async (body: any) => {
-    return fetchData({
+    const res = await fetchData({
       method: "POST",
       body: JSON.stringify(body),
     });
+    fetchData(); // Refresh list after POST
+    return res;
   };
 
   const put = async (id: string, body: any) => {
