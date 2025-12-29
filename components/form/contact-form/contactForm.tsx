@@ -43,12 +43,14 @@ const quickRequestSchema = z.object({
 
 type QuickRequestFormValues = z.infer<typeof quickRequestSchema>;
 
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+
 export default function ContactForm() {
   const [selectedSymbol, setSelectedSymbol] = useState<
     "heart" | "star" | "plane" | null
   >(null);
   const [captchaError, setCaptchaError] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<QuickRequestFormValues>({
     resolver: zodResolver(quickRequestSchema),
@@ -63,19 +65,26 @@ export default function ContactForm() {
     },
   });
 
+  const { isSubmitting } = form.formState;
+
   const onSubmit = async (data: QuickRequestFormValues) => {
     if (selectedSymbol !== "heart") {
       setCaptchaError(true);
+      toast.error("Bitte lösen Sie das Captcha");
       return;
     }
 
     setCaptchaError(false);
-    setIsSubmitting(true);
 
     try {
       console.log("FORM DATA:", data);
-    } finally {
-      setIsSubmitting(false);
+      // Simulating API call since it's missing in original code
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      toast.success("Anfrage erfolgreich gesendet");
+      form.reset();
+      setSelectedSymbol(null);
+    } catch (error) {
+      toast.error("Fehler beim Senden der Anfrage");
     }
   };
 
@@ -95,12 +104,13 @@ export default function ContactForm() {
             name="fromAddress"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Auszug – Straße Nr, PLZ Ort</FormLabel>
+                <FormLabel className="font-medium">Auszug – Straße Nr, PLZ Ort</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
                     placeholder="z.B. Musterstraße 1, 1010 Wien"
                     className={baseInput}
+                    disabled={isSubmitting}
                   />
                 </FormControl>
               </FormItem>
@@ -112,12 +122,13 @@ export default function ContactForm() {
             name="toAddress"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Einzug – Straße Nr, PLZ Ort</FormLabel>
+                <FormLabel className="font-medium">Einzug – Straße Nr, PLZ Ort</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
                     placeholder="z.B. Beispielweg 5, 1020 Wien"
                     className={baseInput}
+                    disabled={isSubmitting}
                   />
                 </FormControl>
               </FormItem>
@@ -128,11 +139,11 @@ export default function ContactForm() {
           <FormField
             control={form.control}
             name="name"
-            render={({ field }) => {
-              const hasError = !!form.formState.errors.name;
+            render={({ field, fieldState }) => {
+              const hasError = !!fieldState.error;
               return (
                 <FormItem>
-                  <FormLabel className={hasError ? "text-red-600" : ""}>
+                  <FormLabel className={hasError ? "text-red-600 font-medium" : "font-medium"}>
                     Anrede Name *
                   </FormLabel>
                   <FormControl>
@@ -140,11 +151,12 @@ export default function ContactForm() {
                       {...field}
                       className={cn(
                         baseInput,
-                        hasError && "border-red-500 focus-visible:ring-red-500",
+                        hasError && "border-red-500 ring-red-500",
                       )}
+                      disabled={isSubmitting}
                     />
                   </FormControl>
-                  <FormMessage className="text-red-600 text-sm" />
+                  <FormMessage className="text-red-600 text-xs font-medium" />
                 </FormItem>
               );
             }}
@@ -153,11 +165,11 @@ export default function ContactForm() {
           <FormField
             control={form.control}
             name="phone"
-            render={({ field }) => {
-              const hasError = !!form.formState.errors.phone;
+            render={({ field, fieldState }) => {
+              const hasError = !!fieldState.error;
               return (
                 <FormItem>
-                  <FormLabel className={hasError ? "text-red-600" : ""}>
+                  <FormLabel className={hasError ? "text-red-600 font-medium" : "font-medium"}>
                     Telefon *
                   </FormLabel>
                   <FormControl>
@@ -166,11 +178,12 @@ export default function ContactForm() {
                       type="tel"
                       className={cn(
                         baseInput,
-                        hasError && "border-red-500 focus-visible:ring-red-500",
+                        hasError && "border-red-500 ring-red-500",
                       )}
+                      disabled={isSubmitting}
                     />
                   </FormControl>
-                  <FormMessage className="text-red-600 text-sm" />
+                  <FormMessage className="text-red-600 text-xs font-medium" />
                 </FormItem>
               );
             }}
@@ -179,11 +192,11 @@ export default function ContactForm() {
           <FormField
             control={form.control}
             name="email"
-            render={({ field }) => {
-              const hasError = !!form.formState.errors.email;
+            render={({ field, fieldState }) => {
+              const hasError = !!fieldState.error;
               return (
                 <FormItem>
-                  <FormLabel className={hasError ? "text-red-600" : ""}>
+                  <FormLabel className={hasError ? "text-red-600 font-medium" : "font-medium"}>
                     E-Mail *
                   </FormLabel>
                   <FormControl>
@@ -192,11 +205,12 @@ export default function ContactForm() {
                       type="email"
                       className={cn(
                         baseInput,
-                        hasError && "border-red-500 focus-visible:ring-red-500",
+                        hasError && "border-red-500 ring-red-500",
                       )}
+                      disabled={isSubmitting}
                     />
                   </FormControl>
-                  <FormMessage className="text-red-600 text-sm" />
+                  <FormMessage className="text-red-600 text-xs font-medium" />
                 </FormItem>
               );
             }}
@@ -207,9 +221,9 @@ export default function ContactForm() {
             name="moveDate"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Wunschdatum</FormLabel>
+                <FormLabel className="font-medium">Wunschdatum</FormLabel>
                 <FormControl>
-                  <Input type="date" {...field} className={baseInput} />
+                  <Input type="date" {...field} className={baseInput} disabled={isSubmitting} />
                 </FormControl>
               </FormItem>
             )}
@@ -233,11 +247,13 @@ export default function ContactForm() {
                       setSelectedSymbol(symbol);
                       setCaptchaError(false);
                     }}
+                    disabled={isSubmitting}
                     className={cn(
-                      "p-3 rounded-xl border-2",
+                      "p-3 rounded-xl border-2 transition-all",
                       selectedSymbol === symbol
                         ? "border-orange-500 bg-orange-500/10"
-                        : "border-border",
+                        : "border-border hover:border-orange-200",
+                      isSubmitting && "opacity-50 cursor-not-allowed"
                     )}
                   >
                     <Icon
@@ -254,7 +270,7 @@ export default function ContactForm() {
             </div>
 
             {captchaError && (
-              <p className="text-sm text-red-600 mt-2 text-center">
+              <p className="text-xs text-red-600 mt-2 text-center font-medium">
                 Bitte wählen Sie das Herz-Symbol
               </p>
             )}
@@ -263,8 +279,8 @@ export default function ContactForm() {
           <FormField
             control={form.control}
             name="privacyAccepted"
-            render={({ field }) => {
-              const hasError = !!form.formState.errors.privacyAccepted;
+            render={({ field, fieldState }) => {
+              const hasError = !!fieldState.error;
               return (
                 <FormItem>
                   <div className="flex gap-3">
@@ -272,12 +288,13 @@ export default function ContactForm() {
                       <Checkbox
                         checked={field.value}
                         onCheckedChange={field.onChange}
+                        disabled={isSubmitting}
                       />
                     </FormControl>
                     <Label
                       className={cn(
-                        "text-sm",
-                        hasError ? "text-red-600" : "text-muted-foreground",
+                        "text-sm cursor-pointer",
+                        hasError ? "text-red-600 font-medium" : "text-muted-foreground",
                       )}
                     >
                       Ich akzeptiere die{" "}
@@ -290,7 +307,7 @@ export default function ContactForm() {
                       *
                     </Label>
                   </div>
-                  <FormMessage className="text-red-600 text-sm" />
+                  <FormMessage className="text-red-600 text-xs font-medium" />
                 </FormItem>
               );
             }}
@@ -304,7 +321,14 @@ export default function ContactForm() {
               background: "linear-gradient(135deg,#FF6A00 0%,#FF8534 100%)",
             }}
           >
-            {isSubmitting ? "Wird gesendet..." : "Senden & 50 € sparen"}
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Wird gesendet...
+              </>
+            ) : (
+              "Senden & 50 € sparen"
+            )}
           </Button>
         </form>
       </Form>

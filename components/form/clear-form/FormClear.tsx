@@ -39,8 +39,9 @@ import {
   clearanceRequestSchema,
 } from "@/lib/form-validation/clear-request";
 
+import { toast } from "sonner";
+
 export default function ClearanceRequestForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const form = useForm<ClearanceRequestFormValues>({
@@ -66,8 +67,9 @@ export default function ClearanceRequestForm() {
     },
   });
 
+  const { isSubmitting } = form.formState;
+
   const onSubmit = async (data: ClearanceRequestFormValues) => {
-    setIsSubmitting(true);
     try {
       const res = await fetch("/api/clear-requests", {
         method: "POST",
@@ -86,11 +88,10 @@ export default function ClearanceRequestForm() {
       console.log("Saved:", result);
       setIsSubmitted(true);
       form.reset();
+      toast.success("Anfrage erfolgreich gesendet");
     } catch (error) {
       console.error(error);
-      alert(error instanceof Error ? error.message : "Fehler beim Senden der Anfrage");
-    } finally {
-      setIsSubmitting(false);
+      toast.error(error instanceof Error ? error.message : "Fehler beim Senden der Anfrage");
     }
   };
   const baseInput =
@@ -155,7 +156,7 @@ export default function ClearanceRequestForm() {
                   render={({ field: f, fieldState }) => (
                     <FormItem>
                       <FormLabel
-                        className={fieldState.error ? "text-red-600" : ""}
+                        className={fieldState.error ? "text-red-600 font-medium" : "font-medium"}
                       >
                         {field.label}
                       </FormLabel>
@@ -164,10 +165,11 @@ export default function ClearanceRequestForm() {
                           {...f}
                           type={field.type ?? "text"}
                           placeholder={field.placeholder}
-                          className={baseInput}
+                          className={cn(baseInput, fieldState.error && "border-red-500 ring-red-500")}
+                          disabled={isSubmitting}
                         />
                       </FormControl>
-                      <FormMessage className="text-red-700 text-sm" />
+                      <FormMessage className="text-red-600 text-xs font-medium" />
                     </FormItem>
                   )}
                 />
@@ -182,15 +184,16 @@ export default function ClearanceRequestForm() {
                 <FormField
                   control={form.control}
                   name="city"
-                  render={({ field }) => (
+                  render={({ field, fieldState }) => (
                     <FormItem>
-                      <FormLabel>Stadt *</FormLabel>
+                      <FormLabel className="font-medium">Stadt *</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         value={field.value}
+                        disabled={isSubmitting}
                       >
                         <FormControl>
-                          <SelectTrigger>
+                          <SelectTrigger className={cn(fieldState.error && "border-red-500 ring-red-500")}>
                             <SelectValue placeholder="Stadt wählen" />
                           </SelectTrigger>
                         </FormControl>
@@ -202,7 +205,7 @@ export default function ClearanceRequestForm() {
                           ))}
                         </SelectContent>
                       </Select>
-                      <FormMessage />
+                      <FormMessage className="text-red-600 text-xs font-medium" />
                     </FormItem>
                   )}
                 />
@@ -210,13 +213,18 @@ export default function ClearanceRequestForm() {
                 <FormField
                   control={form.control}
                   name="address"
-                  render={({ field }) => (
+                  render={({ field, fieldState }) => (
                     <FormItem>
-                      <FormLabel>Adresse *</FormLabel>
+                      <FormLabel className="font-medium">Adresse *</FormLabel>
                       <FormControl>
-                        <Input placeholder="Straße und Hausnummer" {...field} />
+                        <Input 
+                          placeholder="Straße und Hausnummer" 
+                          {...field} 
+                          className={cn(fieldState.error && "border-red-500 ring-red-500")}
+                          disabled={isSubmitting}
+                        />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-red-600 text-xs font-medium" />
                     </FormItem>
                   )}
                 />
@@ -226,10 +234,11 @@ export default function ClearanceRequestForm() {
                   name="propertyType"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Objektart</FormLabel>
+                      <FormLabel className="font-medium">Objektart</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         value={field.value}
+                        disabled={isSubmitting}
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -245,7 +254,6 @@ export default function ClearanceRequestForm() {
                           <SelectItem value="buero">Büro</SelectItem>
                         </SelectContent>
                       </Select>
-                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -255,10 +263,11 @@ export default function ClearanceRequestForm() {
                   name="floor"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Stockwerk</FormLabel>
+                      <FormLabel className="font-medium">Stockwerk</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         value={field.value}
+                        disabled={isSubmitting}
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -273,7 +282,6 @@ export default function ClearanceRequestForm() {
                           ))}
                         </SelectContent>
                       </Select>
-                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -283,10 +291,11 @@ export default function ClearanceRequestForm() {
                   name="rooms"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Anzahl Zimmer</FormLabel>
+                      <FormLabel className="font-medium">Anzahl Zimmer</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         value={field.value}
+                        disabled={isSubmitting}
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -301,7 +310,6 @@ export default function ClearanceRequestForm() {
                           ))}
                         </SelectContent>
                       </Select>
-                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -312,7 +320,7 @@ export default function ClearanceRequestForm() {
                   render={({ field, fieldState }) => (
                     <FormItem>
                       <FormLabel
-                        className={fieldState.error ? "text-red-600" : ""}
+                        className={fieldState.error ? "text-red-600 font-medium" : "font-medium"}
                       >
                         Wohnfläche (m²)
                       </FormLabel>
@@ -321,12 +329,13 @@ export default function ClearanceRequestForm() {
                         <Input
                           type="number"
                           placeholder="z.B. 75"
-                          className={baseInput}
+                          className={cn(baseInput, fieldState.error && "border-red-500 ring-red-500")}
                           {...field}
+                          disabled={isSubmitting}
                         />
                       </FormControl>
 
-                      <FormMessage className="text-red-700 text-sm" />
+                      <FormMessage className="text-red-600 text-xs font-medium" />
                     </FormItem>
                   )}
                 />
@@ -340,9 +349,10 @@ export default function ClearanceRequestForm() {
                         <Checkbox
                           checked={field.value}
                           onCheckedChange={field.onChange}
+                          disabled={isSubmitting}
                         />
                       </FormControl>
-                      <FormLabel className="font-normal">
+                      <FormLabel className="font-normal cursor-pointer">
                         Aufzug vorhanden
                       </FormLabel>
                     </FormItem>
@@ -352,13 +362,18 @@ export default function ClearanceRequestForm() {
                 <FormField
                   control={form.control}
                   name="preferredDate"
-                  render={({ field }) => (
+                  render={({ field, fieldState }) => (
                     <FormItem>
-                      <FormLabel>Wunschdatum *</FormLabel>
+                      <FormLabel className="font-medium">Wunschdatum *</FormLabel>
                       <FormControl>
-                        <Input type="date" {...field} />
+                        <Input 
+                          type="date" 
+                          {...field} 
+                          className={cn(fieldState.error && "border-red-500 ring-red-500")}
+                          disabled={isSubmitting}
+                        />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-red-600 text-xs font-medium" />
                     </FormItem>
                   )}
                 />
@@ -386,9 +401,10 @@ export default function ClearanceRequestForm() {
                           <Checkbox
                             checked={field.value as boolean}
                             onCheckedChange={field.onChange}
+                            disabled={isSubmitting}
                           />
                         </FormControl>
-                        <FormLabel className="font-normal">
+                        <FormLabel className="font-normal cursor-pointer">
                           {item.label}
                         </FormLabel>
                       </FormItem>
@@ -404,15 +420,16 @@ export default function ClearanceRequestForm() {
               name="message"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Beschreibung (optional)</FormLabel>
+                  <FormLabel className="font-medium">Beschreibung (optional)</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Beschreiben Sie kurz, was entrümpelt werden soll..."
                       className="min-h-[100px]"
                       {...field}
+                      disabled={isSubmitting}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-600 text-xs font-medium" />
                 </FormItem>
               )}
             />

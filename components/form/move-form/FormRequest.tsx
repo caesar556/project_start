@@ -29,6 +29,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+
 export default function FormRequest() {
   const form = useForm<MoveRequestFormValues>({
     resolver: zodResolver(moveRequestSchema),
@@ -54,6 +57,8 @@ export default function FormRequest() {
     },
   });
 
+  const { isSubmitting } = form.formState;
+
   const onSubmit = async (data: MoveRequestFormValues) => {
     try {
       const res = await fetch("/api/move-requests", {
@@ -73,10 +78,10 @@ export default function FormRequest() {
       console.log("Saved:", result.data);
 
       form.reset();
-      alert("Anfrage erfolgreich gesendet");
+      toast.success("Anfrage erfolgreich gesendet");
     } catch (error) {
       console.error(error);
-      alert("Fehler beim Senden der Anfrage");
+      toast.error(error instanceof Error ? error.message : "Fehler beim Senden der Anfrage");
     }
   };
 
@@ -116,7 +121,7 @@ export default function FormRequest() {
                 render={({ field: f, fieldState }) => (
                   <FormItem>
                     <FormLabel
-                      className={fieldState.error ? "text-red-600" : ""}
+                      className={fieldState.error ? "text-red-600 font-medium" : "font-medium"}
                     >
                       {field.label}
                     </FormLabel>
@@ -125,10 +130,14 @@ export default function FormRequest() {
                         {...f}
                         type={field.type ?? "text"}
                         placeholder={field.placeholder}
-                        className={baseInput}
+                        className={cn(
+                          baseInput,
+                          fieldState.error && "border-red-500 ring-red-500"
+                        )}
+                        disabled={isSubmitting}
                       />
                     </FormControl>
-                    <FormMessage className="text-red-700 text-sm" />
+                    <FormMessage className="text-red-600 text-xs font-medium" />
                   </FormItem>
                 )}
               />
@@ -145,13 +154,17 @@ export default function FormRequest() {
               name="fromCity"
               render={({ field, fieldState }) => (
                 <FormItem>
-                  <FormLabel className={fieldState.error ? "text-red-600" : ""}>
+                  <FormLabel className={fieldState.error ? "text-red-600 font-medium" : "font-medium"}>
                     Stadt / Ort *
                   </FormLabel>
                   <FormControl>
-                    <Input className={baseInput} {...field} />
+                    <Input 
+                      className={cn(baseInput, fieldState.error && "border-red-500 ring-red-500")} 
+                      {...field} 
+                      disabled={isSubmitting}
+                    />
                   </FormControl>
-                  <FormMessage className="text-red-700 text-sm" />
+                  <FormMessage className="text-red-600 text-xs font-medium" />
                 </FormItem>
               )}
             />
@@ -161,9 +174,9 @@ export default function FormRequest() {
               name="fromAddress"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Adresse (optional)</FormLabel>
+                  <FormLabel className="font-medium">Adresse (optional)</FormLabel>
                   <FormControl>
-                    <Input className={baseInput} {...field} />
+                    <Input className={baseInput} {...field} disabled={isSubmitting} />
                   </FormControl>
                 </FormItem>
               )}
@@ -174,8 +187,8 @@ export default function FormRequest() {
               name="fromFloor"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Stockwerk</FormLabel>
-                  <Select value={field.value} onValueChange={field.onChange}>
+                  <FormLabel className="font-medium">Stockwerk</FormLabel>
+                  <Select value={field.value} onValueChange={field.onChange} disabled={isSubmitting}>
                     <FormControl>
                       <SelectTrigger className={baseInput}>
                         <SelectValue placeholder="Bitte wählen" />
@@ -202,9 +215,10 @@ export default function FormRequest() {
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
+                      disabled={isSubmitting}
                     />
                   </FormControl>
-                  <FormLabel className="font-normal">
+                  <FormLabel className="font-normal cursor-pointer">
                     Aufzug vorhanden
                   </FormLabel>
                 </FormItem>
@@ -222,13 +236,17 @@ export default function FormRequest() {
               name="toCity"
               render={({ field, fieldState }) => (
                 <FormItem>
-                  <FormLabel className={fieldState.error ? "text-red-600" : ""}>
+                  <FormLabel className={fieldState.error ? "text-red-600 font-medium" : "font-medium"}>
                     Stadt / Ort *
                   </FormLabel>
                   <FormControl>
-                    <Input className={baseInput} {...field} />
+                    <Input 
+                      className={cn(baseInput, fieldState.error && "border-red-500 ring-red-500")} 
+                      {...field} 
+                      disabled={isSubmitting}
+                    />
                   </FormControl>
-                  <FormMessage className="text-red-700 text-sm" />
+                  <FormMessage className="text-red-600 text-xs font-medium" />
                 </FormItem>
               )}
             />
@@ -238,9 +256,9 @@ export default function FormRequest() {
               name="toAddress"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Adresse (optional)</FormLabel>
+                  <FormLabel className="font-medium">Adresse (optional)</FormLabel>
                   <FormControl>
-                    <Input className={baseInput} {...field} />
+                    <Input className={baseInput} {...field} disabled={isSubmitting} />
                   </FormControl>
                 </FormItem>
               )}
@@ -251,8 +269,8 @@ export default function FormRequest() {
               name="toFloor"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Stockwerk</FormLabel>
-                  <Select value={field.value} onValueChange={field.onChange}>
+                  <FormLabel className="font-medium">Stockwerk</FormLabel>
+                  <Select value={field.value} onValueChange={field.onChange} disabled={isSubmitting}>
                     <FormControl>
                       <SelectTrigger className={baseInput}>
                         <SelectValue placeholder="Bitte wählen" />
@@ -279,9 +297,10 @@ export default function FormRequest() {
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
+                      disabled={isSubmitting}
                     />
                   </FormControl>
-                  <FormLabel className="font-normal">
+                  <FormLabel className="font-normal cursor-pointer">
                     Aufzug vorhanden
                   </FormLabel>
                 </FormItem>
@@ -299,13 +318,13 @@ export default function FormRequest() {
               name="rooms"
               render={({ field, fieldState }) => (
                 <FormItem>
-                  <FormLabel className={fieldState.error ? "text-red-600" : ""}>
+                  <FormLabel className={fieldState.error ? "text-red-600 font-medium" : "font-medium"}>
                     Anzahl Zimmer *
                   </FormLabel>
 
-                  <Select value={field.value} onValueChange={field.onChange}>
+                  <Select value={field.value} onValueChange={field.onChange} disabled={isSubmitting}>
                     <FormControl>
-                      <SelectTrigger className={baseInput}>
+                      <SelectTrigger className={cn(baseInput, fieldState.error && "border-red-500 ring-red-500")}>
                         <SelectValue placeholder="Bitte wählen" />
                       </SelectTrigger>
                     </FormControl>
@@ -319,7 +338,7 @@ export default function FormRequest() {
                     </SelectContent>
                   </Select>
 
-                  <FormMessage className="text-red-700 text-sm" />
+                  <FormMessage className="text-red-600 text-xs font-medium" />
                 </FormItem>
               )}
             />
@@ -330,7 +349,7 @@ export default function FormRequest() {
               name="area"
               render={({ field, fieldState }) => (
                 <FormItem>
-                  <FormLabel className={fieldState.error ? "text-red-600" : ""}>
+                  <FormLabel className={fieldState.error ? "text-red-600 font-medium" : "font-medium"}>
                     Wohnfläche (m²)
                   </FormLabel>
 
@@ -340,10 +359,11 @@ export default function FormRequest() {
                       placeholder="z.B. 75"
                       className={baseInput}
                       {...field}
+                      disabled={isSubmitting}
                     />
                   </FormControl>
 
-                  <FormMessage className="text-red-700 text-sm" />
+                  <FormMessage className="text-red-600 text-xs font-medium" />
                 </FormItem>
               )}
             />
@@ -354,15 +374,20 @@ export default function FormRequest() {
               name="moveDate"
               render={({ field, fieldState }) => (
                 <FormItem>
-                  <FormLabel className={fieldState.error ? "text-red-600" : ""}>
+                  <FormLabel className={fieldState.error ? "text-red-600 font-medium" : "font-medium"}>
                     Umzugsdatum *
                   </FormLabel>
 
                   <FormControl>
-                    <Input type="date" className={baseInput} {...field} />
+                    <Input 
+                      type="date" 
+                      className={cn(baseInput, fieldState.error && "border-red-500 ring-red-500")} 
+                      {...field} 
+                      disabled={isSubmitting}
+                    />
                   </FormControl>
 
-                  <FormMessage className="text-red-700 text-sm" />
+                  <FormMessage className="text-red-600 text-xs font-medium" />
                 </FormItem>
               )}
             />
@@ -383,6 +408,7 @@ export default function FormRequest() {
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={(v) => field.onChange(!!v)}
+                      disabled={isSubmitting}
                     />
                   </FormControl>
                   <FormLabel className="font-normal cursor-pointer">
@@ -402,6 +428,7 @@ export default function FormRequest() {
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={(v) => field.onChange(!!v)}
+                      disabled={isSubmitting}
                     />
                   </FormControl>
                   <FormLabel className="font-normal cursor-pointer">
@@ -421,6 +448,7 @@ export default function FormRequest() {
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={(v) => field.onChange(!!v)}
+                      disabled={isSubmitting}
                     />
                   </FormControl>
                   <FormLabel className="font-normal cursor-pointer">
@@ -440,6 +468,7 @@ export default function FormRequest() {
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={(v) => field.onChange(!!v)}
+                      disabled={isSubmitting}
                     />
                   </FormControl>
                   <FormLabel className="font-normal cursor-pointer">
@@ -459,6 +488,7 @@ export default function FormRequest() {
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={(v) => field.onChange(!!v)}
+                      disabled={isSubmitting}
                     />
                   </FormControl>
                   <FormLabel className="font-normal cursor-pointer">
@@ -476,12 +506,13 @@ export default function FormRequest() {
           name="message"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nachricht (optional)</FormLabel>
+              <FormLabel className="font-medium">Nachricht (optional)</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="your message"
                   className="min-h-[120px]"
                   {...field}
+                  disabled={isSubmitting}
                 />
               </FormControl>
             </FormItem>
@@ -492,11 +523,19 @@ export default function FormRequest() {
           type="submit"
           size="lg"
           className="w-full text-white"
+          disabled={isSubmitting}
           style={{
             background: "linear-gradient(135deg, #FF6A00 0%, #FF8534 100%)",
           }}
         >
-          Anfrage absenden
+          {isSubmitting ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Wird gesendet...
+            </>
+          ) : (
+            "Anfrage absenden"
+          )}
         </Button>
       </form>
     </Form>
