@@ -78,7 +78,7 @@ export default function ContactForm() {
 
     try {
       console.log("FORM DATA:", data);
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       toast.success("Anfrage erfolgreich gesendet");
       form.reset();
       setSelectedSymbol(null);
@@ -92,7 +92,7 @@ export default function ContactForm() {
 
   return (
     <div className="bg-orange-700/10 rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 m-2 sm:m-4 md:m-8">
-      <h3 className="text-xl font-semibold mb-6 text-center">
+      <h3 className=" text-md  lg:text-xl font-semibold mb-6 text-center">
         Schnellanfrage – Richard Umzug
       </h3>
 
@@ -103,7 +103,9 @@ export default function ContactForm() {
             name="fromAddress"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-medium">Auszug – Straße Nr, PLZ Ort</FormLabel>
+                <FormLabel className="font-medium">
+                  Auszug – Straße Nr, PLZ Ort
+                </FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -121,7 +123,9 @@ export default function ContactForm() {
             name="toAddress"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-medium">Einzug – Straße Nr, PLZ Ort</FormLabel>
+                <FormLabel className="font-medium">
+                  Einzug – Straße Nr, PLZ Ort
+                </FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -142,7 +146,11 @@ export default function ContactForm() {
               const hasError = !!fieldState.error;
               return (
                 <FormItem>
-                  <FormLabel className={hasError ? "text-red-600 font-medium" : "font-medium"}>
+                  <FormLabel
+                    className={
+                      hasError ? "text-red-600 font-medium" : "font-medium"
+                    }
+                  >
                     Anrede Name *
                   </FormLabel>
                   <FormControl>
@@ -168,7 +176,11 @@ export default function ContactForm() {
               const hasError = !!fieldState.error;
               return (
                 <FormItem>
-                  <FormLabel className={hasError ? "text-red-600 font-medium" : "font-medium"}>
+                  <FormLabel
+                    className={
+                      hasError ? "text-red-600 font-medium" : "font-medium"
+                    }
+                  >
                     Telefon *
                   </FormLabel>
                   <FormControl>
@@ -195,7 +207,11 @@ export default function ContactForm() {
               const hasError = !!fieldState.error;
               return (
                 <FormItem>
-                  <FormLabel className={hasError ? "text-red-600 font-medium" : "font-medium"}>
+                  <FormLabel
+                    className={
+                      hasError ? "text-red-600 font-medium" : "font-medium"
+                    }
+                  >
                     E-Mail *
                   </FormLabel>
                   <FormControl>
@@ -222,7 +238,12 @@ export default function ContactForm() {
               <FormItem>
                 <FormLabel className="font-medium">Wunschdatum</FormLabel>
                 <FormControl>
-                  <Input type="date" {...field} className={baseInput} disabled={isSubmitting} />
+                  <Input
+                    type="date"
+                    {...field}
+                    className={baseInput}
+                    disabled={isSubmitting}
+                  />
                 </FormControl>
               </FormItem>
             )}
@@ -252,7 +273,7 @@ export default function ContactForm() {
                       selectedSymbol === symbol
                         ? "border-orange-500 bg-orange-500/10"
                         : "border-border hover:border-orange-200",
-                      isSubmitting && "opacity-50 cursor-not-allowed"
+                      isSubmitting && "opacity-50 cursor-not-allowed",
                     )}
                   >
                     <Icon
@@ -293,7 +314,9 @@ export default function ContactForm() {
                     <Label
                       className={cn(
                         "text-sm cursor-pointer",
-                        hasError ? "text-red-600 font-medium" : "text-muted-foreground",
+                        hasError
+                          ? "text-red-600 font-medium"
+                          : "text-muted-foreground",
                       )}
                     >
                       Ich akzeptiere die{" "}
