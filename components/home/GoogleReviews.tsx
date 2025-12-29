@@ -11,6 +11,8 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { reviews } from "@/constants";
 import { formatDate } from "@/lib/utils";
+import GoogleIcon from "../common/GoogleIcon";
+import GoogleBadge from "../common/GoogleBadge";
 
 export default function GoogleReviews() {
   const getInitial = (name: string) => name.charAt(0).toUpperCase();
@@ -21,6 +23,8 @@ export default function GoogleReviews() {
     <section className="py-16 bg-card relative overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="text-center mb-10">
+          <GoogleIcon />
+
           <h2 className="text-2xl md:text-3xl font-bold mb-3">AUSGEZEICHNET</h2>
 
           <div className="flex justify-center gap-1 mb-3">
@@ -121,6 +125,7 @@ export default function GoogleReviews() {
           <CarouselPrevious className="hidden md:flex -left-4 bg-card border-border hover:bg-muted rounded-xl" />
           <CarouselNext className="hidden md:flex -right-4 bg-card border-border hover:bg-muted rounded-xl" />
         </Carousel>
+        <GoogleBadge />
       </div>
     </section>
   );

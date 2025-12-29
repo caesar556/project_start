@@ -8,7 +8,6 @@ import {
   X,
   Phone,
   Mail,
-  ChevronRight,
   Globe,
   MapPin,
   MessageCircle,
@@ -85,7 +84,6 @@ export default function NavBar() {
           : "bg-card shadow-sm"
       }`}
     >
-      {/* Top Bar */}
       <div
         className="text-white"
         style={{ background: "linear-gradient(90deg, #0D1628, #1A2642)" }}
@@ -118,12 +116,14 @@ export default function NavBar() {
 
             <a
               href={`mailto:${settings?.email || COMPANY_INFO.email}`}
-              className="hidden lg:flex items-center gap-2 font-medium"
+              className="flex items-center gap-2 font-medium"
             >
               <div className="bg-gray-600 rounded-full p-2 ">
                 <Mail className="h-4 w-4" />
               </div>
-              {settings?.email || COMPANY_INFO.email}
+              <span className="hidden md:inline ">
+                {settings?.email || COMPANY_INFO.email}
+              </span>
             </a>
           </div>
           <div className="flex gap-4">
@@ -136,17 +136,23 @@ export default function NavBar() {
         </div>
       </div>
 
-      {/* Main Navigation */}
       <nav className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-4 ">
+          <Link href="/" className="flex items-center gap-4 group">
             <Image
               src={logo}
               alt={`${settings?.companyName || COMPANY_INFO.name} Umzugsfirma`}
-              width={70}
-              height={70}
-              className="p-2 rounded-lg shadow-md"
+              width={80}
+              height={80}
+              className="
+                p-2
+                rounded-lg
+                shadow-md
+                transition-transform
+                duration-300
+                ease-out
+                group-hover:scale-110
+              "
               priority
             />
             <div className="hidden sm:block">
@@ -160,7 +166,6 @@ export default function NavBar() {
             </div>
           </Link>
 
-          {/* Desktop Menu */}
           <div ref={desktopLinksRef} className="hidden lg:flex gap-1">
             {NAV_ITEMS.map((item) => {
               const isActive = pathname === item.href;
@@ -180,7 +185,6 @@ export default function NavBar() {
             })}
           </div>
 
-          {/* Mobile Toggle */}
           <Button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="lg:hidden p-2 rounded-xl hover:bg-muted"
@@ -190,7 +194,6 @@ export default function NavBar() {
           </Button>
         </div>
 
-        {/* Mobile Menu */}
         {isMenuOpen && (
           <div
             ref={mobileLinksRef}
