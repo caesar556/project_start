@@ -23,7 +23,12 @@ export const clearanceRequestSchema = z.object({
   elevator: z.boolean(),
   propertyType: z.string(),
   rooms: z.string(),
-  area: z.string(),
+  area: z
+    .string()
+    .min(1, "Bitte geben Sie die Wohnfläche an")
+    .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
+      message: "Bitte geben Sie eine gültige Fläche ein",
+    }),
   preferredDate: z.string().min(1, "Bitte wählen Sie ein Datum"),
   fullClearance: z.boolean(),
   partialClearance: z.boolean(),

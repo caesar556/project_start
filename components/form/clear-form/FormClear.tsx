@@ -323,7 +323,7 @@ export default function ClearanceRequestForm() {
                       <FormLabel
                         className={fieldState.error ? "text-red-600 font-medium" : "font-medium"}
                       >
-                        Wohnfläche (m²)
+                        Wohnfläche (m²) *
                       </FormLabel>
 
                       <FormControl>
