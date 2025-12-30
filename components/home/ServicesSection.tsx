@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import {
   Card,
   CardContent,
@@ -21,6 +22,7 @@ import {
   LucideIcon,
 } from "lucide-react";
 import { Service } from "@/types";
+import { useScrollAnimation } from "@/hooks/animation/useAnimation";
 
 const iconMap: Record<string, LucideIcon> = {
   Home,
@@ -38,16 +40,27 @@ type ServicesSectionProps = {
 };
 
 export default function ServicesSection({ services }: ServicesSectionProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useScrollAnimation({
+    trigger: containerRef,
+    start: "top 80%",
+    y: 40,
+  });
+
   return (
-    <section className="relative py-24 bg-background overflow-hidden">
+    <section ref={containerRef} className="relative py-24 bg-background overflow-hidden">
       <div className="pointer-events-none absolute top-0 right-0 w-[500px] h-[500px] bg-orange-500/5 rounded-full blur-[120px] " />
       <div className="pointer-events-none absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-900/10 rounded-full blur-[100px]" />
 
       <div className="container mx-auto px-4 relative">
-        <ServicesHead />
+        <div className="opacity-0 translate-y-8 animate-in duration-700 fill-mode-forwards">
+          <ServicesHead />
+        </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {services.map((service) => {
             const Icon = iconMap[service.icon] || Package;
 
@@ -115,7 +128,9 @@ export default function ServicesSection({ services }: ServicesSectionProps) {
           })}
         </div>
 
-        <ServicesCta />
+        <div className="opacity-0 translate-y-8 animate-in duration-700 fill-mode-forwards delay-300">
+          <ServicesCta />
+        </div>
       </div>
     </section>
   );

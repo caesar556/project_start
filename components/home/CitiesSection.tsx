@@ -1,12 +1,30 @@
+"use client";
+
+import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import { MapPin, ArrowRight, Truck, Users, Route, Globe } from "lucide-react";
 import { getCities } from "@/lib/cities";
 import { CitiesCta, CitiesHead } from "@/components/common";
+import { useScrollAnimation } from "@/hooks/animation/useAnimation";
+import { City } from "@/types";
 
-export default async function CitiesSection() {
-  const cities = await getCities();
+export default function CitiesSection() {
+  const [cities, setCities] = useState<City[]>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    getCities().then(setCities);
+  }, []);
+
+  useScrollAnimation({
+    trigger: containerRef,
+    start: "top 80%",
+    y: 30,
+    stagger: 0.05,
+  });
+
   return (
-    <section className="py-24 bg-card relative overflow-hidden">
+    <section ref={containerRef} className="py-24 bg-card relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-orange-500/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-900/5 rounded-full blur-[120px] pointer-events-none" />
@@ -24,12 +42,11 @@ export default async function CitiesSection() {
         <CitiesHead />
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-16">
-          {cities.map((city, index) => (
+          {cities.map((city) => (
             <Link
               key={city.id}
               href={`/${city.slug}`}
               className="group relative flex flex-col items-center p-6 bg-background rounded-2xl border hover:border-orange-500/40 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-2 overflow-hidden"
-              style={{ animationDelay: `${index * 50}ms` }}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-transparent to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity" />
 
