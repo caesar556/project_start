@@ -20,24 +20,14 @@ import {
   Check,
   LucideIcon,
 } from "lucide-react";
+import { getServices } from "@/lib/services/services";
 
 type Service = {
-  id: number;
+  _id: string;
   title: string;
   description: string;
   icon: string;
 };
-
-const services: Service[] = [
-  { id: 1, title: "Privatumzug", description: "", icon: "Home" },
-  { id: 2, title: "Firmenumzug", description: "", icon: "Building2" },
-  { id: 3, title: "Entrümpelung", description: "", icon: "Trash2" },
-  { id: 4, title: "Verpackungsservice", description: "", icon: "Package" },
-  { id: 5, title: "Möbelmontage", description: "", icon: "Wrench" },
-  { id: 6, title: "Lagerung", description: "", icon: "Warehouse" },
-  { id: 7, title: "Klaviertransport", description: "", icon: "Music" },
-  { id: 8, title: "Seniorenumzug", description: "", icon: "Heart" },
-];
 
 const iconMap: Record<string, LucideIcon> = {
   Home,
@@ -63,48 +53,55 @@ const serviceDetails: Record<
   { features: string[]; longDescription: string }
 > = {
   privatumzug: {
+    longDescription:
+      "Umzug – sicher, pünktlich & europaweit. Ob innerhalb Österreichs oder in ein anderes EU-Land: Wir organisieren Ihren Umzug professionell und stressfrei.",
     features: [
-      "Kompletter Umzugsservice von A bis Z",
-      "Professionelle Verpackung",
-      "Möbelmontage auf Wunsch",
-      "Moderne & sichere LKWs",
+      "Privatumzug (Wohnung / Haus)",
+      "Planung + Zeitfenster nach Wunsch",
+      "Tragen, Transport, Be- und Entladen",
+      "Möbelmontage / Demontage",
+      "Verpackungsservice (optional)",
+      "Halteverbotszone Organisation (optional)",
+      "Transparente Preise & erfahrenes Team",
+    ],
+  },
+
+  firmenumzug: {
+    longDescription:
+      "Firmenumzüge erfordern Präzision und Erfahrung. Wir sorgen für einen reibungslosen Ablauf – auch außerhalb der Geschäftszeiten – in Österreich und europaweit.",
+    features: [
+      "Firmenumzug (Büro / Geschäft)",
+      "Minimale Betriebsunterbrechung",
+      "Sichere IT- & Büroausstattung",
+      "Individuelle Projektplanung",
+      "Flexible Termine – auch kurzfristig",
       "Europaweiter Transport",
     ],
-    longDescription:
-      "Unser Privatumzugsservice übernimmt Ihren gesamten Umzug – stressfrei, sicher und professionell in Österreich und Europa.",
   },
-  firmenumzug: {
-    features: [
-      "Umzüge außerhalb der Geschäftszeiten",
-      "IT- & Büroausstattung sicher transportiert",
-      "Minimale Betriebsunterbrechung",
-      "Erfahrene Projektplanung",
-      "Europaweite Firmenumzüge",
-    ],
+
+  entrumpelung: {
     longDescription:
-      "Bei Firmenumzügen zählt Präzision. Richard Umzug sorgt für einen reibungslosen Ablauf ohne Ausfallzeiten.",
-  },
-  entrümpelung: {
+      "Entrümpelung und Entsorgung vom Profi. Schnell, sauber und zuverlässig – inklusive besenreiner Übergabe nach Absprache.",
     features: [
+      "Trage- und Demontagearbeiten",
+      "Abtransport / Entsorgung (nach Absprache)",
       "Haushaltsauflösungen",
       "Keller- & Dachbodenräumung",
-      "Fachgerechte Entsorgung",
       "Besenreine Übergabe",
-      "Schnelle Terminvergabe",
+      "Optional: Reinigung & kleine Reparaturen",
     ],
-    longDescription:
-      "Entrümpelung vom Profi – schnell, sauber und umweltgerecht in ganz Österreich.",
   },
 };
 
 const normalizeKey = (title: string) =>
   title.toLowerCase().replace("ü", "u").replace("ö", "o").replace("ä", "a");
 
-export default function Header() {
+export default async function Header() {
+  const services: Service[] = await getServices();
   return (
     <section className="py-16 bg-background">
       <div className="container mx-auto px-4 space-y-12">
-        {services.map((service, index) => {
+        {services.map((service) => {
           const Icon = iconMap[service.icon] || Package;
           const key = normalizeKey(service.title);
           const details = serviceDetails[key];
@@ -113,7 +110,7 @@ export default function Header() {
 
           return (
             <Card
-              key={service.id}
+              key={service._id}
               className="overflow-hidden rounded-2xl border border-orange-400 shadow-lg hover:shadow-xl transition-shadow"
             >
               <div className="md:flex">

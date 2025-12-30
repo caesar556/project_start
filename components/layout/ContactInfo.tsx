@@ -70,7 +70,7 @@ export default function ContactInfoBlock({
           <Button
             asChild
             size="sm"
-            className="flex-1 rounded-lg bg-red-600 hover:bg-green-700 border-0 "
+            className="flex-1 rounded-lg bg-green-600 text-white hover:bg-green-700 border-0 "
           >
             <a
               href={`https://wa.me/${settings?.whatsapp}`}

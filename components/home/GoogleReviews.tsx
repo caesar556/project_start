@@ -1,7 +1,7 @@
 "use client";
 
 import { Star, CheckCircle } from "lucide-react";
-import Autoplay from "embla-carousel-autoplay"
+import Autoplay from "embla-carousel-autoplay";
 import {
   Carousel,
   CarouselContent,
@@ -14,9 +14,22 @@ import { reviews } from "@/constants";
 import { formatDate } from "@/lib/utils";
 import GoogleIcon from "../common/GoogleIcon";
 import GoogleBadge from "../common/GoogleBadge";
+import { useGsap } from "@/hooks/animation/useGSAP";
+import { useRef } from "react";
 
 export default function GoogleReviews() {
   const getInitial = (name: string) => name.charAt(0).toUpperCase();
+
+  const titleRef = useRef<HTMLHeadingElement>(null);
+
+  useGsap(() => {
+    gsap.from(titleRef.current, {
+      y: 40,
+      opacity: 0,
+      duration: 1,
+      ease: "power3.out",
+    });
+  }, []);
 
   const totalReviews = 256;
 
@@ -26,7 +39,7 @@ export default function GoogleReviews() {
         <div className="text-center mb-10">
           <GoogleIcon />
 
-          <h2 className="text-2xl md:text-3xl font-bold mb-3">AUSGEZEICHNET</h2>
+          <h2 ref={titleRef} className="text-2xl md:text-3xl font-bold mb-3">AUSGEZEICHNET</h2>
 
           <div className="flex justify-center gap-1 mb-3">
             {[...Array(5)].map((_, i) => (
