@@ -13,7 +13,8 @@ export default function CitiesSection() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    getCities().then(setCities);
+    // getCities returns City[] according to type mismatch error
+    getCities().then((data) => setCities(data as City[]));
   }, []);
 
   useScrollAnimation({
@@ -44,7 +45,7 @@ export default function CitiesSection() {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-16">
           {cities.map((city) => (
             <Link
-              key={city.id}
+              key={city._id}
               href={`/${city.slug}`}
               className="group relative flex flex-col items-center p-6 bg-background rounded-2xl border hover:border-orange-500/40 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-2 overflow-hidden"
             >
