@@ -1,5 +1,6 @@
 import {
   Hero,
+  AboutUs,
   ServicesSection,
   TestimonialsSection,
   CtaSection,
@@ -37,6 +38,7 @@ export default async function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Hero />
+      <AboutUs />
       <GoogleReviews />
       <ServicesSection services={services} />
       <CitiesSection />

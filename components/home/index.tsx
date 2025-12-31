@@ -6,6 +6,7 @@ import CtaSection from "./CtaSection";
 import RabattBanner from "./RabattBanner";
 import Hero from "./Hero";
 import ContactSection from "./ContactSection";
+import AboutUs from "./AboutUs";
 
 export {
   CitiesSection,
@@ -16,4 +17,5 @@ export {
   CtaSection,
   RabattBanner,
   ContactSection,
+  AboutUs,
 };
