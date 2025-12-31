@@ -17,22 +17,22 @@ import { Button } from "@/components/ui/button";
 import { NAV_ITEMS } from "@/constants";
 import logo from "@/assets/logo.jpeg";
 import HeaderBox from "../common/HeaderBox";
-import gsap from "gsap";
-import { SplitText } from "gsap/all";
+import { motion, AnimatePresence } from "framer-motion";
 import { useGlobalSettings } from "@/hooks/useGlobalSettings";
 import { COMPANY_INFO } from "@/constants";
 import NavBadge from "../common/navbar/NavBadge";
 
-gsap.registerPlugin(SplitText);
-
 const serviceArea = "Österreich & Europaweit";
+
+const navLinkVariants = {
+  initial: { opacity: 0, y: 10 },
+  animate: { opacity: 1, y: 0 },
+};
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
-  const desktopLinksRef = useRef<HTMLDivElement>(null);
-  const mobileLinksRef = useRef<HTMLDivElement>(null);
   const { settings } = useGlobalSettings();
 
   useEffect(() => {
@@ -44,37 +44,6 @@ export default function NavBar() {
   useEffect(() => {
     setIsMenuOpen(false);
   }, [pathname]);
-
-  useEffect(() => {
-    if (desktopLinksRef.current) {
-      const links = desktopLinksRef.current.querySelectorAll("a");
-      links.forEach((link) => {
-        const split = new SplitText(link, { type: "chars" });
-        gsap.from(split.chars, {
-          opacity: 0,
-          y: 80,
-          stagger: 0.1,
-          duration: 0.5,
-          delay: 0.3,
-          ease: "power2.out",
-        });
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    if (isMenuOpen && mobileLinksRef.current) {
-      const links = mobileLinksRef.current.querySelectorAll("a");
-      gsap.from(links, {
-        opacity: 0,
-        x: 80,
-        stagger: 0.2,
-        delay: 0.3,
-        duration: 0.4,
-        ease: "power2.out",
-      });
-    }
-  }, [isMenuOpen]);
 
   return (
     <header
@@ -172,24 +141,37 @@ export default function NavBar() {
             </div>
           </Link>
 
-          <div ref={desktopLinksRef} className="hidden lg:flex gap-1">
+          <motion.div 
+            className="hidden lg:flex gap-1"
+            initial="initial"
+            animate="animate"
+            variants={{
+              animate: {
+                transition: {
+                  staggerChildren: 0.05,
+                  delayChildren: 0.3
+                }
+              }
+            }}
+          >
             {NAV_ITEMS.map((item) => {
               const isActive = pathname === item.href;
               return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`px-4 py-2.5 rounded-xl font-medium transition text-[16px] ${
-                    isActive
-                      ? "bg-primary text-primary-foreground"
-                      : "hover:bg-muted"
-                  }`}
-                >
-                  {item.label}
-                </Link>
+                <motion.div key={item.href} variants={navLinkVariants}>
+                  <Link
+                    href={item.href}
+                    className={`px-4 py-2.5 rounded-xl font-medium transition text-[16px] ${
+                      isActive
+                        ? "bg-primary text-primary-foreground"
+                        : "hover:bg-muted"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                </motion.div>
               );
             })}
-          </div>
+          </motion.div>
 
           <Button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -200,23 +182,33 @@ export default function NavBar() {
           </Button>
         </div>
 
-        {isMenuOpen && (
-          <div
-            ref={mobileLinksRef}
-            className="lg:hidden mt-4 bg-muted/30 rounded-2xl p-4 space-y-2"
-          >
-            <NavBadge />
-            {NAV_ITEMS.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="flex items-center justify-between px-4 py-3 rounded-xl hover:bg-card"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
-        )}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="lg:hidden mt-4 bg-muted/30 rounded-2xl p-4 space-y-2 overflow-hidden"
+            >
+              <NavBadge />
+              {NAV_ITEMS.map((item, index) => (
+                <motion.div
+                  key={item.href}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <Link
+                    href={item.href}
+                    className="flex items-center justify-between px-4 py-3 rounded-xl hover:bg-card"
+                  >
+                    {item.label}
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
     </header>
   );

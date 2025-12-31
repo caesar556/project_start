@@ -1,21 +1,24 @@
 "use client";
 
 import { Shield, Clock, ThumbsUp, Award } from "lucide-react";
-import { useAnimationGsap } from "@/hooks/animation/useAnimation";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 import { Geometric, HeroCta, HeroRating } from "@/components/common";
 
+const fadeIn = {
+  initial: { opacity: 0, y: 30 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.6, ease: "easeOut" }
+};
+
+const staggerContainer = {
+  animate: {
+    transition: {
+      staggerChildren: 0.15
+    }
+  }
+};
+
 export default function Hero() {
-  const descRef = useRef<HTMLParagraphElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
-  const actionsRef = useRef<HTMLDivElement>(null);
-
-  useAnimationGsap({
-    descRef,
-    cardsRef,
-    actionsRef,
-  });
-
   return (
     <section className="relative min-h-[85vh] lg:min-h-[90vh] flex items-center justify-center overflow-hidden py-8">
       <div
@@ -55,9 +58,15 @@ export default function Hero() {
       />
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-5xl mx-auto text-center">
-          <div
-            ref={actionsRef}
+        <motion.div 
+          className="max-w-5xl mx-auto text-center"
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+          variants={staggerContainer}
+        >
+          <motion.div
+            variants={fadeIn}
             className="inline-flex items-center gap-2 px-5 py-2.5 mb-8 rounded-full"
             style={{
               background: "linear-gradient(135deg, #FF6A00 0%, #FF8534 100%)",
@@ -68,9 +77,12 @@ export default function Hero() {
             <span className="text-white font-bold text-sm">
               Nr. 1 Umzugsfirma Wien & Umgebung
             </span>
-          </div>
+          </motion.div>
 
-          <h1 className="text-4xl md:text-6xl xl:text-7xl font-black text-white mb-6 leading-tight">
+          <motion.h1 
+            variants={fadeIn}
+            className="text-4xl md:text-6xl xl:text-7xl font-black text-white mb-6 leading-tight"
+          >
             Ihr{" "}
             <span
               className="bg-clip-text text-transparent bg-gradient-to-r from-[#FF6A00] via-[#FF8534] to-[#FF6A00]"
@@ -79,10 +91,10 @@ export default function Hero() {
             </span>
             <br />
             in besten Händen.
-          </h1>
+          </motion.h1>
 
-          <p
-            ref={descRef}
+          <motion.p
+            variants={fadeIn}
             className="text-lg md:text-xl text-white/80 mb-10 max-w-3xl mx-auto"
           >
             Professionelle Umzüge & Entrümpelungen in Wien, ganz Österreich und
@@ -90,13 +102,18 @@ export default function Hero() {
             <span className="block mt-2 text-white/60">
               Schnell, zuverlässig und fair.
             </span>
-          </p>
+          </motion.p>
 
-          <HeroRating />
-          <HeroCta />
+          <motion.div variants={fadeIn}>
+            <HeroRating />
+          </motion.div>
+          
+          <motion.div variants={fadeIn}>
+            <HeroCta />
+          </motion.div>
 
-          <div
-            ref={cardsRef}
+          <motion.div
+            variants={staggerContainer}
             className="grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto "
           >
             {[
@@ -104,18 +121,19 @@ export default function Hero() {
               { icon: Clock, label: "Pünktlich" },
               { icon: ThumbsUp, label: "1.000+ Kunden" },
             ].map(({ icon: Icon, label }) => (
-              <div
+              <motion.div
                 key={label}
+                variants={fadeIn}
                 className="flex items-center justify-center gap-3 bg-white/5 border border-white/10 rounded-xl px-5 py-4"
               >
                 <Icon className="h-5 w-5 text-white" />
                 <span className="text-white text-sm font-semibold">
                   {label}
                 </span>
-              </div>
+              </motion.div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
