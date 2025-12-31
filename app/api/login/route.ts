@@ -1,13 +1,14 @@
 import { NextResponse } from "next/server";
-import { ADMIN_CREDENTIALS } from "@/lib/admin-auth";
-
+//import { ADMIN_CREDENTIALS } from "@/lib/admin-auth";
 
 export async function POST(req: Request) {
   const { username, password } = await req.json();
+  console.log("user", username, "password", password);
+  console.log("env", process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD);
 
   if (
-    username === ADMIN_CREDENTIALS.username &&
-    password === ADMIN_CREDENTIALS.password
+    username === process.env.ADMIN_USERNAME &&
+    password === process.env.ADMIN_PASSWORD
   ) {
     const res = NextResponse.json({ success: true });
 
@@ -15,7 +16,7 @@ export async function POST(req: Request) {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
-      maxAge: 60 * 60 * 24, // 24 hours
+      maxAge: 60 * 60 * 24,
       path: "/",
     });
 

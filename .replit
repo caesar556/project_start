@@ -42,4 +42,4 @@ build = ["npm", "run", "build"]
 
 [userenv.shared]
 ADMIN_USERNAME = "admin"
-ADMIN_PASSWORD = " R7!fQ@9Z#Lx2$M^Kp8Ew"
+ADMIN_PASSWORD = "R7!fQ@9Z#Lx2^Kp8Ew"
