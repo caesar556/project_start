@@ -43,3 +43,4 @@ build = ["npm", "run", "build"]
 [userenv.shared]
 ADMIN_USERNAME = "admin"
 ADMIN_PASSWORD = "1234567"
+MONGODB_URI = "mongodb+srv://Belaljsdev:node_1234@learnmongo.lemlolv.mongodb.net/project1?retryWrites=true&w=majority&appName=LearnMongo"

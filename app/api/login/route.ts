@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-//import { ADMIN_CREDENTIALS } from "@/lib/admin-auth";
 
 export async function POST(req: Request) {
   const { username, password } = await req.json();
