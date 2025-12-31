@@ -44,7 +44,7 @@ export default function AdminLogin() {
       router.push("/dashboard");
     } catch {
       toast.error("Anmeldung fehlgeschlagen", {
-        description: "E-Mail oder Passwort ist ungültig.",
+        description: "Username oder Passwort ist ungültig.",
       });
       setIsSubmitting(false);
     }
@@ -69,7 +69,7 @@ export default function AdminLogin() {
                 Username
               </Label>
               <Input
-                id="username"
+                id="namr"
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
