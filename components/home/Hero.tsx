@@ -3,6 +3,7 @@
 import { Shield, Clock, ThumbsUp, Award } from "lucide-react";
 import { motion } from "framer-motion";
 import { Geometric, HeroCta, HeroRating } from "@/components/common";
+import Image from "next/image";
 
 const fadeIn = {
   initial: { opacity: 0, y: 30 },
@@ -78,6 +79,16 @@ export default function Hero() {
               Nr. 1 Umzugsfirma Wien & Umgebung
             </span>
           </motion.div>
+
+          <div className="sr-only">
+            <Image 
+              src="/logo.jpeg" 
+              alt="Richard Umzug Logo" 
+              width={1} 
+              height={1} 
+              priority 
+            />
+          </div>
 
           <motion.h1 
             variants={fadeIn}
