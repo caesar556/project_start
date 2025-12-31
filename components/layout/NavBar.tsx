@@ -114,8 +114,8 @@ export default function NavBar() {
             <Image
               src={logo}
               alt={`${settings?.companyName || COMPANY_INFO.name} Umzugsfirma`}
-              width={70}
-              height={70}
+              width={80}
+              height={80}
               className="
                 p-2
                 rounded-lg
