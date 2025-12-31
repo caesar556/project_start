@@ -14,7 +14,7 @@ Preferred communication style: Simple, everyday language.
 - **Framework**: Next.js 16 with App Router and React 19
 - **Styling**: Tailwind CSS 4 with CSS variables for theming (dark navy + orange accent color scheme)
 - **UI Components**: shadcn/ui component library (New York style) with Radix UI primitives
-- **Animations**: GSAP with ScrollTrigger and SplitText plugins for smooth page transitions
+- **Animations**: Framer Motion for smooth page transitions and interactive elements.
 - **Forms**: React Hook Form with Zod validation schemas
 - **Charts**: Chart.js with react-chartjs-2 for admin analytics
 
@@ -57,7 +57,7 @@ Preferred communication style: Simple, everyday language.
 
 ### Key NPM Packages
 - `mongoose` - MongoDB object modeling
-- `gsap` with `@gsap/react` - Animation library
+- `framer-motion` - Animation library
 - `react-hook-form` with `@hookform/resolvers` - Form handling
 - `zod` - Schema validation
 - `chart.js` with `react-chartjs-2` - Analytics charts
