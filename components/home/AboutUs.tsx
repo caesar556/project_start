@@ -94,7 +94,7 @@ export default function AboutUs() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <Card className="border-none shadow-xl shadow-slate-200/50 bg-white hover:translate-y-[-5px] transition-all duration-300">
+                  <Card className="border-none shadow-xl shadow-slate-200/50 bg-white hover:translate-y-[-5px] transition-all duration-300 overflow-hidden">
                     <CardContent className="p-6 text-center space-y-3">
                       <div className="mx-auto w-12 h-12 rounded-2xl bg-[#0D1628]/5 flex items-center justify-center text-[#FF6A00]">
                         <stat.icon className="w-6 h-6" />
