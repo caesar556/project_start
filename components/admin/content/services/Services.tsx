@@ -12,24 +12,38 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Trash, Pencil, Check, X } from "lucide-react";
+import { Trash, Pencil, Check, X, Home, Building2, Trash2, Package, Wrench, Warehouse, Music, Heart } from "lucide-react";
 
 import { useApi } from "@/hooks/useApi";
 import { toast } from "sonner";
+
+const icons = [
+  { name: "Home", icon: Home },
+  { name: "Building2", icon: Building2 },
+  { name: "Trash2", icon: Trash2 },
+  { name: "Package", icon: Package },
+  { name: "Wrench", icon: Wrench },
+  { name: "Warehouse", icon: Warehouse },
+  { name: "Music", icon: Music },
+  { name: "Heart", icon: Heart },
+];
 
 type ServiceType = {
   _id: string;
   title: string;
   description: string;
+  icon: string;
 };
 
 export default function ServiceManager() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [icon, setIcon] = useState("Package");
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
   const [editDescription, setEditDescription] = useState("");
+  const [editIcon, setEditIcon] = useState("Package");
 
   const {
     data: services = [],
@@ -50,10 +64,11 @@ export default function ServiceManager() {
 
     setAdding(true);
     try {
-      await post({ title, description });
+      await post({ title, description, icon });
       toast.success("Service added successfully");
       setTitle("");
       setDescription("");
+      setIcon("Package");
     } catch {
       toast.error("Failed to add service");
     } finally {
@@ -65,12 +80,14 @@ export default function ServiceManager() {
     setEditingId(service._id);
     setEditTitle(service.title);
     setEditDescription(service.description);
+    setEditIcon(service.icon || "Package");
   };
 
   const cancelEdit = () => {
     setEditingId(null);
     setEditTitle("");
     setEditDescription("");
+    setEditIcon("Package");
   };
 
   const saveEdit = async (id: string) => {
@@ -84,6 +101,7 @@ export default function ServiceManager() {
       await put(id, {
         title: editTitle,
         description: editDescription,
+        icon: editIcon,
       });
       toast.success("Service updated");
       cancelEdit();
@@ -134,6 +152,27 @@ export default function ServiceManager() {
             />
           </div>
 
+          <div className="space-y-2">
+            <Label>Icon</Label>
+            <div className="flex flex-wrap gap-2 p-2 border rounded-md">
+              {icons.map((item) => (
+                <button
+                  key={item.name}
+                  type="button"
+                  onClick={() => setIcon(item.name)}
+                  className={`p-2 rounded-md transition-colors ${
+                    icon === item.name
+                      ? "bg-orange-500 text-white"
+                      : "bg-secondary hover:bg-secondary/80"
+                  }`}
+                  title={item.name}
+                >
+                  <item.icon size={20} />
+                </button>
+              ))}
+            </div>
+          </div>
+
           <Button onClick={handleSubmit} disabled={adding}>
             {adding ? "Adding..." : "Add Service"}
           </Button>
@@ -170,6 +209,27 @@ export default function ServiceManager() {
                           onChange={(e) => setEditDescription(e.target.value)}
                         />
 
+                        <div className="space-y-1">
+                          <Label className="text-xs">Icon</Label>
+                          <div className="flex flex-wrap gap-1">
+                            {icons.map((item) => (
+                              <button
+                                key={item.name}
+                                type="button"
+                                onClick={() => setEditIcon(item.name)}
+                                className={`p-1.5 rounded-md transition-colors ${
+                                  editIcon === item.name
+                                    ? "bg-orange-500 text-white"
+                                    : "bg-secondary hover:bg-secondary/80"
+                                }`}
+                                title={item.name}
+                              >
+                                <item.icon size={14} />
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
                         <div className="flex gap-2">
                           <Button
                             size="sm"
@@ -192,7 +252,15 @@ export default function ServiceManager() {
                       </>
                     ) : (
                       <>
-                        <CardTitle>{service.title}</CardTitle>
+                        <div className="flex items-start justify-between">
+                          <CardTitle>{service.title}</CardTitle>
+                          <div className="p-2 bg-orange-500/10 rounded-lg">
+                            {(() => {
+                              const Icon = icons.find(i => i.name === service.icon)?.icon || Package;
+                              return <Icon size={20} className="text-orange-500" />;
+                            })()}
+                          </div>
+                        </div>
                         <CardDescription>{service.description}</CardDescription>
 
                         <div className="flex justify-end gap-2 pt-2">
