@@ -1,6 +1,16 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Star } from "lucide-react";
 import Link from "next/link";
+import { motion } from "framer-motion";
+
+const fadeIn = {
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.6 }
+};
 
 export default function RabattBanner() {
   return (
@@ -26,9 +36,24 @@ export default function RabattBanner() {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-5xl mx-auto">
-          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+          <motion.div 
+            className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12"
+            initial="initial"
+            whileInView="whileInView"
+            viewport={{ once: true }}
+            variants={{
+              whileInView: {
+                transition: {
+                  staggerChildren: 0.2
+                }
+              }
+            }}
+          >
             {/* Left side - Badge */}
-            <div className="flex-shrink-0">
+            <motion.div 
+              className="flex-shrink-0"
+              variants={fadeIn}
+            >
               <div className="relative">
                 {/* Main badge */}
                 <div
@@ -59,10 +84,13 @@ export default function RabattBanner() {
                   <Star className="w-5 h-5 text-white fill-white" />
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Right side - Content */}
-            <div className="flex-1 text-center lg:text-left">
+            <motion.div 
+              className="flex-1 text-center lg:text-left"
+              variants={fadeIn}
+            >
               <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4 leading-tight">
                 Jetzt kostenlos anfragen und{" "}
                 <span
@@ -105,8 +133,8 @@ export default function RabattBanner() {
                 *Sie erhalten 50 € Rabatt, wenn Sie das kostenlose
                 Umzugsformular ausfüllen und einen Auftrag erteilen.
               </p>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </section>

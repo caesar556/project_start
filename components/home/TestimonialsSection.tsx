@@ -8,6 +8,15 @@ import { Testimonials } from "@/types";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
+import { motion } from "framer-motion";
+
+const fadeIn = {
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.6 }
+};
+
 export default function TestimonialsSection() {
   const [testimonials, setTestimonials] = useState<Testimonials[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -42,7 +51,13 @@ export default function TestimonialsSection() {
     <section className="py-24 bg-gradient-to-b from-muted/30 via-background to-background relative overflow-hidden">
       <div className="container mx-auto px-4 relative">
         {/* Header */}
-        <div className="text-center mb-16">
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           <div className="inline-flex items-center gap-2 rounded-full px-5 py-2 mb-6 border border-orange-500/20 bg-orange-500/10">
             <Award className="h-4 w-4 text-orange-500" />
             <span className="text-orange-500 font-semibold text-sm uppercase tracking-wider">
@@ -79,67 +94,80 @@ export default function TestimonialsSection() {
               </span>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12"
+          initial="initial"
+          whileInView="whileInView"
+          viewport={{ once: true }}
+          variants={{
+            whileInView: {
+              transition: {
+                staggerChildren: 0.1
+              }
+            }
+          }}
+        >
           {isLoading
             ? [...Array(itemsPerPage)].map((_, i) => (
                 <Card key={i} className="animate-pulse h-64" />
               ))
             : visibleTestimonials.map((t) => (
-                <Card
-                  key={t._id}
-                  className="relative bg-card border shadow-xl rounded-2xl overflow-hidden hover:-translate-y-2 transition-all"
-                >
-                  <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-slate-900 via-orange-500 to-slate-900" />
+                <motion.div key={t._id} variants={fadeIn}>
+                  <Card
+                    className="relative bg-card border shadow-xl rounded-2xl overflow-hidden hover:-translate-y-2 transition-all"
+                  >
+                    <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-slate-900 via-orange-500 to-slate-900" />
 
-                  <CardContent className="pt-10 pb-8 px-7">
-                    <div className="absolute top-6 right-6 w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center">
-                      <Quote className="h-5 w-5 text-orange-500" />
-                    </div>
-
-                    <div className="flex gap-1 mb-5">
-                      {[1, 2, 3, 4, 5].map((s) => (
-                        <Star
-                          key={s}
-                          className={`h-5 w-5 ${
-                            s <= t.rating
-                              ? "fill-orange-500 text-orange-500"
-                              : "text-muted"
-                          }`}
-                        />
-                      ))}
-                    </div>
-
-                    <p className="italic text-sm mb-8 leading-relaxed">
-                      "{t.text}"
-                    </p>
-
-                    <div className="flex items-center justify-between pt-5 border-t">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold">
-                          {t.name.charAt(0)}
-                        </div>
-                        <div>
-                          <p className="font-bold">{t.name}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {t.city}
-                          </p>
-                        </div>
+                    <CardContent className="pt-10 pb-8 px-7">
+                      <div className="absolute top-6 right-6 w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center">
+                        <Quote className="h-5 w-5 text-orange-500" />
                       </div>
 
-                      <span className="text-xs text-muted-foreground">
-                        {new Date(t.date).toLocaleDateString("de-AT", {
-                          month: "short",
-                          year: "numeric",
-                        })}
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
+                      <div className="flex gap-1 mb-5">
+                        {[1, 2, 3, 4, 5].map((s) => (
+                          <Star
+                            key={s}
+                            className={`h-5 w-5 ${
+                              s <= t.rating
+                                ? "fill-orange-500 text-orange-500"
+                                : "text-muted"
+                            }`}
+                          />
+                        ))}
+                      </div>
+
+                      <p className="italic text-sm mb-8 leading-relaxed">
+                        "{t.text}"
+                      </p>
+
+                      <div className="flex items-center justify-between pt-5 border-t">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold">
+                            {t.name.charAt(0)}
+                          </div>
+                          <div>
+                            <p className="font-bold">{t.name}</p>
+                            <p className="text-sm text-muted-foreground">
+                              {t.city}
+                            </p>
+                          </div>
+                        </div>
+
+                        <span className="text-xs text-muted-foreground">
+                          {new Date(t.date).toLocaleDateString("de-AT", {
+                            month: "short",
+                            year: "numeric",
+                          })}
+                        </span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
               ))}
-        </div>
+        </motion.div>
 
         {/* Navigation */}
         {totalPages > 1 && !isLoading && (
