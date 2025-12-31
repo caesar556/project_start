@@ -22,7 +22,7 @@ export default function TestimonialsSection() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const itemsPerPage = 4;
+  const itemsPerPage = 3;
 
   useEffect(() => {
     async function fetchTestimonials() {
@@ -47,10 +47,15 @@ export default function TestimonialsSection() {
     return testimonials.slice(start, start + itemsPerPage);
   }, [currentIndex, testimonials]);
 
+  useEffect(() => {
+    if (currentIndex >= totalPages && totalPages > 0) {
+      setCurrentIndex(0);
+    }
+  }, [totalPages, currentIndex]);
+
   return (
     <section className="py-24 bg-gradient-to-b from-muted/30 via-background to-background relative overflow-hidden">
       <div className="container mx-auto px-4 relative">
-        {/* Header */}
         <motion.div 
           className="text-center mb-16"
           initial={{ opacity: 0, y: -20 }}
@@ -76,7 +81,6 @@ export default function TestimonialsSection() {
             Über 1.000 zufriedene Kunden vertrauen auf Richard Umzug.
           </p>
 
-          {/* Rating */}
           <div className="inline-flex items-center gap-4 bg-card rounded-2xl px-8 py-5 shadow-xl border justify-center">
             <div className="flex gap-1">
               {[...Array(5)].map((_, i) => (
@@ -96,80 +100,75 @@ export default function TestimonialsSection() {
           </div>
         </motion.div>
 
-        {/* Cards */}
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12"
-          initial="initial"
-          whileInView="whileInView"
-          viewport={{ once: true }}
-          variants={{
-            whileInView: {
-              transition: {
-                staggerChildren: 0.1
-              }
-            }
-          }}
-        >
-          {isLoading
-            ? [...Array(itemsPerPage)].map((_, i) => (
-                <Card key={i} className="animate-pulse h-64" />
-              ))
-            : visibleTestimonials.map((t) => (
-                <motion.div key={t._id} variants={fadeIn}>
-                  <Card
-                    className="relative bg-card border shadow-xl rounded-2xl overflow-hidden hover:-translate-y-2 transition-all"
-                  >
-                    <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-slate-900 via-orange-500 to-slate-900" />
+        <div className="mb-12">
+          <motion.div 
+            key={currentIndex}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.4 }}
+          >
+            {isLoading
+              ? [...Array(itemsPerPage)].map((_, i) => (
+                  <Card key={i} className="animate-pulse h-64" />
+                ))
+              : visibleTestimonials.map((t) => (
+                  <motion.div key={t._id} variants={fadeIn} initial="initial" animate="whileInView">
+                    <Card
+                      className="relative bg-card border shadow-xl rounded-2xl overflow-hidden hover:-translate-y-2 transition-all h-full"
+                    >
+                      <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-slate-900 via-orange-500 to-slate-900" />
 
-                    <CardContent className="pt-10 pb-8 px-7">
-                      <div className="absolute top-6 right-6 w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center">
-                        <Quote className="h-5 w-5 text-orange-500" />
-                      </div>
-
-                      <div className="flex gap-1 mb-5">
-                        {[1, 2, 3, 4, 5].map((s) => (
-                          <Star
-                            key={s}
-                            className={`h-5 w-5 ${
-                              s <= t.rating
-                                ? "fill-orange-500 text-orange-500"
-                                : "text-muted"
-                            }`}
-                          />
-                        ))}
-                      </div>
-
-                      <p className="italic text-sm mb-8 leading-relaxed">
-                        "{t.text}"
-                      </p>
-
-                      <div className="flex items-center justify-between pt-5 border-t">
-                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold">
-                            {t.name.charAt(0)}
-                          </div>
-                          <div>
-                            <p className="font-bold">{t.name}</p>
-                            <p className="text-sm text-muted-foreground">
-                              {t.city}
-                            </p>
-                          </div>
+                      <CardContent className="pt-10 pb-8 px-7 flex flex-col h-full">
+                        <div className="absolute top-6 right-6 w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center">
+                          <Quote className="h-5 w-5 text-orange-500" />
                         </div>
 
-                        <span className="text-xs text-muted-foreground">
-                          {new Date(t.date).toLocaleDateString("de-AT", {
-                            month: "short",
-                            year: "numeric",
-                          })}
-                        </span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-        </motion.div>
+                        <div className="flex gap-1 mb-5">
+                          {[1, 2, 3, 4, 5].map((s) => (
+                            <Star
+                              key={s}
+                              className={`h-5 w-5 ${
+                                s <= t.rating
+                                  ? "fill-orange-500 text-orange-500"
+                                  : "text-muted"
+                              }`}
+                            />
+                          ))}
+                        </div>
 
-        {/* Navigation */}
+                        <p className="italic text-sm mb-8 leading-relaxed flex-grow">
+                          "{t.text}"
+                        </p>
+
+                        <div className="flex items-center justify-between pt-5 border-t mt-auto">
+                          <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold flex-shrink-0">
+                              {t.name.charAt(0)}
+                            </div>
+                            <div className="min-w-0">
+                              <p className="font-bold truncate">{t.name}</p>
+                              <p className="text-sm text-muted-foreground truncate">
+                                {t.city}
+                              </p>
+                            </div>
+                          </div>
+
+                          <span className="text-xs text-muted-foreground flex-shrink-0">
+                            {new Date(t.date).toLocaleDateString("de-AT", {
+                              month: "short",
+                              year: "numeric",
+                            })}
+                          </span>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+          </motion.div>
+        </div>
+
         {totalPages > 1 && !isLoading && (
           <div className="flex justify-center items-center gap-4">
             <Button
@@ -185,10 +184,10 @@ export default function TestimonialsSection() {
             {Array.from({ length: totalPages }).map((_, i) => (
               <Button
                 key={i}
-                variant={i === currentIndex ? "outline" : "default"}
+                variant={i === currentIndex ? "default" : "outline"}
                 size="icon"
                 className={cn("rounded-full shadow-lg", {
-                  "bg-orange-500 text-white hover:bg-orange-700/50":
+                  "bg-orange-500 text-white hover:bg-orange-600":
                     i === currentIndex,
                 })}
                 onClick={() => setCurrentIndex(i)}
