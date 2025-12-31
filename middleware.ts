@@ -17,6 +17,10 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
+  // Handle /(admin)/dashboard to /dashboard rewrite if needed, 
+  // but Next.js usually handles this if it's in a route group.
+  // The middleware matcher is already covering /dashboard/:path*
+
   return NextResponse.next();
 }
 

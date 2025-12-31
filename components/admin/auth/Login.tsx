@@ -69,7 +69,7 @@ export default function AdminLogin() {
                 Username
               </Label>
               <Input
-                id="namr"
+                id="username"
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
