@@ -85,7 +85,7 @@ export default function AboutUs() {
 
           {/* Right Content - Stats Grid */}
           <div className="flex-1 w-full">
-            <div className="grid grid-cols-2 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
               {stats.map((stat, index) => (
                 <motion.div
                   key={index}
