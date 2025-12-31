@@ -105,7 +105,7 @@ export default function NavBar() {
         </div>
       </div>
 
-      <nav className="container mx-auto px-4 py-4">
+      <nav className="container mx-auto px-4 py-2 ">
         <div className="flex items-center justify-between">
           <Link
             href="/"
