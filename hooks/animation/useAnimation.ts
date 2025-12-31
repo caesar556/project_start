@@ -1,51 +1,73 @@
 "use client";
 
+import { RefObject } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollTrigger, SplitText } from "gsap/all";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
-type AnimationConfig = {
-  trigger: React.RefObject<HTMLElement | null>;
-  elements?: React.RefObject<HTMLElement | null>[];
-  stagger?: number;
-  duration?: number;
-  delay?: number;
-  y?: number;
-  start?: string;
+type AnimationRefs = {
+  descRef: RefObject<HTMLElement | null>;
+  actionsRef: RefObject<HTMLDivElement | null>;
+  cardsRef?: RefObject<HTMLDivElement | null>;
 };
 
-export const useScrollAnimation = ({
-  trigger,
-  elements = [],
-  stagger = 0.1,
-  duration = 0.8,
-  delay = 0,
-  y = 30,
-  start = "top 85%",
-}: AnimationConfig) => {
+export const useAnimationGsap = ({
+  descRef,
+  actionsRef,
+  cardsRef,
+}: AnimationRefs) => {
   useGSAP(() => {
-    if (!trigger.current) return;
+    if (!descRef.current || !actionsRef.current) return;
 
-    const targets = elements.length 
-      ? elements.map(ref => ref.current).filter(Boolean)
-      : trigger.current.children;
-
-    if (!targets.length) return;
-
-    gsap.from(targets, {
-      scrollTrigger: {
-        trigger: trigger.current,
-        start: start,
-        toggleActions: "play none none none",
-      },
-      opacity: 0,
-      y: y,
-      duration: duration,
-      stagger: stagger,
-      delay: delay,
-      ease: "power3.out",
+    const descSplit = new SplitText(descRef.current, {
+      type: "lines",
     });
-  }, { scope: trigger });
+
+    const tl = gsap.timeline({
+      defaults: { ease: "power3.out" },
+      scrollTrigger: {
+        trigger: actionsRef.current,
+        start: "top 85%",
+      },
+    });
+
+    tl.from(descSplit.lines, {
+      opacity: 0,
+      y: 40,
+      stagger: 0.18,
+      duration: 0.6,
+    });
+
+    tl.from(
+      actionsRef.current.children,
+      {
+        opacity: 0,
+        y: 40,
+        scale: 0.95,
+        stagger: 0.15,
+        duration: 0.5,
+      },
+      "-=0.3",
+    );
+
+    if (cardsRef?.current) {
+      tl.from(
+        cardsRef.current.children,
+        {
+          opacity: 0,
+          y: 60,
+          stagger: 0.15,
+          duration: 0.6,
+        },
+        "-=0.4",
+      );
+    }
+
+    return () => {
+      descSplit.revert();
+      ScrollTrigger.getAll().forEach((t) => t.kill());
+    };
+  }, []);
 };
