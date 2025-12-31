@@ -10,12 +10,12 @@ import { Loader2, Lock } from "lucide-react";
 
 export default function AdminLogin() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    fetch("/api/admin/check")
+    fetch("/api/check")
       .then((res) => {
         if (res.ok) router.replace("/dashboard");
       })
@@ -27,11 +27,11 @@ export default function AdminLogin() {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch("/api/admin/login", {
+      const res = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          username: email,
+          username: name,
           password,
         }),
       });
@@ -41,7 +41,7 @@ export default function AdminLogin() {
       }
 
       toast.success("Erfolgreich angemeldet");
-      router.push("/admin");
+      router.push("/dashboard");
     } catch {
       toast.error("Anmeldung fehlgeschlagen", {
         description: "E-Mail oder Passwort ist ungültig.",
@@ -65,15 +65,15 @@ export default function AdminLogin() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-white/80">
-                E-Mail
+              <Label htmlFor="username" className="text-white/80">
+                Username
               </Label>
               <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@richard-umzug.at"
+                id="namr"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="username"
                 required
                 className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
               />
