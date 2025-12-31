@@ -2,6 +2,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: [
+    "*.picard.replit.dev",
+    "*.kirk.replit.dev",
+    "*.janeway.replit.dev",
+    "*.spock.replit.dev",
     "*.replit.dev",
     "*.repl.co",
   ],
