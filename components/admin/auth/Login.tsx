@@ -15,7 +15,7 @@ export default function AdminLogin() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    fetch("/api/check")
+    fetch("/api/auth/check")
       .then((res) => {
         if (res.ok) router.replace("/dashboard");
       })
