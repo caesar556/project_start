@@ -47,15 +47,15 @@ type Props = {
 const getStatusColor = (status: RequestStatus) => {
   switch (status) {
     case "new":
-      return "bg-blue-100 text-blue-700 border-blue-200";
+      return "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20";
     case "processing":
-      return "bg-yellow-100 text-yellow-700 border-yellow-200";
+      return "bg-yellow-100 text-yellow-700 border-yellow-200 dark:bg-yellow-500/10 dark:text-yellow-400 dark:border-yellow-500/20";
     case "completed":
-      return "bg-green-100 text-green-700 border-green-200";
+      return "bg-green-100 text-green-700 border-green-200 dark:bg-green-500/10 dark:text-green-400 dark:border-green-500/20";
     case "cancelled":
-      return "bg-red-100 text-red-700 border-red-200";
+      return "bg-red-100 text-red-700 border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20";
     default:
-      return "bg-gray-100 text-gray-700 border-gray-200";
+      return "bg-gray-100 text-gray-700 border-gray-200 dark:bg-gray-500/10 dark:text-gray-400 dark:border-gray-500/20";
   }
 };
 
@@ -107,13 +107,13 @@ export function RequestCard({ data, type, onUpdate }: Props) {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <Card className="group border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 rounded-xl overflow-hidden bg-white">
-        <CardHeader className="flex flex-row justify-between items-start bg-gray-50/50 px-4 py-4">
+      <Card className="group border border-gray-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-200 rounded-xl overflow-hidden bg-white dark:bg-slate-900">
+        <CardHeader className="flex flex-row justify-between items-start bg-gray-50/50 dark:bg-slate-800/50 px-4 py-4">
           <div className="space-y-1">
-            <CardTitle className="text-lg font-bold text-gray-900 leading-tight">
+            <CardTitle className="text-lg font-bold text-gray-900 dark:text-white leading-tight">
               {data.firstName} {data.lastName}
             </CardTitle>
-            <p className="text-xs text-gray-500 font-medium">
+            <p className="text-xs text-gray-500 dark:text-slate-400 font-medium">
               ID: {data._id.slice(-6).toUpperCase()}
             </p>
           </div>
@@ -133,38 +133,38 @@ export function RequestCard({ data, type, onUpdate }: Props) {
         <CardContent className="space-y-4 px-4 py-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-[10px] font-bold text-gray-400 uppercase flex items-center gap-1">
+              <label className="text-[10px] font-bold text-gray-400 dark:text-slate-500 uppercase flex items-center gap-1">
                 <Mail className="h-2.5 w-2.5" /> Email
               </label>
-              <p className="text-sm text-gray-700 font-medium truncate">
+              <p className="text-sm text-gray-700 dark:text-slate-300 font-medium truncate">
                 {data.email}
               </p>
             </div>
             <div>
-              <label className="text-[10px] font-bold text-gray-400 uppercase flex items-center gap-1">
+              <label className="text-[10px] font-bold text-gray-400 dark:text-slate-500 uppercase flex items-center gap-1">
                 <Phone className="h-2.5 w-2.5" /> Telefon
               </label>
-              <p className="text-sm text-gray-700 font-medium">{data.phone}</p>
+              <p className="text-sm text-gray-700 dark:text-slate-300 font-medium">{data.phone}</p>
             </div>
           </div>
 
-          <div className="pt-2 border-t border-gray-100">
+          <div className="pt-2 border-t border-gray-100 dark:border-slate-800">
             {type === "move" ? (
-              <div className="flex items-center gap-2 text-sm text-gray-600">
-                <span className="font-semibold text-gray-900">
+              <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-slate-400">
+                <span className="font-semibold text-gray-900 dark:text-white">
                   {moveData?.fromCity}
                 </span>
                 <ArrowUpRight className="h-4 w-4 text-orange-500" />
-                <span className="font-semibold text-gray-900">
+                <span className="font-semibold text-gray-900 dark:text-white">
                   {moveData?.toCity}
                 </span>
               </div>
             ) : (
               <div>
-                <label className="text-[10px] font-bold text-gray-400 uppercase">
+                <label className="text-[10px] font-bold text-gray-400 dark:text-slate-500 uppercase">
                   Stadt & Immobilie
                 </label>
-                <p className="text-sm text-gray-700 font-medium">
+                <p className="text-sm text-gray-700 dark:text-slate-300 font-medium">
                   {clearData?.city} • {clearData?.propertyType}
                 </p>
               </div>
@@ -172,7 +172,7 @@ export function RequestCard({ data, type, onUpdate }: Props) {
           </div>
 
           <div className="flex items-center justify-between pt-2">
-            <div className="text-[10px] text-gray-400 font-medium italic flex items-center gap-1">
+            <div className="text-[10px] text-gray-400 dark:text-slate-500 font-medium italic flex items-center gap-1">
               <Calendar className="h-2.5 w-2.5" />
               {new Date(data.createdAt).toLocaleDateString("de-DE")}
             </div>
@@ -188,7 +188,7 @@ export function RequestCard({ data, type, onUpdate }: Props) {
         </CardContent>
       </Card>
 
-      <DialogContent className="sm:max-w-[600px] w-[95vw] max-h-[90vh] overflow-y-auto border-none  px-0 py-4   rounded-2xl shadow-2xl flex flex-col ">
+      <DialogContent className="sm:max-w-[600px] w-[95vw] max-h-[90vh] overflow-y-auto border-none dark:bg-slate-900 px-0 py-4 rounded-2xl shadow-2xl flex flex-col ">
         <DialogHeader className="bg-orange-500 text-white p-6 ">
           <div className="flex justify-between items-start">
             <div>
@@ -203,58 +203,58 @@ export function RequestCard({ data, type, onUpdate }: Props) {
           </div>
         </DialogHeader>
 
-        <div className="p-6 space-y-6 flex-1 bg-gray-50">
-          <section className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-            <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">Kontaktinformationen</h3>
+        <div className="p-6 space-y-6 flex-1 bg-gray-50 dark:bg-slate-950/50">
+          <section className="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800">
+            <h3 className="text-xs font-black text-gray-400 dark:text-slate-500 uppercase tracking-widest mb-4">Kontaktinformationen</h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
-                <p className="text-[10px] text-gray-400 font-bold uppercase">Name</p>
-                <p className="text-sm font-bold text-gray-900">{data.firstName} {data.lastName}</p>
+                <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">Name</p>
+                <p className="text-sm font-bold text-gray-900 dark:text-white">{data.firstName} {data.lastName}</p>
               </div>
               <div className="space-y-1">
-                <p className="text-[10px] text-gray-400 font-bold uppercase">Telefon</p>
-                <p className="text-sm font-bold text-gray-900">{data.phone}</p>
+                <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">Telefon</p>
+                <p className="text-sm font-bold text-gray-900 dark:text-white">{data.phone}</p>
               </div>
               <div className="col-span-2 space-y-1">
-                <p className="text-[10px] text-gray-400 font-bold uppercase">Email</p>
-                <p className="text-sm font-bold text-gray-900">{data.email}</p>
+                <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">Email</p>
+                <p className="text-sm font-bold text-gray-900 dark:text-white">{data.email}</p>
               </div>
             </div>
           </section>
 
-          <section className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-            <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">Service Details</h3>
+          <section className="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800">
+            <h3 className="text-xs font-black text-gray-400 dark:text-slate-500 uppercase tracking-widest mb-4">Service Details</h3>
             {type === "move" ? (
               <div className="space-y-4">
                 {moveData?.estimatedPrice && (
-                  <div className="bg-orange-50 p-3 rounded-lg border border-orange-100 mb-4">
+                  <div className="bg-orange-50 dark:bg-orange-500/5 p-3 rounded-lg border border-orange-100 dark:border-orange-500/10 mb-4">
                     <p className="text-[10px] text-orange-400 font-bold uppercase mb-1">Berechneter Preis</p>
-                    <p className="text-xl font-black text-orange-600">€ {moveData.estimatedPrice.toLocaleString("de-AT")}</p>
+                    <p className="text-xl font-black text-orange-600 dark:text-orange-500">€ {moveData.estimatedPrice.toLocaleString("de-AT")}</p>
                   </div>
                 )}
                 <div className="flex items-center justify-between">
                   <div className="text-center flex-1">
-                    <p className="text-[10px] text-gray-400 font-bold uppercase mb-1">Von</p>
-                    <p className="text-sm font-black text-gray-900">{moveData?.fromCity}</p>
-                    <p className="text-xs text-gray-500">{moveData?.fromAddress}</p>
+                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase mb-1">Von</p>
+                    <p className="text-sm font-black text-gray-900 dark:text-white">{moveData?.fromCity}</p>
+                    <p className="text-xs text-gray-500 dark:text-slate-400">{moveData?.fromAddress}</p>
                   </div>
                   <div className="px-4 text-orange-500">
                     <ChevronRight className="h-6 w-6" />
                   </div>
                   <div className="text-center flex-1">
-                    <p className="text-[10px] text-gray-400 font-bold uppercase mb-1">Nach</p>
-                    <p className="text-sm font-black text-gray-900">{moveData?.toCity}</p>
-                    <p className="text-xs text-gray-500">{moveData?.toAddress}</p>
+                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase mb-1">Nach</p>
+                    <p className="text-sm font-black text-gray-900 dark:text-white">{moveData?.toCity}</p>
+                    <p className="text-xs text-gray-500 dark:text-slate-400">{moveData?.toAddress}</p>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-50">
+                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-50 dark:border-slate-800">
                   <div className="space-y-1">
-                    <p className="text-[10px] text-gray-400 font-bold uppercase">Datum</p>
-                    <p className="text-sm font-bold text-gray-900">{moveData?.moveDate ? new Date(moveData.moveDate).toLocaleDateString("de-DE") : "Flexibel"}</p>
+                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">Datum</p>
+                    <p className="text-sm font-bold text-gray-900 dark:text-white">{moveData?.moveDate ? new Date(moveData.moveDate).toLocaleDateString("de-DE") : "Flexibel"}</p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-[10px] text-gray-400 font-bold uppercase">Größe</p>
-                    <p className="text-sm font-bold text-gray-900">{moveData?.area ? `${moveData.area} m²` : "K.A."}</p>
+                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">Größe</p>
+                    <p className="text-sm font-bold text-gray-900 dark:text-white">{moveData?.area ? `${moveData.area} m²` : "K.A."}</p>
                   </div>
                 </div>
               </div>
@@ -262,17 +262,17 @@ export function RequestCard({ data, type, onUpdate }: Props) {
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <p className="text-[10px] text-gray-400 font-bold uppercase">Ort</p>
-                    <p className="text-sm font-bold text-gray-900">{clearData?.city}</p>
-                    <p className="text-xs text-gray-500">{clearData?.address}</p>
+                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">Ort</p>
+                    <p className="text-sm font-bold text-gray-900 dark:text-white">{clearData?.city}</p>
+                    <p className="text-xs text-gray-500 dark:text-slate-400">{clearData?.address}</p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-[10px] text-gray-400 font-bold uppercase">Immobilie</p>
-                    <p className="text-sm font-bold text-gray-900">{clearData?.propertyType}</p>
+                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">Immobilie</p>
+                    <p className="text-sm font-bold text-gray-900 dark:text-white">{clearData?.propertyType}</p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-[10px] text-gray-400 font-bold uppercase">Datum</p>
-                    <p className="text-sm font-bold text-gray-900">{clearData?.preferredDate ? new Date(clearData.preferredDate).toLocaleDateString("de-DE") : "Flexibel"}</p>
+                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">Datum</p>
+                    <p className="text-sm font-bold text-gray-900 dark:text-white">{clearData?.preferredDate ? new Date(clearData.preferredDate).toLocaleDateString("de-DE") : "Flexibel"}</p>
                   </div>
                 </div>
               </div>
@@ -280,22 +280,22 @@ export function RequestCard({ data, type, onUpdate }: Props) {
           </section>
 
           {data.message && (
-            <section className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-              <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-2 flex items-center gap-2">
+            <section className="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800">
+              <h3 className="text-xs font-black text-gray-400 dark:text-slate-500 uppercase tracking-widest mb-2 flex items-center gap-2">
                 <MessageSquare className="h-3 w-3" /> Nachricht
               </h3>
-              <p className="text-sm text-gray-600 leading-relaxed bg-gray-50 p-3 rounded-lg border border-gray-100 italic">
+              <p className="text-sm text-gray-600 dark:text-slate-400 leading-relaxed bg-gray-50 dark:bg-slate-950/50 p-3 rounded-lg border border-gray-100 dark:border-slate-800 italic">
                 "{data.message}"
               </p>
             </section>
           )}
         </div>
 
-        <DialogFooter className="p-6 bg-white border-t border-gray-100 flex flex-col gap-3 sm:gap-3 ">
+        <DialogFooter className="p-6 bg-white dark:bg-slate-900 border-t border-gray-100 dark:border-slate-800 flex flex-col gap-3 sm:gap-3 ">
           <div className="flex w-full gap-3">
             <Button
               variant="outline"
-              className="flex-1 border-yellow-200 text-yellow-600 hover:bg-yellow-50 font-bold rounded-xl h-12"
+              className="flex-1 border-yellow-200 dark:border-yellow-500/20 text-yellow-600 dark:text-yellow-500 hover:bg-yellow-50 dark:hover:bg-yellow-500/10 font-bold rounded-xl h-12"
               onClick={() => handleStatusUpdate("processing")}
               disabled={isUpdating || data.status === "processing"}
             >
@@ -306,7 +306,7 @@ export function RequestCard({ data, type, onUpdate }: Props) {
           <div className="flex w-full gap-3">
             <Button
               variant="outline"
-              className="flex-1 border-red-200 text-red-600 hover:bg-red-50 font-bold rounded-xl h-12"
+              className="flex-1 border-red-200 dark:border-red-500/20 text-red-600 dark:text-red-500 hover:bg-red-50 font-bold rounded-xl h-12"
               onClick={() => handleStatusUpdate("cancelled")}
               disabled={isUpdating || data.status === "cancelled"}
             >
@@ -325,5 +325,6 @@ export function RequestCard({ data, type, onUpdate }: Props) {
         </DialogFooter>
       </DialogContent>
     </Dialog>
+  );
   );
 }
