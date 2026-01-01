@@ -39,36 +39,45 @@ export default function AnalyticsPage() {
   if (!data) return <p>No data</p>;
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Analytics Dashboard</h1>
+    <div className="space-y-8 pb-10">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Analytics Dashboard</h1>
+          <p className="text-muted-foreground">Monitor your business performance and request trends.</p>
+        </div>
+      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <StatCard title="Move Requests" value={data.moveRequests.total} />
-
-        <StatCard
-          title="Clearance Requests"
-          value={data.clearanceRequests.total}
-        />
-
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <StatCard title="Total Move Requests" value={data.moveRequests.total} />
+        <StatCard title="Total Clearance Requests" value={data.clearanceRequests.total} />
         <RatingsCard ratings={data.ratings} />
       </div>
-      <h2 className="text-lg font-bold text-center">Move Requests </h2>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <RequestsByStatus data={data.moveRequests.byStatus} />
 
-        <RequestsPerDay data={data.moveRequests.perDay} />
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-semibold">Move Requests Overview</h2>
+          </div>
+          <div className="grid grid-cols-1 gap-6">
+            <RequestsByStatus data={data.moveRequests.byStatus} />
+            <RequestsPerDay data={data.moveRequests.perDay} />
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-semibold">Clearance Requests Overview</h2>
+          </div>
+          <div className="grid grid-cols-1 gap-6">
+            <RequestsByStatus data={data.clearanceRequests.byStatus} />
+            <RequestsPerDay data={data.clearanceRequests.perDay} />
+          </div>
+        </div>
       </div>
 
-      <TopCities data={data.moveRequests.topCities || []} />
-
-      <h2 className="text-lg font-bold mb-3 text-center">
-        Clearance Requests{" "}
-      </h2>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <RequestsByStatus data={data.clearanceRequests.byStatus} />
-
-        <RequestsPerDay data={data.clearanceRequests.perDay} />
+      <div className="pt-4">
+        <h2 className="text-xl font-semibold mb-6">Geographic Distribution (Move Requests)</h2>
+        <TopCities data={data.moveRequests.topCities || []} />
       </div>
     </div>
   );

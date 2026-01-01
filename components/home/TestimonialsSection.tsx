@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { Star, Quote, ChevronLeft, ChevronRight, Award } from "lucide-react";
+import { Star, Quote, ChevronLeft, ChevronRight, Award, Check } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Testimonials } from "@/types";
@@ -53,112 +53,102 @@ export default function TestimonialsSection() {
   }, [totalPages, currentIndex]);
 
   return (
-    <section className="py-24 bg-gradient-to-b from-muted/30 via-background to-background relative overflow-hidden">
+    <section className="py-24 bg-[#fafafa] dark:bg-[#0a0a0a] relative overflow-hidden">
+      {/* Decorative Elements */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500/0 via-orange-500/50 to-orange-500/0" />
+      <div className="absolute -top-24 -left-24 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl" />
+      <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl" />
+
       <div className="container mx-auto px-4 relative">
         <motion.div 
           className="text-center mb-16"
-          initial={{ opacity: 0, y: -200 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <div className="inline-flex items-center gap-2 rounded-full px-5 py-2 mb-6 border border-orange-500/20 bg-orange-500/10">
-            <Award className="h-4 w-4 text-orange-500" />
-            <span className="text-orange-500 font-semibold text-sm uppercase tracking-wider">
-              Kundenstimmen
+          <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-6 border border-orange-500/20 bg-orange-500/5 backdrop-blur-sm">
+            <Star className="h-3.5 w-3.5 text-orange-500 fill-orange-500" />
+            <span className="text-orange-500 font-bold text-[10px] uppercase tracking-[0.2em]">
+              Bewertungen
             </span>
           </div>
 
-          <h2 className="text-4xl font-extrabold mb-6">
-            Das sagen unsere{" "}
-            <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">
-              Kunden
-            </span>
+          <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-slate-900 dark:text-white">
+            Was unsere Kunden <span className="text-orange-500">erzählen</span>
           </h2>
 
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10">
-            Über 1.000 zufriedene Kunden vertrauen auf Richard Umzug.
-          </p>
-
-          <div className="inline-flex items-center gap-4 bg-card rounded-2xl px-8 py-5 shadow-xl border justify-center">
-            <div className="flex gap-1">
+          <div className="flex flex-col items-center gap-2">
+            <div className="flex gap-0.5">
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className="h-7 w-7 fill-orange-500 text-orange-500"
+                  className="h-6 w-6 fill-orange-500 text-orange-500"
                 />
               ))}
             </div>
-            <div className="h-10 w-px bg-border" />
-            <div className="text-left">
-              <span className="text-3xl font-extrabold block">5.0</span>
-              <span className="text-sm text-muted-foreground">
-                {totalTestimonials} Bewertungen
-              </span>
-            </div>
+            <p className="text-slate-500 dark:text-slate-400 font-medium">
+              Ausgezeichnet mit <span className="text-slate-900 dark:text-white font-bold text-lg">5.0/5.0</span> Sternen
+            </p>
           </div>
         </motion.div>
 
-        <div className="mb-12">
+        <div className="mb-16">
           <motion.div 
             key={currentIndex}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            initial={{ opacity: 0, x: -400 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -80 }}
-            transition={{ duration: 0.6, ease: "easeInOut" }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
           >
             {isLoading
               ? [...Array(itemsPerPage)].map((_, i) => (
-                  <Card key={i} className="animate-pulse h-64" />
+                  <div key={i} className="h-80 rounded-3xl bg-slate-100 dark:bg-slate-900 animate-pulse" />
                 ))
               : visibleTestimonials.map((t) => (
-                  <motion.div key={t._id} variants={fadeIn} initial="initial" animate="whileInView">
+                  <motion.div 
+                    key={t._id} 
+                    whileHover={{ y: -8 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
                     <Card
-                      className="relative bg-card border shadow-xl rounded-2xl overflow-hidden hover:-translate-y-2 transition-all h-full"
+                      className="group relative bg-white dark:bg-slate-900 border-none shadow-[0_10px_40px_-15px_rgba(0,0,0,0.08)] dark:shadow-none rounded-[2.5rem] overflow-hidden h-full flex flex-col"
                     >
-                      <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-slate-900 via-orange-500 to-slate-900" />
-
-                      <CardContent className="pt-10 pb-8 px-7 flex flex-col h-full">
-                        <div className="absolute top-6 right-6 w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center">
-                          <Quote className="h-5 w-5 text-orange-500" />
-                        </div>
-
-                        <div className="flex gap-1 mb-5">
+                      <CardContent className="pt-12 pb-10 px-9 flex flex-col h-full">
+                        <Quote className="absolute top-10 right-10 h-10 w-10 text-slate-100 dark:text-slate-800 transition-colors group-hover:text-orange-500/10" />
+                        
+                        <div className="flex gap-1 mb-8">
                           {[1, 2, 3, 4, 5].map((s) => (
                             <Star
                               key={s}
-                              className={`h-5 w-5 ${
+                              className={`h-4 w-4 ${
                                 s <= t.rating
                                   ? "fill-orange-500 text-orange-500"
-                                  : "text-muted"
+                                  : "text-slate-200 dark:text-slate-800"
                               }`}
                             />
                           ))}
                         </div>
 
-                        <p className="italic text-sm mb-8 leading-relaxed flex-grow">
-                          "{t.text}"
+                        <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-medium mb-10 flex-grow text-lg italic">
+                          &ldquo;{t.text}&rdquo;
                         </p>
 
-                        <div className="flex items-center justify-between pt-5 border-t mt-auto">
-                          <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold flex-shrink-0">
+                        <div className="flex items-center gap-4 pt-8 border-t border-slate-50 dark:border-slate-800">
+                          <div className="relative">
+                            <div className="w-14 h-14 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-black text-xl shadow-lg shadow-slate-900/20">
                               {t.name.charAt(0)}
                             </div>
-                            <div className="min-w-0">
-                              <p className="font-bold truncate">{t.name}</p>
-                              <p className="text-sm text-muted-foreground truncate">
-                                {t.city}
-                              </p>
+                            <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-orange-500 border-4 border-white dark:border-slate-900 flex items-center justify-center">
+                              <Check size={10} className="text-white font-bold" />
                             </div>
                           </div>
-
-                          <span className="text-xs text-muted-foreground flex-shrink-0">
-                            {new Date(t.date).toLocaleDateString("de-AT", {
-                              month: "short",
-                              year: "numeric",
-                            })}
-                          </span>
+                          <div className="min-w-0">
+                            <p className="font-black text-slate-900 dark:text-white text-lg leading-tight">{t.name}</p>
+                            <p className="text-sm font-bold text-orange-500 uppercase tracking-widest mt-0.5">
+                              {t.city}
+                            </p>
+                          </div>
                         </div>
                       </CardContent>
                     </Card>
@@ -167,55 +157,54 @@ export default function TestimonialsSection() {
           </motion.div>
         </div>
 
-        {totalPages > 1 && !isLoading && (
-          <div className="flex justify-center items-center gap-4">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8 border-t border-slate-100 dark:border-slate-900 pt-12">
+          <div className="flex items-center gap-2">
+            <span className="text-slate-400 font-bold text-sm uppercase tracking-widest">
+              Seite {currentIndex + 1} von {totalPages}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-3">
             <Button
               variant="outline"
               size="icon"
-              onClick={() =>
-                setCurrentIndex((prev) => (prev - 1 + totalPages) % totalPages)
-              }
+              className="w-12 h-12 rounded-2xl border-2 border-slate-100 dark:border-slate-800 hover:bg-orange-500 hover:border-orange-500 hover:text-white transition-all"
+              onClick={() => setCurrentIndex((prev) => (prev - 1 + totalPages) % totalPages)}
             >
-              <ChevronLeft />
+              <ChevronLeft size={20} />
             </Button>
-
-            {Array.from({ length: totalPages }).map((_, i) => (
-              <Button
-                key={i}
-                variant={i === currentIndex ? "default" : "outline"}
-                size="icon"
-                className={cn("rounded-full shadow-lg", {
-                  "bg-orange-500 text-white hover:bg-orange-600":
-                    i === currentIndex,
-                })}
-                onClick={() => setCurrentIndex(i)}
-              >
-                {i + 1}
-              </Button>
-            ))}
+            
+            <div className="flex gap-2">
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <button
+                  key={i}
+                  className={cn("w-2.5 h-2.5 rounded-full transition-all", 
+                    i === currentIndex ? "bg-orange-500 w-8" : "bg-slate-200 dark:bg-slate-800"
+                  )}
+                  onClick={() => setCurrentIndex(i)}
+                />
+              ))}
+            </div>
 
             <Button
               variant="outline"
               size="icon"
+              className="w-12 h-12 rounded-2xl border-2 border-slate-100 dark:border-slate-800 hover:bg-orange-500 hover:border-orange-500 hover:text-white transition-all"
               onClick={() => setCurrentIndex((prev) => (prev + 1) % totalPages)}
             >
-              <ChevronRight />
+              <ChevronRight size={20} />
             </Button>
           </div>
-        )}
-        <div className="text-center mt-12">
-          <Button
-            asChild
-            variant="outline"
-            className="text-orange-500 font-semibold shadow-lg"
-          >
-            <Link href="/bewertungen">
-              Alle length Bewertungen ansehen
-              <ChevronRight className="ml-1 h-5 w-5" />
-            </Link>
-          </Button>
+
+          <Link href="/bewertungen" className="group flex items-center gap-3 text-slate-900 dark:text-white font-black uppercase tracking-widest text-xs hover:text-orange-500 transition-colors">
+            Alle Bewertungen
+            <div className="w-8 h-8 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white transition-all">
+              <ChevronRight size={14} />
+            </div>
+          </Link>
         </div>
       </div>
     </section>
+  );
   );
 }

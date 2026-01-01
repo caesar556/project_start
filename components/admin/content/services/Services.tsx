@@ -51,11 +51,13 @@ type ServiceType = {
 export default function ServiceManager() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [features, setFeatures] = useState("");
   const [icon, setIcon] = useState("Package");
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
   const [editDescription, setEditDescription] = useState("");
+  const [editFeatures, setEditFeatures] = useState("");
   const [editIcon, setEditIcon] = useState("Package");
 
   const {
@@ -77,10 +79,16 @@ export default function ServiceManager() {
 
     setAdding(true);
     try {
-      await post({ title, description, icon });
+      await post({
+        title,
+        description,
+        icon,
+        features: features.split(",").map((f) => f.trim()).filter(Boolean),
+      });
       toast.success("Service added successfully");
       setTitle("");
       setDescription("");
+      setFeatures("");
       setIcon("Package");
     } catch {
       toast.error("Failed to add service");
@@ -89,10 +97,11 @@ export default function ServiceManager() {
     }
   };
 
-  const startEdit = (service: ServiceType) => {
+  const startEdit = (service: any) => {
     setEditingId(service._id);
     setEditTitle(service.title);
     setEditDescription(service.description);
+    setEditFeatures(service.features?.join(", ") || "");
     setEditIcon(service.icon || "Package");
   };
 
@@ -100,6 +109,7 @@ export default function ServiceManager() {
     setEditingId(null);
     setEditTitle("");
     setEditDescription("");
+    setEditFeatures("");
     setEditIcon("Package");
   };
 
@@ -115,6 +125,7 @@ export default function ServiceManager() {
         title: editTitle,
         description: editDescription,
         icon: editIcon,
+        features: editFeatures.split(",").map((f) => f.trim()).filter(Boolean),
       });
       toast.success("Service updated");
       cancelEdit();
@@ -162,6 +173,15 @@ export default function ServiceManager() {
               placeholder="Service description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label>Features (comma separated)</Label>
+            <Input
+              placeholder="Feature 1, Feature 2, Feature 3"
+              value={features}
+              onChange={(e) => setFeatures(e.target.value)}
             />
           </div>
 
@@ -225,6 +245,16 @@ export default function ServiceManager() {
                           value={editDescription}
                           onChange={(e) => setEditDescription(e.target.value)}
                         />
+
+                        <div className="space-y-1">
+                          <Label className="text-xs">Features (comma separated)</Label>
+                          <Input
+                            value={editFeatures}
+                            onChange={(e) => setEditFeatures(e.target.value)}
+                            placeholder="Feature 1, Feature 2"
+                            className="h-8 text-sm"
+                          />
+                        </div>
 
                         <div className="space-y-1">
                           <Label className="text-xs">Icon</Label>
