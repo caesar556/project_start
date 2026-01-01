@@ -94,7 +94,6 @@ export function RequestCard({ data, type, onUpdate }: Props) {
       if (!res.ok) throw new Error("Update failed");
 
       toast.success(`Status auf ${newStatus} aktualisiert`);
-      setIsOpen(false);
       onUpdate?.();
     } catch (error) {
       toast.error("Fehler beim Aktualisieren des Status");
@@ -286,7 +285,18 @@ export function RequestCard({ data, type, onUpdate }: Props) {
           )}
         </div>
 
-        <DialogFooter className="p-6 bg-white border-t border-gray-100 gap-3 sm:gap-0">
+        <DialogFooter className="p-6 bg-white border-t border-gray-100 flex flex-col gap-3 sm:gap-3">
+          <div className="flex w-full gap-3">
+            <Button
+              variant="outline"
+              className="flex-1 border-yellow-200 text-yellow-600 hover:bg-yellow-50 font-bold rounded-xl h-12"
+              onClick={() => handleStatusUpdate("processing")}
+              disabled={isUpdating || data.status === "processing"}
+            >
+              {isUpdating ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <RefreshCw className="h-4 w-4 mr-2" />}
+              In Bearbeitung
+            </Button>
+          </div>
           <div className="flex w-full gap-3">
             <Button
               variant="outline"
