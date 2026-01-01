@@ -1,29 +1,28 @@
-import { useMemo } from "react";
+"use client";
 
-export const AUSTRIAN_PRICE_TABLE: Record<
-  string,
-  { min: number; max: number; distance: number }
-> = {
-  wien: { min: 200, max: 600, distance: 0 },
-  salzburg: { min: 600, max: 2300, distance: 295 },
-  graz: { min: 500, max: 1800, distance: 200 },
-  linz: { min: 500, max: 1800, distance: 185 },
-  innsbruck: { min: 1000, max: 3300, distance: 480 },
-  tirol: { min: 800, max: 2800, distance: 380 },
-  kufstein: { min: 800, max: 2800, distance: 380 },
-  klagenfurt: { min: 700, max: 2300, distance: 320 },
-  villach: { min: 800, max: 2500, distance: 360 },
-  bregenz: { min: 1100, max: 3300, distance: 640 },
-  eisenstadt: { min: 300, max: 800, distance: 60 },
-  "st. pölten": { min: 300, max: 800, distance: 65 },
-};
+import { useMemo, useEffect, useState } from "react";
+
+export interface CityData {
+  _id: string;
+  name: string;
+  slug: string;
+  distance: number;
+  priceMin?: number;
+  priceMax?: number;
+}
 
 export const normalizeCity = (input: string) => input.toLowerCase().trim();
 
-export const findCityMatch = (input: string) => {
+export const findCityMatch = (input: string, cities: CityData[]) => {
   const normalized = normalizeCity(input);
-  for (const [cityKey, data] of Object.entries(AUSTRIAN_PRICE_TABLE)) {
-    if (normalized.includes(normalizeCity(cityKey))) return data;
+  for (const city of cities) {
+    if (normalized.includes(normalizeCity(city.name))) {
+      return {
+        min: city.priceMin ?? 200,
+        max: city.priceMax ?? 600,
+        distance: city.distance
+      };
+    }
   }
   return null;
 };
@@ -45,6 +44,19 @@ export interface EstimateParams {
 }
 
 export const useEstimate = (params: EstimateParams) => {
+  const [cities, setCities] = useState<CityData[]>([]);
+
+  useEffect(() => {
+    fetch("/api/cities")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setCities(data);
+        }
+      })
+      .catch((err) => console.error("Error fetching cities for estimate:", err));
+  }, []);
+
   return useMemo(() => {
     const {
       fromCity,
@@ -65,7 +77,7 @@ export const useEstimate = (params: EstimateParams) => {
     if (!toCity.trim()) return null;
 
     const isFromWien = normalizeCity(fromCity).includes("wien");
-    const cityMatch = isFromWien ? findCityMatch(toCity) : null;
+    const cityMatch = isFromWien ? findCityMatch(toCity, cities) : null;
 
     let baseMin: number,
       baseMax: number,
@@ -115,6 +127,7 @@ export const useEstimate = (params: EstimateParams) => {
       usedFallback,
     };
   }, [
+    cities,
     params.fromCity,
     params.toCity,
     params.area,

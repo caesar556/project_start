@@ -74,11 +74,11 @@ export default function CitiesAdmin() {
 
         <Dialog>
           <DialogTrigger asChild>
-            <Button className="bg-orange-600 hover:bg-orange-700 shadow-lg shadow-orange-600/20">
+            <Button className="bg-orange-600 hover:bg-orange-700 shadow-lg shadow-orange-600/20 text-white">
               <Plus className="mr-2 h-4 w-4" /> Add New City
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-md">
+          <DialogContent className="max-w-md bg-black/70 text-white border-none shadow-lg">
             <DialogHeader>
               <DialogTitle>Add New City</DialogTitle>
               <CardDescription>Fill in the details to add a new service location.</CardDescription>
@@ -249,7 +249,7 @@ export default function CitiesAdmin() {
         open={!!editingCity}
         onOpenChange={(open) => !open && setEditingCity(null)}
       >
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md bg-black/70 text-white border-none">
           <DialogHeader>
             <DialogTitle>Edit City</DialogTitle>
             <CardDescription>Update details for {editingCity?.name}.</CardDescription>

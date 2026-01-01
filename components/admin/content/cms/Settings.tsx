@@ -22,6 +22,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { toast } from "sonner";
 
 export default function AdminSettingsPage() {
   const [loading, setLoading] = useState(false);
@@ -41,7 +42,6 @@ export default function AdminSettingsPage() {
     },
   });
 
-  /* -------- Fetch settings -------- */
   useEffect(() => {
     const fetchSettings = async () => {
       try {
@@ -70,7 +70,6 @@ export default function AdminSettingsPage() {
     fetchSettings();
   }, [form]);
 
-  /* -------- Submit -------- */
   const onSubmit = async (values: GlobalSettingFormValues) => {
     try {
       setLoading(true);
@@ -80,7 +79,7 @@ export default function AdminSettingsPage() {
         body: JSON.stringify(values),
       });
     } catch (error) {
-      console.error("Failed to save settings", error);
+      toast.error("Failed to save settings");
     } finally {
       setLoading(false);
     }
@@ -91,7 +90,7 @@ export default function AdminSettingsPage() {
   }
 
   return (
-    <Card className="max-w-4xl bg-orange-700/10 shadow-lg">
+    <Card className="max-w-4xl bg-orange-700/0 shadow-lg">
       <CardHeader>
         <CardTitle>Global Website Settings</CardTitle>
       </CardHeader>
@@ -99,7 +98,6 @@ export default function AdminSettingsPage() {
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
-            {/* Company Info */}
             <Section title="Company Information">
               <TwoCols>
                 <InputField
@@ -113,7 +111,6 @@ export default function AdminSettingsPage() {
               </TwoCols>
             </Section>
 
-            {/* Address */}
             <Section title="Address">
               <TwoCols>
                 <InputField form={form} name="addressStreet" label="Street" />
@@ -122,7 +119,6 @@ export default function AdminSettingsPage() {
               </TwoCols>
             </Section>
 
-            {/* Footer */}
             <Section title="Footer">
               <TwoCols>
                 <InputField
@@ -147,7 +143,6 @@ export default function AdminSettingsPage() {
   );
 }
 
-/* ---------- Helpers ---------- */
 
 function Section({
   title,
