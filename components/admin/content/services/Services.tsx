@@ -12,7 +12,20 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Trash, Pencil, Check, X, Home, Building2, Trash2, Package, Wrench, Warehouse, Music, Heart } from "lucide-react";
+import {
+  Trash,
+  Pencil,
+  Check,
+  X,
+  Home,
+  Building2,
+  Trash2,
+  Package,
+  Wrench,
+  Warehouse,
+  Music,
+  Heart,
+} from "lucide-react";
 
 import { useApi } from "@/hooks/useApi";
 import { toast } from "sonner";
@@ -173,7 +186,11 @@ export default function ServiceManager() {
             </div>
           </div>
 
-          <Button onClick={handleSubmit} disabled={adding}>
+          <Button
+            className="bg-orange-500 text-white"
+            onClick={handleSubmit}
+            disabled={adding}
+          >
             {adding ? "Adding..." : "Add Service"}
           </Button>
         </CardContent>
@@ -256,8 +273,12 @@ export default function ServiceManager() {
                           <CardTitle>{service.title}</CardTitle>
                           <div className="p-2 bg-orange-500/10 rounded-lg">
                             {(() => {
-                              const Icon = icons.find(i => i.name === service.icon)?.icon || Package;
-                              return <Icon size={20} className="text-orange-500" />;
+                              const Icon =
+                                icons.find((i) => i.name === service.icon)
+                                  ?.icon || Package;
+                              return (
+                                <Icon size={20} className="text-orange-500" />
+                              );
                             })()}
                           </div>
                         </div>
@@ -274,7 +295,7 @@ export default function ServiceManager() {
 
                           <Button
                             size="icon"
-                            variant="destructive"
+                            variant="secondary"
                             onClick={() => handleDelete(service._id)}
                           >
                             <Trash size={16} />

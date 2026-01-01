@@ -40,9 +40,8 @@ type ServicesSectionProps = {
 import { motion } from "framer-motion";
 
 const fadeIn = {
-  initial: { opacity: 0, y: 20 },
+  initial: { opacity: 0, y: 200 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
   transition: { duration: 0.5 }
 };
 

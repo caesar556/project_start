@@ -13,7 +13,6 @@ import { motion } from "framer-motion";
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
   transition: { duration: 0.6 }
 };
 
@@ -58,9 +57,8 @@ export default function TestimonialsSection() {
       <div className="container mx-auto px-4 relative">
         <motion.div 
           className="text-center mb-16"
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -200 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
           <div className="inline-flex items-center gap-2 rounded-full px-5 py-2 mb-6 border border-orange-500/20 bg-orange-500/10">
@@ -104,10 +102,10 @@ export default function TestimonialsSection() {
           <motion.div 
             key={currentIndex}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            initial={{ opacity: 0, x: 20 }}
+            initial={{ opacity: 0, x: -400 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.4 }}
+            exit={{ opacity: 0, x: -80 }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
           >
             {isLoading
               ? [...Array(itemsPerPage)].map((_, i) => (
