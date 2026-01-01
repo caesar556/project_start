@@ -70,7 +70,7 @@ function StatCard({
   const config = STATUS_CONFIG[status];
 
   return (
-    <Card className="bg-white border-none shadow-sm p-4 flex items-center gap-4">
+    <Card className="bg-white dark:bg-zinc-900 border-none shadow-sm p-4 flex items-center gap-4 transition-colors">
       <div
         className={`p-3 rounded-xl ${config.iconWrapperClass}`}
       >
@@ -78,10 +78,10 @@ function StatCard({
       </div>
 
       <div>
-        <p className="text-sm text-gray-500 font-medium">
+        <p className="text-sm text-gray-500 dark:text-zinc-400 font-medium">
           {config.label}
         </p>
-        <p className="text-2xl font-bold text-gray-900">
+        <p className="text-2xl font-bold text-gray-900 dark:text-zinc-100">
           {value}
         </p>
       </div>

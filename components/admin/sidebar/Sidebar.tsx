@@ -66,16 +66,16 @@ export default function AdminSidebar() {
         className={cn(
           "fixed lg:static inset-y-0 left-0 z-40 w-64 transition-transform duration-200",
           isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
-          "bg-white shadow-xl",
+          "bg-white dark:bg-zinc-900 shadow-xl border-r dark:border-zinc-800",
         )}
       >
         <div className="flex flex-col h-full">
           {/* Logo */}
-          <div className="p-6 border-b border-gray-200">
-            <h1 className="text-2xl font-bold text-gray-900 text-center">
+          <div className="p-6 border-b border-gray-200 dark:border-zinc-800">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-zinc-100 text-center">
               {settings?.companyName}
             </h1>
-            <p className="text-md text-gray-500 text-center">Admin Panel</p>
+            <p className="text-md text-gray-500 dark:text-zinc-400 text-center">Admin Panel</p>
           </div>
 
           {/* Navigation */}
@@ -93,8 +93,8 @@ export default function AdminSidebar() {
                   className={cn(
                     "flex items-center gap-3 px-4 py-3 rounded-lg transition-all",
                     isActive
-                      ? "bg-[#FF6A00] text-white"
-                      : "text-gray-600 hover:bg-gray-100 hover:text-gray-900",
+                      ? "bg-[#FF6A00] text-white shadow-md shadow-orange-500/20"
+                      : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-zinc-100",
                   )}
                 >
                   <item.icon className="h-5 w-5" />
@@ -105,7 +105,7 @@ export default function AdminSidebar() {
           </nav>
 
           {/* Support */}
-          <div className="p-4 border-t border-gray-200">
+          <div className="p-4 border-t border-gray-200 dark:border-zinc-800">
             <Tooltip>
               <TooltipTrigger asChild>
                 <a
@@ -125,7 +125,7 @@ export default function AdminSidebar() {
           </div>
 
           {/* Footer */}
-          <div className="p-4 border-t border-gray-200 text-xs text-center text-gray-400">
+          <div className="p-4 border-t border-gray-200 dark:border-zinc-800 text-xs text-center text-gray-400 dark:text-zinc-500">
             © 2025 Richard Umzug
             <div className="mt-1">
               Entwickelt von{" "}
