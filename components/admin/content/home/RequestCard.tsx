@@ -249,7 +249,7 @@ export function RequestCard({ data, type, onUpdate }: Props) {
                   </div>
                   <div className="space-y-1">
                     <p className="text-[10px] text-gray-400 font-bold uppercase">Größe</p>
-                    <p className="text-sm font-bold text-gray-900">{moveData?.apartmentSize} m²</p>
+                    <p className="text-sm font-bold text-gray-900">{moveData?.area ? `${moveData.area} m²` : "K.A."}</p>
                   </div>
                 </div>
               </div>

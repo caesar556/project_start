@@ -131,12 +131,36 @@ export interface BaseRequest {
 
 export interface MoveRequest extends BaseRequest {
   fromCity: string;
+  fromAddress?: string;
+  fromFloor: string;
+  fromElevator: boolean;
   toCity: string;
+  toAddress?: string;
+  toFloor: string;
+  toElevator?: boolean;
+  rooms?: string;
+  area?: string;
   moveDate?: string;
+  message?: string;
+  packing?: boolean;
+  assembly?: boolean;
+  cleaning?: boolean;
+  decluttering?: boolean;
+  noParking?: boolean;
 }
 
 export interface ClearanceRequest extends BaseRequest {
   city: string;
+  address: string;
+  floor: string;
+  elevator?: boolean;
   propertyType: string;
-  preferredDate: string;
+  rooms: string;
+  area: string;
+  preferredDate?: string;
+  message?: string;
+  fullClearance?: boolean;
+  partialClearance?: boolean;
+  disposal?: boolean;
+  cleaning?: boolean;
 }
