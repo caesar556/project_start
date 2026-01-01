@@ -57,7 +57,7 @@ export function useApi<T = any>(endpoint: string) {
       method: "POST",
       body: JSON.stringify(body),
     });
-    fetchData(); // Refresh list after POST
+    fetchData(); 
     return res;
   };
 

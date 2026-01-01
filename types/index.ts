@@ -115,3 +115,28 @@ export type Testimonials = {
   date: Date;
   isFeatured: boolean;
 };
+
+
+export type RequestStatus = "new" | "processing" | "completed" | "cancelled";
+
+export interface BaseRequest {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  status: RequestStatus;
+  createdAt: string;
+}
+
+export interface MoveRequest extends BaseRequest {
+  fromCity: string;
+  toCity: string;
+  moveDate?: string;
+}
+
+export interface ClearanceRequest extends BaseRequest {
+  city: string;
+  propertyType: string;
+  preferredDate: string;
+}
