@@ -5,9 +5,10 @@ import type { MoveRequest, ClearanceRequest } from "@/types";
 type Props = {
   moveRequests: MoveRequest[];
   clearanceRequests: ClearanceRequest[];
+  onRefresh?: () => void;
 };
 
-export function RequestsTabs({ moveRequests, clearanceRequests }: Props) {
+export function RequestsTabs({ moveRequests, clearanceRequests, onRefresh }: Props) {
   return (
     <Tabs defaultValue="move" className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-gray-200 pb-4">
@@ -33,7 +34,7 @@ export function RequestsTabs({ moveRequests, clearanceRequests }: Props) {
         ) : (
           <Grid>
             {moveRequests.map((req) => (
-              <RequestCard key={req._id} data={req} type="move" />
+              <RequestCard key={req._id} data={req} type="move" onUpdate={onRefresh} />
             ))}
           </Grid>
         )}
@@ -45,7 +46,7 @@ export function RequestsTabs({ moveRequests, clearanceRequests }: Props) {
         ) : (
           <Grid>
             {clearanceRequests.map((req) => (
-              <RequestCard key={req._id} data={req} type="clearance" />
+              <RequestCard key={req._id} data={req} type="clearance" onUpdate={onRefresh} />
             ))}
           </Grid>
         )}
