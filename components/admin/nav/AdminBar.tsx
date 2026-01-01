@@ -4,6 +4,7 @@ import { Bell, LifeBuoy, Search, User, LogOut, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,6 +16,11 @@ import {
 
 export default function AdminTopBar() {
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <header className="h-16 px-4 lg:px-8 flex items-center justify-between gap-4 border-b bg-white dark:bg-zinc-900 dark:border-zinc-800 sticky top-0 z-30 shadow-sm transition-colors duration-300">
@@ -33,8 +39,11 @@ export default function AdminTopBar() {
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           className="text-gray-500 dark:text-zinc-400 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-zinc-800 rounded-full"
         >
-          <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          {mounted && theme === "dark" ? (
+            <Sun className="h-5 w-5" />
+          ) : (
+            <Moon className="h-5 w-5" />
+          )}
           <span className="sr-only">Toggle theme</span>
         </Button>
 
