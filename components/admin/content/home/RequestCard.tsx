@@ -188,8 +188,8 @@ export function RequestCard({ data, type, onUpdate }: Props) {
         </CardContent>
       </Card>
 
-      <DialogContent className="sm:max-w-[600px] w-[95vw] max-h-[90vh] overflow-y-auto border-2 border-green-700 p-0 rounded-2xl shadow-2xl flex flex-col">
-        <DialogHeader className="bg-orange-500 text-white p-6 sticky top-0 z-10">
+      <DialogContent className="sm:max-w-[600px] w-[95vw] max-h-[90vh] overflow-y-auto border-none  px-0 py-4   rounded-2xl shadow-2xl flex flex-col ">
+        <DialogHeader className="bg-orange-500 text-white p-6 ">
           <div className="flex justify-between items-start">
             <div>
               <DialogTitle className="text-2xl font-black">Anfragedetails</DialogTitle>
@@ -285,7 +285,7 @@ export function RequestCard({ data, type, onUpdate }: Props) {
           )}
         </div>
 
-        <DialogFooter className="p-6 bg-white border-t border-gray-100 flex flex-col gap-3 sm:gap-3 sticky bottom-0 z-10">
+        <DialogFooter className="p-6 bg-white border-t border-gray-100 flex flex-col gap-3 sm:gap-3 ">
           <div className="flex w-full gap-3">
             <Button
               variant="outline"
