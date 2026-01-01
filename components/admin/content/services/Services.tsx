@@ -46,6 +46,7 @@ type ServiceType = {
   title: string;
   description: string;
   icon: string;
+  features?: string[];
 };
 
 export default function ServiceManager() {
