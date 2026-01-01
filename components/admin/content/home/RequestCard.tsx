@@ -226,6 +226,12 @@ export function RequestCard({ data, type, onUpdate }: Props) {
             <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">Service Details</h3>
             {type === "move" ? (
               <div className="space-y-4">
+                {moveData?.estimatedPrice && (
+                  <div className="bg-orange-50 p-3 rounded-lg border border-orange-100 mb-4">
+                    <p className="text-[10px] text-orange-400 font-bold uppercase mb-1">Berechneter Preis</p>
+                    <p className="text-xl font-black text-orange-600">€ {moveData.estimatedPrice.toLocaleString("de-AT")}</p>
+                  </div>
+                )}
                 <div className="flex items-center justify-between">
                   <div className="text-center flex-1">
                     <p className="text-[10px] text-gray-400 font-bold uppercase mb-1">Von</p>
