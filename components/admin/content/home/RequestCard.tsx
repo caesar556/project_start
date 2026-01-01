@@ -188,8 +188,8 @@ export function RequestCard({ data, type, onUpdate }: Props) {
         </CardContent>
       </Card>
 
-      <DialogContent className="sm:max-w-[500px]  border-2 border-green-700   p-0 overflow-hidden  rounded-2xl shadow-2xl">
-        <DialogHeader className="bg-orange-500 text-white p-6">
+      <DialogContent className="sm:max-w-[600px] w-[95vw] max-h-[90vh] overflow-y-auto border-2 border-green-700 p-0 rounded-2xl shadow-2xl flex flex-col">
+        <DialogHeader className="bg-orange-500 text-white p-6 sticky top-0 z-10">
           <div className="flex justify-between items-start">
             <div>
               <DialogTitle className="text-2xl font-black">Anfragedetails</DialogTitle>
@@ -203,7 +203,7 @@ export function RequestCard({ data, type, onUpdate }: Props) {
           </div>
         </DialogHeader>
 
-        <div className="p-6 space-y-6 max-h-[70vh] overflow-y-auto bg-gray-50">
+        <div className="p-6 space-y-6 flex-1 bg-gray-50">
           <section className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
             <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">Kontaktinformationen</h3>
             <div className="grid grid-cols-2 gap-4">
@@ -285,7 +285,7 @@ export function RequestCard({ data, type, onUpdate }: Props) {
           )}
         </div>
 
-        <DialogFooter className="p-6 bg-white border-t border-gray-100 flex flex-col gap-3 sm:gap-3">
+        <DialogFooter className="p-6 bg-white border-t border-gray-100 flex flex-col gap-3 sm:gap-3 sticky bottom-0 z-10">
           <div className="flex w-full gap-3">
             <Button
               variant="outline"
