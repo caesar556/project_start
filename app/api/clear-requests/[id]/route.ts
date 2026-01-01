@@ -2,10 +2,11 @@ import dbConnect from "@/lib/db";
 import ClearanceRequest from "@/models/ClearanceRequest";
 import { NextResponse } from "next/server";
 
-export async function PUT(req: Request, { params }: any) {
+export async function PATCH(req: Request, { params }: any) {
   await dbConnect();
   const body = await req.json();
-  const updated = await ClearanceRequest.findByIdAndUpdate(params.id, body, {
+  const { id } = await params;
+  const updated = await ClearanceRequest.findByIdAndUpdate(id, body, {
     new: true,
   });
   return NextResponse.json(updated);
@@ -13,6 +14,8 @@ export async function PUT(req: Request, { params }: any) {
 
 export async function DELETE(_: Request, { params }: any) {
   await dbConnect();
-  await ClearanceRequest.findByIdAndDelete(params.id);
+  const { id } = await params;
+
+  await ClearanceRequest.findByIdAndDelete(id);
   return NextResponse.json({ success: true });
 }

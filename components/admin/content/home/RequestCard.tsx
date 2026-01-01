@@ -188,7 +188,7 @@ export function RequestCard({ data, type, onUpdate }: Props) {
         </CardContent>
       </Card>
 
-      <DialogContent className="sm:max-w-[500px] p-0 overflow-hidden border-none rounded-2xl shadow-2xl">
+      <DialogContent className="sm:max-w-[500px]  border-2 border-green-700   p-0 overflow-hidden  rounded-2xl shadow-2xl">
         <DialogHeader className="bg-orange-500 text-white p-6">
           <div className="flex justify-between items-start">
             <div>
