@@ -326,5 +326,4 @@ export function RequestCard({ data, type, onUpdate }: Props) {
       </DialogContent>
     </Dialog>
   );
-  );
 }
