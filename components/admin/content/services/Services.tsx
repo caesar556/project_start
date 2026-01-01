@@ -83,7 +83,7 @@ export default function ServiceManager() {
         title,
         description,
         icon,
-        features: features.split(",").map((f) => f.trim()).filter(Boolean),
+        features: features.split("\n").map((f) => f.trim()).filter(Boolean),
       });
       toast.success("Service added successfully");
       setTitle("");
@@ -101,7 +101,7 @@ export default function ServiceManager() {
     setEditingId(service._id);
     setEditTitle(service.title);
     setEditDescription(service.description);
-    setEditFeatures(service.features?.join(", ") || "");
+    setEditFeatures(service.features?.join("\n") || "");
     setEditIcon(service.icon || "Package");
   };
 
@@ -125,7 +125,7 @@ export default function ServiceManager() {
         title: editTitle,
         description: editDescription,
         icon: editIcon,
-        features: editFeatures.split(",").map((f) => f.trim()).filter(Boolean),
+        features: editFeatures.split("\n").map((f) => f.trim()).filter(Boolean),
       });
       toast.success("Service updated");
       cancelEdit();
@@ -177,11 +177,12 @@ export default function ServiceManager() {
           </div>
 
           <div className="space-y-2">
-            <Label>Features (comma separated)</Label>
-            <Input
-              placeholder="Feature 1, Feature 2, Feature 3"
+            <Label>Features (One per line)</Label>
+            <Textarea
+              placeholder="Feature 1&#10;Feature 2&#10;Feature 3"
               value={features}
               onChange={(e) => setFeatures(e.target.value)}
+              rows={4}
             />
           </div>
 
@@ -247,12 +248,13 @@ export default function ServiceManager() {
                         />
 
                         <div className="space-y-1">
-                          <Label className="text-xs">Features (comma separated)</Label>
-                          <Input
+                          <Label className="text-xs">Features (One per line)</Label>
+                          <Textarea
                             value={editFeatures}
                             onChange={(e) => setEditFeatures(e.target.value)}
-                            placeholder="Feature 1, Feature 2"
-                            className="h-8 text-sm"
+                            placeholder="Feature 1&#10;Feature 2"
+                            className="text-sm"
+                            rows={3}
                           />
                         </div>
 
@@ -312,7 +314,26 @@ export default function ServiceManager() {
                             })()}
                           </div>
                         </div>
-                        <CardDescription>{service.description}</CardDescription>
+                        <CardDescription className="line-clamp-2">{service.description}</CardDescription>
+
+                        {service.features && service.features.length > 0 && (
+                          <div className="pt-2">
+                            <p className="text-xs font-bold text-orange-500 uppercase tracking-wider mb-2">Features</p>
+                            <ul className="space-y-1">
+                              {service.features.slice(0, 3).map((feature: string, idx: number) => (
+                                <li key={idx} className="flex items-center gap-2 text-xs text-muted-foreground">
+                                  <div className="w-1 h-1 rounded-full bg-orange-500" />
+                                  <span className="truncate">{feature}</span>
+                                </li>
+                              ))}
+                              {service.features.length > 3 && (
+                                <li className="text-[10px] text-orange-500 font-medium pl-3">
+                                  + {service.features.length - 3} more
+                                </li>
+                              )}
+                            </ul>
+                          </div>
+                        )}
 
                         <div className="flex justify-end gap-2 pt-2">
                           <Button

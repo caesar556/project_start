@@ -48,73 +48,83 @@ export default function DashboardTestimonials() {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {testimonials?.map((t) => (
-        <Card
-          key={t._id}
-          className="relative bg-card border shadow-xl rounded-2xl overflow-hidden
-                     transition-all hover:-translate-y-2"
-        >
-          {/* Gradient top bar */}
-          <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-slate-900 via-orange-500 to-slate-900" />
+    <div className="space-y-6 pb-10">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight">Kundenbewertungen</h2>
+          <p className="text-sm text-muted-foreground">Verwalten Sie die öffentlichen Testimonials Ihrer Kunden.</p>
+        </div>
+        <div className="flex items-center gap-2 px-4 py-2 bg-orange-500/10 rounded-xl border border-orange-500/20">
+          <Star className="h-4 w-4 text-orange-500 fill-orange-500" />
+          <span className="text-sm font-bold text-orange-500">
+            {testimonials?.length || 0} Gesamtbewertungen
+          </span>
+        </div>
+      </div>
 
-          <CardContent className="pt-10 pb-8 px-7 relative">
-            {/* Delete button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => handleDelete(t._id)}
-              className="absolute top-0  left-0   text-red-500 hover:bg-red-500/10"
-            >
-              <Trash size={25} />
-            </Button>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {testimonials?.map((t) => (
+          <Card
+            key={t._id}
+            className="group relative bg-white dark:bg-slate-900 border-none shadow-[0_10px_40px_-15px_rgba(0,0,0,0.08)] rounded-[2rem] overflow-hidden transition-all hover:-translate-y-2 flex flex-col h-full"
+          >
+            <CardContent className="pt-10 pb-8 px-7 flex flex-col h-full">
+              <div className="absolute top-6 right-6 opacity-10 group-hover:opacity-20 transition-opacity">
+                <Quote className="h-8 w-8 text-slate-900 dark:text-white" />
+              </div>
 
-            {/* Quote icon */}
-            <div className="absolute top-6 right-6 w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center">
-              <Quote className="h-5 w-5 text-orange-500" />
-            </div>
+              <div className="flex gap-0.5 mb-4">
+                {[1, 2, 3, 4, 5].map((s) => (
+                  <Star
+                    key={s}
+                    className={`h-4 w-4 ${
+                      s <= t.rating
+                        ? "fill-orange-500 text-orange-500"
+                        : "text-slate-200 dark:text-slate-800"
+                    }`}
+                  />
+                ))}
+              </div>
 
-            {/* Stars */}
-            <div className="flex gap-1 mb-5">
-              {[1, 2, 3, 4, 5].map((s) => (
-                <Star
-                  key={s}
-                  className={`h-5 w-5 ${
-                    s <= t.rating
-                      ? "fill-orange-500 text-orange-500"
-                      : "text-muted-foreground"
-                  }`}
-                />
-              ))}
-            </div>
+              <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-sm mb-6 flex-grow italic">
+                &ldquo;{t.text}&rdquo;
+              </p>
 
-            {/* Text */}
-            <p className="italic text-sm mb-8 leading-relaxed line-clamp-4">
-              "{t.text}"
-            </p>
-
-            {/* Footer */}
-            <div className="flex items-center justify-between pt-5 border-t border-border/50">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold">
-                  {t.name.charAt(0)}
+              <div className="flex items-center justify-between pt-5 border-t border-slate-50 dark:border-slate-800 mt-auto">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold flex-shrink-0">
+                    {t.name.charAt(0)}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-bold text-sm truncate">{t.name}</p>
+                    <p className="text-xs text-orange-500 font-bold uppercase tracking-wider">{t.city}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-bold">{t.name}</p>
-                  <p className="text-sm text-muted-foreground">{t.city}</p>
+
+                <div className="flex items-center gap-1">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => handleDelete(t._id)}
+                    className="w-8 h-8 text-slate-400 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
+                  >
+                    <Trash size={16} />
+                  </Button>
                 </div>
               </div>
 
-              <span className="text-xs text-muted-foreground">
-                {new Date(t.date).toLocaleDateString("de-AT", {
-                  month: "short",
-                  year: "numeric",
-                })}
-              </span>
-            </div>
-          </CardContent>
-        </Card>
-      ))}
+              <div className="absolute top-4 left-4">
+                <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">
+                  {new Date(t.date).toLocaleDateString("de-AT", {
+                    month: "short",
+                    year: "numeric",
+                  })}
+                </span>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 }
