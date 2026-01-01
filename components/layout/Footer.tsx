@@ -5,9 +5,6 @@ import {
   Mail,
   MapPin,
   Clock,
-  Facebook,
-  Instagram,
-  Linkedin,
   ArrowRight,
   Globe,
   MessageCircle,
@@ -15,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/logo.jpeg";
 import { useGlobalSettings } from "@/hooks/useGlobalSettings";
+import { useServices, useCities } from "@/hooks/useData";
 
 const url = {
   logoUrl: logo.src,
@@ -24,26 +22,10 @@ const url = {
   attributionUrl: "https://albawab-marketing.com",
 };
 
-const services = [
-  { id: 1, title: "Privatumzug" },
-  { id: 2, title: "Firmenumzug" },
-  { id: 3, title: "Entrümpelung" },
-  { id: 4, title: "Seniorenumzug" },
-  { id: 5, title: "Europa Umzüge" },
-  { id: 6, title: "Möbelmontage" },
-];
-
-const cities = [
-  { id: 1, name: "Wien", slug: "umzug-wien" },
-  { id: 2, name: "Graz", slug: "umzug-graz" },
-  { id: 3, name: "Linz", slug: "umzug-linz" },
-  { id: 4, name: "Salzburg", slug: "umzug-salzburg" },
-  { id: 5, name: "Innsbruck", slug: "umzug-innsbruck" },
-  { id: 6, name: "Klagenfurt", slug: "umzug-klagenfurt" },
-];
-
 export default function Footer() {
   const { settings } = useGlobalSettings();
+  const { services, loading } = useServices();
+  const { cities } = useCities();
   return (
     <footer
       className="text-white relative overflow-hidden"
@@ -52,7 +34,6 @@ export default function Footer() {
           "linear-gradient(180deg, #0D1628 0%, #121A2F 50%, #0D1628 100%)",
       }}
     >
-      {/* Decorative top wave */}
       <div className="absolute top-0 left-0 right-0 overflow-hidden">
         <svg
           viewBox="0 0 1440 50"
@@ -67,10 +48,8 @@ export default function Footer() {
         </svg>
       </div>
 
-      {/* Main Footer */}
       <div className="container mx-auto px-4 py-16 pt-20 relative">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* Company */}
           <div>
             <div className="flex items-center gap-4 mb-6">
               <img
@@ -93,7 +72,6 @@ export default function Footer() {
               Entrümpelungen in ganz Österreich und Europa.
             </p>
 
-            {/* Europe Badge */}
             <div
               className="inline-flex items-center gap-2 rounded-full px-4 py-2 mb-6"
               style={{
@@ -105,15 +83,8 @@ export default function Footer() {
                 Österreichweit & Europaweit
               </span>
             </div>
-
-            <div className="flex gap-3">
-              <Social icon={Facebook} />
-              <Social icon={Instagram} />
-              <Social icon={Linkedin} />
-            </div>
           </div>
 
-          {/* Contact */}
           <div>
             <SectionTitle title="Kontakt" />
             <ul className="space-y-4">
@@ -148,12 +119,11 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Services */}
           <div>
             <SectionTitle title="Leistungen" />
             <ul className="space-y-3">
               {services.map((s) => (
-                <li key={s.id}>
+                <li key={s._id}>
                   <Link
                     href="/leistungen"
                     className="text-white/70 hover:text-orange-400 hover:pl-2 transition-all flex items-center gap-2 group"
@@ -166,12 +136,11 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Cities */}
           <div>
             <SectionTitle title="Umzug in" />
             <ul className="space-y-3">
               {cities.map((c) => (
-                <li key={c.id}>
+                <li key={c._id}>
                   <Link
                     href={`/${c.slug}`}
                     className="text-white/70 hover:text-orange-400 hover:pl-2 transition-all flex items-center gap-2 group"
@@ -255,7 +224,6 @@ export default function Footer() {
         </Link>
       </div>
 
-      {/* Bottom */}
       <div className="border-t border-white/10">
         <div className="container mx-auto px-4 py-6 text-center">
           <p className="text-sm text-white/50 mb-2">{url.copyright}</p>
@@ -336,10 +304,4 @@ const ContactLink = ({
       </span>
     </a>
   </li>
-);
-
-const Social = ({ icon: Icon }: { icon: any }) => (
-  <a className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-xl flex items-center justify-center transition-all hover:scale-110">
-    <Icon className="h-5 w-5 text-white" />
-  </a>
 );

@@ -30,7 +30,7 @@ export function useDashboardData() {
       setMoveRequests(moveData);
       setClearanceRequests(clearanceData);
     } catch (err) {
-      setError("حدث خطأ أثناء تحميل البيانات");
+      setError("Failed to load dashboard data ");
     } finally {
       setLoading(false);
       setRefreshing(false);

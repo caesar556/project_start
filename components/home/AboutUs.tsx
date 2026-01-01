@@ -1,14 +1,22 @@
 "use client";
 
-import { CheckCircle2, Star, Users, Trophy, ArrowRight, Shield } from "lucide-react";
+import {
+  CheckCircle2,
+  Star,
+  Users,
+  Trophy,
+  ArrowRight,
+  Shield,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const stats = [
   { label: "Jahre Erfahrung", value: "15+", icon: Trophy },
   { label: "Zufriedene Kunden", value: "5k+", icon: Users },
-  { label: "Durchschnittsbewertung", value: "4.9", icon: Star },
+  { label: "Durchschnittsbewertung", value: "5", icon: Star },
   { label: "Erfolgreiche Umzüge", value: "10k+", icon: CheckCircle2 },
 ];
 
@@ -22,15 +30,12 @@ const features = [
 export default function AboutUs() {
   return (
     <section className="py-24 relative overflow-hidden bg-slate-50">
-      {/* Decorative background elements */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#FF6A00]/20 to-transparent" />
-      
+
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex flex-col lg:flex-row gap-16 items-center">
-          
-          {/* Left Content - Text & Features */}
           <div className="flex-1 space-y-8">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -44,16 +49,18 @@ export default function AboutUs() {
                 Über uns
               </div>
               <h2 className="text-3xl md:text-5xl font-black text-[#0D1628] leading-tight mb-6">
-                Wir machen Ihren <span className="text-[#FF6A00]">Umzug zum Kinderspiel</span>
+                Wir machen Ihren{" "}
+                <span className="text-[#FF6A00]">Umzug zum Kinderspiel</span>
               </h2>
               <p className="text-lg text-slate-600 leading-relaxed mb-8">
-                Seit über 15 Jahren sind wir Ihr vertrauenswürdiger Partner für Umzüge und Entrümpelungen. 
-                Unser Anspruch ist es, jeden Umzug so stressfrei und effizient wie möglich zu gestalten – 
-                egal ob Privatumzug, Firmenumzug oder internationale Logistik.
+                Seit über 15 Jahren sind wir Ihr vertrauenswürdiger Partner für
+                Umzüge und Entrümpelungen. Unser Anspruch ist es, jeden Umzug so
+                stressfrei und effizient wie möglich zu gestalten – egal ob
+                Privatumzug, Firmenumzug oder internationale Logistik.
               </p>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               className="grid gap-4"
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -76,14 +83,18 @@ export default function AboutUs() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <Button size="lg" className="bg-[#FF6A00] hover:bg-[#e65f00] text-white font-bold rounded-xl shadow-lg shadow-[#FF6A00]/20 group">
-                Mehr erfahren
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
+              <Link href="">
+                <Button
+                  size="lg"
+                  className="bg-[#FF6A00] hover:bg-[#e65f00] text-white font-bold rounded-xl shadow-lg shadow-[#FF6A00]/20 group"
+                >
+                  Mehr erfahren
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
             </motion.div>
           </div>
 
-          {/* Right Content - Stats Grid */}
           <div className="flex-1 w-full">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
               {stats.map((stat, index) => (
@@ -110,9 +121,8 @@ export default function AboutUs() {
                 </motion.div>
               ))}
             </div>
-            
-            {/* Trust Badges placeholder or secondary message */}
-            <motion.div 
+
+            <motion.div
               className="mt-8 p-6 bg-[#0D1628] rounded-3xl text-white flex items-center justify-between gap-6"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -120,13 +130,16 @@ export default function AboutUs() {
               transition={{ duration: 0.6, delay: 0.5 }}
             >
               <div className="flex-1">
-                <p className="font-bold text-lg mb-1 text-[#FF6A00]">Professionalität garantiert</p>
-                <p className="text-sm text-white/70">Zertifiziertes Mitglied der Transport-Innung</p>
+                <p className="font-bold text-lg mb-1 text-[#FF6A00]">
+                  Professionalität garantiert
+                </p>
+                <p className="text-sm text-white/70">
+                  Zertifiziertes Mitglied der Transport-Innung
+                </p>
               </div>
               <Shield className="w-12 h-12 text-[#FF6A00] opacity-50" />
             </motion.div>
           </div>
-          
         </div>
       </div>
     </section>
