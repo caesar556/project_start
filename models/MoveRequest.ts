@@ -54,6 +54,9 @@ const MoveRequestSchema = new Schema(
     cleaning: Boolean,
     decluttering: Boolean,
     noParking: Boolean,
+    estimatedPrice: {
+      type: Number,
+    },
   },
   { timestamps: true },
 );

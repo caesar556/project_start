@@ -22,6 +22,7 @@ export const moveRequestSchema = z.object({
   decluttering: z.boolean(),
   noParking: z.boolean(),
   message: z.string().max(1000).optional(),
+  estimatedPrice: z.number().optional(),
 });
 
 export type MoveRequestFormValues = z.infer<typeof moveRequestSchema>;

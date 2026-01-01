@@ -2,6 +2,8 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 import {
   moveRequestSchema,
@@ -34,6 +36,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
 export default function FormRequest() {
+  const searchParams = useSearchParams();
   const form = useForm<MoveRequestFormValues>({
     resolver: zodResolver(moveRequestSchema),
     defaultValues: {
@@ -41,22 +44,45 @@ export default function FormRequest() {
       lastName: "",
       email: "",
       phone: "",
-      fromCity: "",
+      fromCity: searchParams.get("fromCity") || "",
       fromAddress: "",
-      fromFloor: "",
-      fromElevator: false,
-      toCity: "",
+      fromFloor: searchParams.get("fromFloor") || "",
+      fromElevator: searchParams.get("fromElevator") === "true",
+      toCity: searchParams.get("toCity") || "",
       toAddress: "",
-      toFloor: "",
-      toElevator: false,
-      packing: false,
-      assembly: false,
-      cleaning: false,
-      decluttering: false,
-      noParking: false,
+      toFloor: searchParams.get("toFloor") || "",
+      toElevator: searchParams.get("toElevator") === "true",
+      packing: searchParams.get("packing") === "true",
+      assembly: searchParams.get("assembly") === "true",
+      cleaning: searchParams.get("cleaning") === "true",
+      decluttering: searchParams.get("decluttering") === "true",
+      noParking: searchParams.get("noParking") === "true",
       message: "",
+      rooms: searchParams.get("rooms") || "",
+      area: searchParams.get("area") || "",
+      estimatedPrice: searchParams.get("price") ? Number(searchParams.get("price")) : undefined,
     },
   });
+
+  useEffect(() => {
+    const price = searchParams.get("price");
+    if (price) {
+      form.setValue("estimatedPrice", Number(price));
+      form.setValue("fromCity", searchParams.get("fromCity") || "");
+      form.setValue("toCity", searchParams.get("toCity") || "");
+      form.setValue("rooms", searchParams.get("rooms") || "");
+      form.setValue("area", searchParams.get("area") || "");
+      form.setValue("fromFloor", searchParams.get("fromFloor") || "");
+      form.setValue("toFloor", searchParams.get("toFloor") || "");
+      form.setValue("fromElevator", searchParams.get("fromElevator") === "true");
+      form.setValue("toElevator", searchParams.get("toElevator") === "true");
+      form.setValue("packing", searchParams.get("packing") === "true");
+      form.setValue("assembly", searchParams.get("assembly") === "true");
+      form.setValue("cleaning", searchParams.get("cleaning") === "true");
+      form.setValue("decluttering", searchParams.get("decluttering") === "true");
+      form.setValue("noParking", searchParams.get("noParking") === "true");
+    }
+  }, [searchParams, form]);
 
   const { isSubmitting } = form.formState;
 
@@ -92,6 +118,13 @@ export default function FormRequest() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        {form.watch("estimatedPrice") && (
+          <div className="bg-orange-500/10 border border-orange-500/20 rounded-lg p-4 mb-6">
+            <p className="text-sm text-orange-600 font-medium">Berechneter Preis aus dem Rechner:</p>
+            <p className="text-2xl font-bold text-orange-600">€ {form.watch("estimatedPrice")}</p>
+          </div>
+        )}
+
         <section className="space-y-4">
           <h3 className="font-semibold">Persönliche Daten</h3>
 

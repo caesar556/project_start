@@ -73,6 +73,7 @@ export default function Result({
       estimatedMin: String(estimate?.min || 0),
       estimatedMax: String(estimate?.max || 0),
       originalPrice: String(estimate?.fakeOriginalPrice || 0),
+      price: String(estimate?.midpoint || 0),
     });
 
     router.push(`/umzug-anfragen?${params.toString()}`);
