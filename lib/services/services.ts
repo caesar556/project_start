@@ -5,7 +5,7 @@ export async function getServices() {
   await dbConnect();
 
   const services = await Service.find()
-    .select("title description icon")
+    .select("title description icon features")
     .lean();
 
   return services.map((service) => ({
@@ -13,5 +13,6 @@ export async function getServices() {
     title: service.title,
     description: service.description,
     icon: service.icon,
+    features: service.features || []
   }));
 }

@@ -6,9 +6,12 @@ const ServiceSchema = new Schema(
     description: { type: String, required: true },
     icon: { type: String, default: "Package" },
     isActive: { type: Boolean, default: true },
-    cities: [{ type: Schema.Types.ObjectId, ref: "City" }],
+    features: {
+      type: [String],
+      default: [],
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default models.Service || model("Service", ServiceSchema);

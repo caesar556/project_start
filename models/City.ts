@@ -10,7 +10,6 @@ const CitySchema = new Schema(
     priceMin: Number,
     priceMax: Number,
     isActive: { type: Boolean, default: true },
-    services: [{ type: Schema.Types.ObjectId, ref: "Service" }],
   },
   { timestamps: true },
 );

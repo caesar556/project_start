@@ -27,6 +27,7 @@ type Service = {
   title: string;
   description: string;
   icon: string;
+  features: string[];
 };
 
 const iconMap: Record<string, LucideIcon> = {
@@ -48,51 +49,6 @@ const defaultFeatures = [
   "Österreich & Europaweit",
 ];
 
-const serviceDetails: Record<
-  string,
-  { features: string[]; longDescription: string }
-> = {
-  privatumzug: {
-    longDescription:
-      "Umzug – sicher, pünktlich & europaweit. Ob innerhalb Österreichs oder in ein anderes EU-Land: Wir organisieren Ihren Umzug professionell und stressfrei.",
-    features: [
-      "Privatumzug (Wohnung / Haus)",
-      "Planung + Zeitfenster nach Wunsch",
-      "Tragen, Transport, Be- und Entladen",
-      "Möbelmontage / Demontage",
-      "Verpackungsservice (optional)",
-      "Halteverbotszone Organisation (optional)",
-      "Transparente Preise & erfahrenes Team",
-    ],
-  },
-
-  firmenumzug: {
-    longDescription:
-      "Firmenumzüge erfordern Präzision und Erfahrung. Wir sorgen für einen reibungslosen Ablauf – auch außerhalb der Geschäftszeiten – in Österreich und europaweit.",
-    features: [
-      "Firmenumzug (Büro / Geschäft)",
-      "Minimale Betriebsunterbrechung",
-      "Sichere IT- & Büroausstattung",
-      "Individuelle Projektplanung",
-      "Flexible Termine – auch kurzfristig",
-      "Europaweiter Transport",
-    ],
-  },
-
-  entrumpelung: {
-    longDescription:
-      "Entrümpelung und Entsorgung vom Profi. Schnell, sauber und zuverlässig – inklusive besenreiner Übergabe nach Absprache.",
-    features: [
-      "Trage- und Demontagearbeiten",
-      "Abtransport / Entsorgung (nach Absprache)",
-      "Haushaltsauflösungen",
-      "Keller- & Dachbodenräumung",
-      "Besenreine Übergabe",
-      "Optional: Reinigung & kleine Reparaturen",
-    ],
-  },
-};
-
 const normalizeKey = (title: string) =>
   title.toLowerCase().replace("ü", "u").replace("ö", "o").replace("ä", "a");
 
@@ -104,8 +60,8 @@ export default async function Header() {
         {services.map((service) => {
           const Icon = iconMap[service.icon] || Package;
           const key = normalizeKey(service.title);
-          const details = serviceDetails[key];
-          const features = details?.features || defaultFeatures;
+          const details = service.description || "Add details for service";
+          const features = service?.features || defaultFeatures;
           const isEntruempelung = key.includes("entrumpel");
 
           return (
@@ -139,7 +95,7 @@ export default async function Header() {
                   <CardHeader>
                     <CardTitle className="text-2xl">{service.title}</CardTitle>
                     <CardDescription className="text-base">
-                      {details?.longDescription}
+                      {details}
                     </CardDescription>
                   </CardHeader>
 
