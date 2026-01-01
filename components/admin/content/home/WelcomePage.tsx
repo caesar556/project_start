@@ -28,6 +28,7 @@ export default function DashboardPage() {
       <RequestsTabs
         moveRequests={moveRequests}
         clearanceRequests={clearanceRequests}
+        onRefresh={refresh}
       />
     </div>
   );
