@@ -116,7 +116,6 @@ export type Testimonials = {
   isFeatured: boolean;
 };
 
-
 export type RequestStatus = "new" | "processing" | "completed" | "cancelled";
 
 export interface BaseRequest {
@@ -173,4 +172,10 @@ export type Testimonial = {
   rating: number;
   text: string;
   date: string;
+};
+
+export type RequestsProps = {
+  data: MoveRequest | ClearanceRequest;
+  type: "move" | "clearance";
+  onUpdate?: () => void;
 };
