@@ -73,11 +73,23 @@ export function useApi<T = any>(endpoint: string) {
     fetchData();
   };
 
+  const patch = async (id: string, body: any) => {
+    const res = await fetch(`${endpoint}/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) throw new Error("Update failed");
+    fetchData();
+  };
+
   const del = async (id: string) => {
     const res = await fetch(`${endpoint}/${id}`, { method: "DELETE" });
     if (!res.ok) throw new Error("Delete failed");
     fetchData();
   };
 
-  return { data, loading, error, refresh: fetchData, post, put, del };
+  return { data, loading, error, refresh: fetchData, post, put, patch, del };
 }

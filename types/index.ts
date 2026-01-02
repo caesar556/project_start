@@ -165,3 +165,12 @@ export interface ClearanceRequest extends BaseRequest {
   disposal?: boolean;
   cleaning?: boolean;
 }
+
+export type Testimonial = {
+  _id: string;
+  name: string;
+  city: string;
+  rating: number;
+  text: string;
+  date: string;
+};

@@ -3,17 +3,17 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { 
-  Building2, 
-  Phone, 
-  Mail, 
-  MessageCircle, 
-  MapPin, 
-  Clock, 
-  Save, 
+import {
+  Building2,
+  Phone,
+  Mail,
+  MessageCircle,
+  MapPin,
+  Clock,
+  Save,
   Settings as SettingsIcon,
   Globe,
-  Info
+  Info,
 } from "lucide-react";
 
 import {
@@ -21,22 +21,17 @@ import {
   GlobalSettingFormValues,
 } from "@/lib/validation/global-setting";
 
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-  FormDescription,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { InputField } from "./SettingsField";
 
@@ -94,9 +89,9 @@ export default function AdminSettingsPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       });
-      
+
       if (!res.ok) throw new Error();
-      
+
       toast.success("Einstellungen erfolgreich gespeichert");
     } catch (error) {
       toast.error("Fehler beim Speichern der Einstellungen");
@@ -123,13 +118,22 @@ export default function AdminSettingsPage() {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <Tabs defaultValue="company" className="w-full">
             <TabsList className="bg-gray-100 dark:bg-slate-800 p-1 rounded-xl mb-6">
-              <TabsTrigger value="company" className="rounded-lg px-6 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-900 data-[state=active]:shadow-sm">
+              <TabsTrigger
+                value="company"
+                className="rounded-lg px-6 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-900 data-[state=active]:shadow-sm"
+              >
                 <Building2 className="h-4 w-4 mr-2" /> Unternehmen
               </TabsTrigger>
-              <TabsTrigger value="contact" className="rounded-lg px-6 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-900 data-[state=active]:shadow-sm">
+              <TabsTrigger
+                value="contact"
+                className="rounded-lg px-6 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-900 data-[state=active]:shadow-sm"
+              >
                 <Globe className="h-4 w-4 mr-2" /> Kontakt & Adresse
               </TabsTrigger>
-              <TabsTrigger value="extra" className="rounded-lg px-6 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-900 data-[state=active]:shadow-sm">
+              <TabsTrigger
+                value="extra"
+                className="rounded-lg px-6 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-900 data-[state=active]:shadow-sm"
+              >
                 <Clock className="h-4 w-4 mr-2" /> Geschäftszeiten
               </TabsTrigger>
             </TabsList>
@@ -142,8 +146,12 @@ export default function AdminSettingsPage() {
                       <Building2 className="h-6 w-6" />
                     </div>
                     <div>
-                      <CardTitle className="text-xl font-bold">Unternehmensdaten</CardTitle>
-                      <CardDescription>Basis-Informationen Ihrer Firma</CardDescription>
+                      <CardTitle className="text-xl font-bold">
+                        Unternehmensdaten
+                      </CardTitle>
+                      <CardDescription>
+                        Basis-Informationen Ihrer Firma
+                      </CardDescription>
                     </div>
                   </div>
                 </CardHeader>
@@ -191,15 +199,19 @@ export default function AdminSettingsPage() {
                       <MapPin className="h-6 w-6" />
                     </div>
                     <div>
-                      <CardTitle className="text-xl font-bold">Standort</CardTitle>
-                      <CardDescription>Adresse und Kontaktdetails</CardDescription>
+                      <CardTitle className="text-xl font-bold">
+                        Standort
+                      </CardTitle>
+                      <CardDescription>
+                        Adresse und Kontaktdetails
+                      </CardDescription>
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent className="p-8">
                   <div className="grid md:grid-cols-2 gap-8">
                     <div className="md:col-span-2">
-                       <InputField
+                      <InputField
                         form={form}
                         name="addressStreet"
                         label="Straße & Hausnummer"
@@ -211,11 +223,7 @@ export default function AdminSettingsPage() {
                       name="addressZip"
                       label="Postleitzahl"
                     />
-                    <InputField
-                      form={form}
-                      name="addressCity"
-                      label="Stadt"
-                    />
+                    <InputField form={form} name="addressCity" label="Stadt" />
                   </div>
                 </CardContent>
               </Card>
@@ -229,19 +237,23 @@ export default function AdminSettingsPage() {
                       <Clock className="h-6 w-6" />
                     </div>
                     <div>
-                      <CardTitle className="text-xl font-bold">Öffnungszeiten</CardTitle>
-                      <CardDescription>Wann Sie für Kunden erreichbar sind</CardDescription>
+                      <CardTitle className="text-xl font-bold">
+                        Öffnungszeiten
+                      </CardTitle>
+                      <CardDescription>
+                        Wann Sie für Kunden erreichbar sind
+                      </CardDescription>
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent className="p-8">
-                   <InputField
-                      form={form}
-                      name="openingHours"
-                      label="Geschäftszeiten"
-                      icon={<Clock className="h-4 w-4" />}
-                      placeholder="Mo-Fr: 08:00 - 18:00, Sa: 09:00 - 14:00"
-                    />
+                  <InputField
+                    form={form}
+                    name="openingHours"
+                    label="Geschäftszeiten"
+                    icon={<Clock className="h-4 w-4" />}
+                    placeholder="Mo-Fr: 08:00 - 18:00, Sa: 09:00 - 14:00"
+                  />
                 </CardContent>
               </Card>
             </TabsContent>
