@@ -1,9 +1,4 @@
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,11 +17,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type {
-  MoveRequest,
-  ClearanceRequest,
-  RequestStatus,
-} from "@/types";
+import type { MoveRequest, ClearanceRequest, RequestStatus } from "@/types";
 import {
   Dialog,
   DialogContent,
@@ -81,9 +72,10 @@ export function RequestCard({ data, type, onUpdate }: Props) {
   const handleStatusUpdate = async (newStatus: RequestStatus) => {
     setIsUpdating(true);
     try {
-      const endpoint = type === "move" 
-        ? `/api/move-requests/${data._id}` 
-        : `/api/clear-requests/${data._id}`;
+      const endpoint =
+        type === "move"
+          ? `/api/move-requests/${data._id}`
+          : `/api/clear-requests/${data._id}`;
 
       const res = await fetch(endpoint, {
         method: "PATCH",
@@ -122,7 +114,7 @@ export function RequestCard({ data, type, onUpdate }: Props) {
             variant="secondary"
             className={cn(
               "px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border",
-              getStatusColor(data.status)
+              getStatusColor(data.status),
             )}
           >
             {getStatusIcon(data.status)}
@@ -144,7 +136,9 @@ export function RequestCard({ data, type, onUpdate }: Props) {
               <label className="text-[10px] font-bold text-gray-400 dark:text-slate-500 uppercase flex items-center gap-1">
                 <Phone className="h-2.5 w-2.5" /> Telefon
               </label>
-              <p className="text-sm text-gray-700 dark:text-slate-300 font-medium">{data.phone}</p>
+              <p className="text-sm text-gray-700 dark:text-slate-300 font-medium">
+                {data.phone}
+              </p>
             </div>
           </div>
 
@@ -192,12 +186,20 @@ export function RequestCard({ data, type, onUpdate }: Props) {
         <DialogHeader className="bg-orange-500 text-white p-6 ">
           <div className="flex justify-between items-start">
             <div>
-              <DialogTitle className="text-2xl font-black">Anfragedetails</DialogTitle>
+              <DialogTitle className="text-2xl font-black">
+                Anfragedetails
+              </DialogTitle>
               <p className="text-orange-100 text-sm mt-1 font-medium">
-                {type === "move" ? "Umzugsservice" : "Entrümpelungsservice"} • ID: {data._id.toUpperCase()}
+                {type === "move" ? "Umzugsservice" : "Entrümpelungsservice"} •
+                ID: {data._id.toUpperCase()}
               </p>
             </div>
-            <Badge className={cn("bg-white/20 hover:bg-white/30 border-none text-white font-bold", getStatusColor(data.status))}>
+            <Badge
+              className={cn(
+                "bg-white/20 hover:bg-white/30 border-none text-white font-bold",
+                getStatusColor(data.status),
+              )}
+            >
               {data.status}
             </Badge>
           </div>
@@ -205,56 +207,103 @@ export function RequestCard({ data, type, onUpdate }: Props) {
 
         <div className="p-6 space-y-6 flex-1 bg-gray-50 dark:bg-slate-950/50">
           <section className="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800">
-            <h3 className="text-xs font-black text-gray-400 dark:text-slate-500 uppercase tracking-widest mb-4">Kontaktinformationen</h3>
+            <h3 className="text-xs font-black text-gray-400 dark:text-slate-500 uppercase tracking-widest mb-4">
+              Kontaktinformationen
+            </h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
-                <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">Name</p>
-                <p className="text-sm font-bold text-gray-900 dark:text-white">{data.firstName} {data.lastName}</p>
+                <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">
+                  Name
+                </p>
+                <p className="text-sm font-bold text-gray-900 dark:text-white">
+                  {data.firstName} {data.lastName}
+                </p>
               </div>
               <div className="space-y-1">
-                <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">Telefon</p>
-                <p className="text-sm font-bold text-gray-900 dark:text-white">{data.phone}</p>
+                <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">
+                  Telefon
+                </p>
+                <p className="text-sm font-bold text-gray-900 dark:text-white">
+                  {data.phone}
+                </p>
               </div>
               <div className="col-span-2 space-y-1">
-                <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">Email</p>
-                <p className="text-sm font-bold text-gray-900 dark:text-white">{data.email}</p>
+                <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">
+                  Email
+                </p>
+                <p className="text-sm font-bold text-gray-900 dark:text-white">
+                  {data.email}
+                </p>
               </div>
             </div>
           </section>
 
           <section className="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800">
-            <h3 className="text-xs font-black text-gray-400 dark:text-slate-500 uppercase tracking-widest mb-4">Service Details</h3>
+            <h3 className="text-xs font-black text-gray-400 dark:text-slate-500 uppercase tracking-widest mb-4">
+              Service Details
+            </h3>
             {type === "move" ? (
               <div className="space-y-4">
                 {moveData?.estimatedPrice && (
                   <div className="bg-orange-50 dark:bg-orange-500/5 p-3 rounded-lg border border-orange-100 dark:border-orange-500/10 mb-4">
-                    <p className="text-[10px] text-orange-400 font-bold uppercase mb-1">Berechneter Preis</p>
-                    <p className="text-xl font-black text-orange-600 dark:text-orange-500">€ {moveData.estimatedPrice.toLocaleString("de-AT")}</p>
+                    <p className="text-[10px] text-orange-400 font-bold uppercase mb-1">
+                      Berechneter Preis
+                    </p>
+                    <p className="text-xl font-black text-orange-600 dark:text-orange-500">
+                      € {moveData.estimatedPrice.toLocaleString("de-AT")}
+                    </p>
                   </div>
                 )}
                 <div className="flex items-center justify-between">
                   <div className="text-center flex-1">
-                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase mb-1">Von</p>
-                    <p className="text-sm font-black text-gray-900 dark:text-white">{moveData?.fromCity}</p>
-                    <p className="text-xs text-gray-500 dark:text-slate-400">{moveData?.fromAddress}</p>
+                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase mb-1">
+                      Von
+                    </p>
+                    <p className="text-sm font-black text-gray-900 dark:text-white">
+                      {moveData?.fromCity}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-slate-400">
+                      {moveData?.fromAddress}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-slate-400">
+                      {moveData?.rooms}
+                    </p>
                   </div>
                   <div className="px-4 text-orange-500">
                     <ChevronRight className="h-6 w-6" />
                   </div>
                   <div className="text-center flex-1">
-                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase mb-1">Nach</p>
-                    <p className="text-sm font-black text-gray-900 dark:text-white">{moveData?.toCity}</p>
-                    <p className="text-xs text-gray-500 dark:text-slate-400">{moveData?.toAddress}</p>
+                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase mb-1">
+                      Nach
+                    </p>
+                    <p className="text-sm font-black text-gray-900 dark:text-white">
+                      {moveData?.toCity}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-slate-400">
+                      {moveData?.toAddress}
+                    </p>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-50 dark:border-slate-800">
                   <div className="space-y-1">
-                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">Datum</p>
-                    <p className="text-sm font-bold text-gray-900 dark:text-white">{moveData?.moveDate ? new Date(moveData.moveDate).toLocaleDateString("de-DE") : "Flexibel"}</p>
+                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">
+                      Datum
+                    </p>
+                    <p className="text-sm font-bold text-gray-900 dark:text-white">
+                      {moveData?.moveDate
+                        ? new Date(moveData.moveDate).toLocaleDateString(
+                            "de-DE",
+                          )
+                        : "Flexibel"}
+                    </p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">Größe</p>
-                    <p className="text-sm font-bold text-gray-900 dark:text-white">{moveData?.area ? `${moveData.area} m²` : "K.A."}</p>
+                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">
+                      Größe
+                    </p>
+                    <p className="text-sm font-bold text-gray-900 dark:text-white">
+                      {moveData?.area ? `${moveData.area} m²` : "K.A."}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -262,17 +311,35 @@ export function RequestCard({ data, type, onUpdate }: Props) {
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">Ort</p>
-                    <p className="text-sm font-bold text-gray-900 dark:text-white">{clearData?.city}</p>
-                    <p className="text-xs text-gray-500 dark:text-slate-400">{clearData?.address}</p>
+                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">
+                      Ort
+                    </p>
+                    <p className="text-sm font-bold text-gray-900 dark:text-white">
+                      {clearData?.city}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-slate-400">
+                      {clearData?.address}
+                    </p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">Immobilie</p>
-                    <p className="text-sm font-bold text-gray-900 dark:text-white">{clearData?.propertyType}</p>
+                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">
+                      Immobilie
+                    </p>
+                    <p className="text-sm font-bold text-gray-900 dark:text-white">
+                      {clearData?.propertyType}
+                    </p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">Datum</p>
-                    <p className="text-sm font-bold text-gray-900 dark:text-white">{clearData?.preferredDate ? new Date(clearData.preferredDate).toLocaleDateString("de-DE") : "Flexibel"}</p>
+                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">
+                      Datum
+                    </p>
+                    <p className="text-sm font-bold text-gray-900 dark:text-white">
+                      {clearData?.preferredDate
+                        ? new Date(clearData.preferredDate).toLocaleDateString(
+                            "de-DE",
+                          )
+                        : "Flexibel"}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -299,7 +366,11 @@ export function RequestCard({ data, type, onUpdate }: Props) {
               onClick={() => handleStatusUpdate("processing")}
               disabled={isUpdating || data.status === "processing"}
             >
-              {isUpdating ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <RefreshCw className="h-4 w-4 mr-2" />}
+              {isUpdating ? (
+                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+              ) : (
+                <RefreshCw className="h-4 w-4 mr-2" />
+              )}
               In Bearbeitung
             </Button>
           </div>
@@ -310,7 +381,11 @@ export function RequestCard({ data, type, onUpdate }: Props) {
               onClick={() => handleStatusUpdate("cancelled")}
               disabled={isUpdating || data.status === "cancelled"}
             >
-              {isUpdating ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <XCircle className="h-4 w-4 mr-2" />}
+              {isUpdating ? (
+                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+              ) : (
+                <XCircle className="h-4 w-4 mr-2" />
+              )}
               Stornieren
             </Button>
             <Button
@@ -318,7 +393,11 @@ export function RequestCard({ data, type, onUpdate }: Props) {
               onClick={() => handleStatusUpdate("completed")}
               disabled={isUpdating || data.status === "completed"}
             >
-              {isUpdating ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <CheckCircle2 className="h-4 w-4 mr-2" />}
+              {isUpdating ? (
+                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+              ) : (
+                <CheckCircle2 className="h-4 w-4 mr-2" />
+              )}
               Abschließen
             </Button>
           </div>
