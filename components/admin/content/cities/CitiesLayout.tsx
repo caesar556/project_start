@@ -26,9 +26,9 @@ export default function CitiesAdmin() {
     name: "",
     slug: "",
     introText: "",
-    distance: 0,
-    priceMin: 0,
-    priceMax: 0,
+    distance: undefined as unknown as number,
+    priceMin: undefined as unknown as number,
+    priceMax: undefined as unknown as number,
   });
 
   const deleteCity = async (id: string) => {
@@ -38,14 +38,19 @@ export default function CitiesAdmin() {
   };
 
   const addCity = async () => {
-    await post(newCity);
+    await post({
+      ...newCity,
+      distance: newCity.distance || 0,
+      priceMin: newCity.priceMin || 0,
+      priceMax: newCity.priceMax || 0,
+    });
     setNewCity({
       name: "",
       slug: "",
       introText: "",
-      distance: 0,
-      priceMin: 0,
-      priceMax: 0,
+      distance: undefined as unknown as number,
+      priceMin: undefined as unknown as number,
+      priceMax: undefined as unknown as number,
     });
   };
 
@@ -113,24 +118,27 @@ export default function CitiesAdmin() {
                   <label className="text-sm font-medium">Distance (km)</label>
                   <Input
                     type="number"
-                    value={newCity.distance}
-                    onChange={(e) => setNewCity({ ...newCity, distance: Number(e.target.value) })}
+                    placeholder="0"
+                    value={newCity.distance ?? ""}
+                    onChange={(e) => setNewCity({ ...newCity, distance: e.target.value === "" ? undefined as unknown as number : Number(e.target.value) })}
                   />
                 </div>
                 <div className="grid gap-2">
                   <label className="text-sm font-medium">Min Price</label>
                   <Input
                     type="number"
-                    value={newCity.priceMin}
-                    onChange={(e) => setNewCity({ ...newCity, priceMin: Number(e.target.value) })}
+                    placeholder="0"
+                    value={newCity.priceMin ?? ""}
+                    onChange={(e) => setNewCity({ ...newCity, priceMin: e.target.value === "" ? undefined as unknown as number : Number(e.target.value) })}
                   />
                 </div>
                 <div className="grid gap-2">
                   <label className="text-sm font-medium">Max Price</label>
                   <Input
                     type="number"
-                    value={newCity.priceMax}
-                    onChange={(e) => setNewCity({ ...newCity, priceMax: Number(e.target.value) })}
+                    placeholder="0"
+                    value={newCity.priceMax ?? ""}
+                    onChange={(e) => setNewCity({ ...newCity, priceMax: e.target.value === "" ? undefined as unknown as number : Number(e.target.value) })}
                   />
                 </div>
               </div>
@@ -282,29 +290,46 @@ export default function CitiesAdmin() {
                   <label className="text-sm font-medium">Distance (km)</label>
                   <Input
                     type="number"
-                    value={editingCity.distance}
-                    onChange={(e) => setEditingCity({ ...editingCity, distance: Number(e.target.value) })}
+                    placeholder="0"
+                    value={editingCity.distance ?? ""}
+                    onChange={(e) => setEditingCity({ ...editingCity, distance: e.target.value === "" ? undefined as unknown as number : Number(e.target.value) })}
                   />
                 </div>
                 <div className="grid gap-2">
                   <label className="text-sm font-medium">Min Price</label>
                   <Input
                     type="number"
-                    value={editingCity.priceMin}
-                    onChange={(e) => setEditingCity({ ...editingCity, priceMin: Number(e.target.value) })}
+                    placeholder="0"
+                    value={editingCity.priceMin ?? ""}
+                    onChange={(e) => setEditingCity({ ...editingCity, priceMin: e.target.value === "" ? undefined as unknown as number : Number(e.target.value) })}
                   />
                 </div>
                 <div className="grid gap-2">
                   <label className="text-sm font-medium">Max Price</label>
                   <Input
                     type="number"
-                    value={editingCity.priceMax}
-                    onChange={(e) => setEditingCity({ ...editingCity, priceMax: Number(e.target.value) })}
+                    placeholder="0"
+                    value={editingCity.priceMax ?? ""}
+                    onChange={(e) => setEditingCity({ ...editingCity, priceMax: e.target.value === "" ? undefined as unknown as number : Number(e.target.value) })}
                   />
                 </div>
               </div>
               <DialogFooter className="mt-4">
-                <Button className="bg-orange-600 hover:bg-orange-700 w-full" onClick={updateCity}>
+                <Button className="bg-orange-600 hover:bg-orange-700 w-full" onClick={async () => {
+                  const payload = {
+                    ...editingCity,
+                    distance: editingCity.distance || 0,
+                    priceMin: editingCity.priceMin || 0,
+                    priceMax: editingCity.priceMax || 0,
+                  };
+                  await fetch(`/api/cities/${editingCity._id}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                  });
+                  setEditingCity(null);
+                  fetchCities();
+                }}>
                   Save Changes
                 </Button>
               </DialogFooter>
