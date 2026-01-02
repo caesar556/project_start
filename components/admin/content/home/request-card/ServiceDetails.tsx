@@ -52,9 +52,9 @@ export function ServiceDetails({ data, type, isDialog = false }: ServiceDetailsP
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-slate-800 to-transparent -z-10" />
           
           <div className="flex-1 bg-white dark:bg-slate-900 p-4 rounded-xl border border-gray-100 dark:border-slate-800 shadow-sm relative">
-            <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase tracking-widest mb-3 flex items-center gap-1.5">
+            <div className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase tracking-widest mb-3 flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 rounded-full bg-orange-500" /> Start
-            </p>
+            </div>
             <div className="space-y-2">
               <p className="text-base font-black text-gray-900 dark:text-white">
                 {moveData?.fromCity}
@@ -77,9 +77,9 @@ export function ServiceDetails({ data, type, isDialog = false }: ServiceDetailsP
           </div>
 
           <div className="flex-1 bg-white dark:bg-slate-900 p-4 rounded-xl border border-gray-100 dark:border-slate-800 shadow-sm">
-            <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase tracking-widest mb-3 flex items-center gap-1.5">
+            <div className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase tracking-widest mb-3 flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 rounded-full bg-green-500" /> Ziel
-            </p>
+            </div>
             <div className="space-y-2">
               <p className="text-base font-black text-gray-900 dark:text-white">
                 {moveData?.toCity}
