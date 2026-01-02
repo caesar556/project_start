@@ -45,6 +45,9 @@ const fadeIn = {
   transition: { duration: 0.5 }
 };
 
+
+export const revalidate = 60;
+
 export default function ServicesSection({ services }: ServicesSectionProps) {
   return (
     <section className="relative py-24 bg-background overflow-hidden">

@@ -3,11 +3,13 @@ import { MapPin, ArrowRight, Truck, Users, Route, Globe } from "lucide-react";
 import { getCities } from "@/lib/cities";
 import { CitiesCta, CitiesHead } from "@/components/common";
 
+
+export const revalidate = 60;
+
 export default async function CitiesSection() {
   const cities = await getCities();
   return (
     <section className="py-24 bg-card relative overflow-hidden">
-      {/* Background decoration */}
       <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-orange-500/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-900/5 rounded-full blur-[120px] pointer-events-none" />
 
