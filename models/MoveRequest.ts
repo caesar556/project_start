@@ -54,7 +54,10 @@ const MoveRequestSchema = new Schema(
     cleaning: Boolean,
     decluttering: Boolean,
     noParking: Boolean,
-    estimatedPrice: {
+    estimatedMin: {
+      type: Number,
+    },
+    estimatedMax: {
       type: Number,
     },
   },

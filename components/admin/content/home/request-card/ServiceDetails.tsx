@@ -34,16 +34,16 @@ export function ServiceDetails({ data, type, isDialog = false }: ServiceDetailsP
 
     return (
       <div className="space-y-6">
-        {moveData?.estimatedPrice && (
+        {moveData?.estimatedMin && moveData?.estimatedMax && (
           <div className="bg-gradient-to-br from-orange-500/10 to-orange-600/5 dark:from-orange-500/20 dark:to-transparent p-5 rounded-2xl border border-orange-200/50 dark:border-orange-500/20 relative overflow-hidden group">
             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform duration-500">
               <Euro className="h-12 w-12" />
             </div>
             <p className="text-xs text-orange-600 dark:text-orange-400 font-bold uppercase tracking-wider mb-2 flex items-center gap-2">
-              <Euro className="h-3 w-3" /> Berechneter Preis
+              <Euro className="h-3 w-3" /> Preisrahmen (Rechner)
             </p>
-            <p className="text-3xl font-black text-orange-600 dark:text-orange-500">
-              € {moveData.estimatedPrice.toLocaleString("de-AT")}
+            <p className="text-2xl font-black text-orange-600 dark:text-orange-500">
+              € {moveData.estimatedMin.toLocaleString("de-AT")} – {moveData.estimatedMax.toLocaleString("de-AT")}
             </p>
           </div>
         )}

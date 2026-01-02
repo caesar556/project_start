@@ -146,7 +146,8 @@ export interface MoveRequest extends BaseRequest {
   cleaning?: boolean;
   decluttering?: boolean;
   noParking?: boolean;
-  estimatedPrice?: number;
+  estimatedMin?: number;
+  estimatedMax?: number;
 }
 
 export interface ClearanceRequest extends BaseRequest {

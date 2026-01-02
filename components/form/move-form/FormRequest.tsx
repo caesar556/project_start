@@ -60,14 +60,16 @@ export default function FormRequest() {
       message: "",
       rooms: searchParams.get("rooms") || "",
       area: searchParams.get("area") || "",
-      estimatedPrice: searchParams.get("price") ? Number(searchParams.get("price")) : undefined,
+      estimatedMin: searchParams.get("estimatedMin") ? Number(searchParams.get("estimatedMin")) : undefined,
+      estimatedMax: searchParams.get("estimatedMax") ? Number(searchParams.get("estimatedMax")) : undefined,
     },
   });
 
   useEffect(() => {
-    const price = searchParams.get("price");
-    if (price) {
-      form.setValue("estimatedPrice", Number(price));
+    const estMin = searchParams.get("estimatedMin");
+    if (estMin) {
+      form.setValue("estimatedMin", Number(estMin));
+      form.setValue("estimatedMax", Number(searchParams.get("estimatedMax")));
       form.setValue("fromCity", searchParams.get("fromCity") || "");
       form.setValue("toCity", searchParams.get("toCity") || "");
       form.setValue("rooms", searchParams.get("rooms") || "");
@@ -118,10 +120,12 @@ export default function FormRequest() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {form.watch("estimatedPrice") && (
+        {form.watch("estimatedMin") && (
           <div className="bg-orange-500/10 border border-orange-500/20 rounded-lg p-4 mb-6">
-            <p className="text-sm text-orange-600 font-medium">Berechneter Preis aus dem Rechner:</p>
-            <p className="text-2xl font-bold text-orange-600">€ {form.watch("estimatedPrice")}</p>
+            <p className="text-sm text-orange-600 font-medium">Geschätzter Preisrahmen aus dem Rechner:</p>
+            <p className="text-2xl font-bold text-orange-600">
+              € {form.watch("estimatedMin")?.toLocaleString("de-AT")} – {form.watch("estimatedMax")?.toLocaleString("de-AT")}
+            </p>
           </div>
         )}
 
