@@ -20,7 +20,7 @@ import {
   ArrowRight,
   LucideIcon,
 } from "lucide-react";
-import { Service } from "@/types";
+import { useServices } from "@/hooks/useData";
 
 const iconMap: Record<string, LucideIcon> = {
   Home,
@@ -33,22 +33,17 @@ const iconMap: Record<string, LucideIcon> = {
   Heart,
 };
 
-type ServicesSectionProps = {
-  services: Service[];
-};
-
 import { motion } from "framer-motion";
 
 const fadeIn = {
   initial: { opacity: 0, y: 200 },
   whileInView: { opacity: 1, y: 0 },
-  transition: { duration: 0.5 }
+  transition: { duration: 0.5 },
 };
 
+export default function ServicesSection() {
+  const { services } = useServices();
 
-export const revalidate = 60;
-
-export default function ServicesSection({ services }: ServicesSectionProps) {
   return (
     <section className="relative py-24 bg-background overflow-hidden">
       <div className="pointer-events-none absolute top-0 right-0 w-[500px] h-[500px] bg-orange-500/5 rounded-full blur-[120px] " />
@@ -64,8 +59,7 @@ export default function ServicesSection({ services }: ServicesSectionProps) {
           <ServicesHead />
         </motion.div>
 
-        {/* Services Grid */}
-        <motion.div 
+        <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16"
           initial="initial"
           whileInView="whileInView"
@@ -73,9 +67,9 @@ export default function ServicesSection({ services }: ServicesSectionProps) {
           variants={{
             whileInView: {
               transition: {
-                staggerChildren: 0.1
-              }
-            }
+                staggerChildren: 0.1,
+              },
+            },
           }}
         >
           {services.map((service) => {

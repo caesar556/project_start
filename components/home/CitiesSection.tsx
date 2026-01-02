@@ -1,13 +1,11 @@
+"use client"; 
 import Link from "next/link";
 import { MapPin, ArrowRight, Truck, Users, Route, Globe } from "lucide-react";
-import { getCities } from "@/lib/cities";
 import { CitiesCta, CitiesHead } from "@/components/common";
-
-
-export const revalidate = 60;
+import { useCities } from "@/hooks/useData";
 
 export default async function CitiesSection() {
-  const cities = await getCities();
+  const { cities } = useCities();
   return (
     <section className="py-24 bg-card relative overflow-hidden">
       <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-orange-500/5 rounded-full blur-[120px] pointer-events-none" />
@@ -28,7 +26,7 @@ export default async function CitiesSection() {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-16">
           {cities.map((city, index) => (
             <Link
-              key={city.id}
+              key={city._id}
               href={`/${city.slug}`}
               className="group relative flex flex-col items-center p-6 bg-background rounded-2xl border hover:border-orange-500/40 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-2 overflow-hidden"
               style={{ animationDelay: `${index * 50}ms` }}

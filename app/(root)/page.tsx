@@ -9,26 +9,24 @@ import {
   RabattBanner,
   ContactSection,
 } from "@/components/home";
-import { getServices } from "@/lib/services/services";
 
 export default async function Home() {
-  const services = await getServices();
-  
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "name": "Entrümpelung & Umzug Service",
-    "description": "Professionelle Entrümpelung und Umzüge. Haushaltsauflösungen, Firmenauflösungen und Entsorgungen.",
-    "url": "https://ihre-domain.de",
-    "telephone": "+49 123 456789",
-    "address": {
+    name: "Entrümpelung & Umzug Service",
+    description:
+      "Professionelle Entrümpelung und Umzüge. Haushaltsauflösungen, Firmenauflösungen und Entsorgungen.",
+    url: "https://ihre-domain.de",
+    telephone: "+49 123 456789",
+    address: {
       "@type": "PostalAddress",
-      "streetAddress": "Beispielstraße 123",
-      "addressLocality": "Musterstadt",
-      "postalCode": "12345",
-      "addressCountry": "DE"
+      streetAddress: "Beispielstraße 123",
+      addressLocality: "Musterstadt",
+      postalCode: "12345",
+      addressCountry: "DE",
     },
-    "serviceType": ["Entrümpelung", "Umzug", "Haushaltsauflösung"]
+    serviceType: ["Entrümpelung", "Umzug", "Haushaltsauflösung"],
   };
 
   return (
@@ -40,7 +38,7 @@ export default async function Home() {
       <Hero />
       <AboutUs />
       <GoogleReviews />
-      <ServicesSection services={services} />
+      <ServicesSection />
       <CitiesSection />
       <RabattBanner />
       <TestimonialsSection />
