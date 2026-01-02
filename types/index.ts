@@ -179,15 +179,3 @@ export type RequestsProps = {
   type: "move" | "clearance";
   onUpdate?: () => void;
 };
-
-export type UseRequestsProps =
-  | {
-      type: "move";
-      data: MoveRequest;
-      onUpdate?: () => void;
-    }
-  | {
-      type: "clearance";
-      data: ClearanceRequest;
-      onUpdate?: () => void;
-    };

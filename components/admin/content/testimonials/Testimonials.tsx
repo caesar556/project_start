@@ -149,7 +149,7 @@ export default function DashboardTestimonials() {
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-[500px] rounded-2xl">
+        <DialogContent className="sm:max-w-[500px] rounded-2xl bg-slate-900 text-white border-none shadow-lg">
           <DialogHeader>
             <DialogTitle>
               {editingItem?._id

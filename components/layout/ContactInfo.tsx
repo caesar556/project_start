@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 import { Phone, Mail, MapPin, MessageCircle, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGlobalSettings } from "@/hooks/useGlobalSettings";
@@ -23,7 +23,9 @@ export default function ContactInfoBlock({
           border: "1px solid rgba(255, 255, 255, 0.1)",
         }}
       >
-        <h3 className="font-bold text-white mb-4 text-lg">Richard Umzug</h3>
+        <h3 className="font-bold text-white mb-4 text-lg">
+          {settings?.companyName}
+        </h3>
 
         <div className="space-y-3">
           <div className="flex items-center gap-3">
