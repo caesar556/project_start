@@ -1,11 +1,8 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  Calendar,
-  MessageSquare,
-} from "lucide-react";
+import { Calendar, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { MoveRequest, ClearanceRequest, RequestStatus } from "@/types";
+import type { MoveRequest, ClearanceRequest } from "@/types";
 import {
   Dialog,
   DialogContent,
@@ -13,68 +10,21 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useState } from "react";
-import { toast } from "sonner";
 import { StatusBadge, getStatusColor } from "./request-card/StatusBadge";
 import { ContactInfo } from "./request-card/ContactInfo";
 import { ServiceDetails } from "./request-card/ServiceDetails";
 import { ActionButtons } from "./request-card/ActionButtons";
+import { useRequests } from "@/hooks/dashboard/useRequests";
 
-type Props = {
+export type Props = {
   data: MoveRequest | ClearanceRequest;
   type: "move" | "clearance";
   onUpdate?: () => void;
 };
 
 export function RequestCard({ data, type, onUpdate }: Props) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isUpdating, setIsUpdating] = useState(false);
-
-  const handleStatusUpdate = async (newStatus: RequestStatus) => {
-    setIsUpdating(true);
-    try {
-      const endpoint =
-        type === "move"
-          ? `/api/move-requests/${data._id}`
-          : `/api/clear-requests/${data._id}`;
-
-      const res = await fetch(endpoint, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: newStatus }),
-      });
-
-      if (!res.ok) throw new Error("Update failed");
-
-      toast.success(`Status auf ${newStatus} aktualisiert`);
-      onUpdate?.();
-    } catch (error) {
-      toast.error("Fehler beim Aktualisieren des Status");
-    } finally {
-      setIsUpdating(false);
-    }
-  };
-
-  const handleDelete = async () => {
-    try {
-      const endpoint =
-        type === "move"
-          ? `/api/move-requests/${data._id}`
-          : `/api/clear-requests/${data._id}`;
-
-      const res = await fetch(endpoint, {
-        method: "DELETE",
-      });
-
-      if (!res.ok) throw new Error("Delete failed");
-
-      toast.success("Anfrage gelöscht");
-      setIsOpen(false);
-      onUpdate?.();
-    } catch (error) {
-      toast.error("Fehler beim Löschen der Anfrage");
-    }
-  };
+  const { isOpen, setIsOpen, isUpdating, handleDelete, handleStatusUpdate } =
+    useRequests({ data: data as any, type, onUpdate });
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -128,11 +78,11 @@ export function RequestCard({ data, type, onUpdate }: Props) {
                 ID: {data._id.toUpperCase()}
               </p>
             </div>
-            <StatusBadge 
-              status={data.status} 
+            <StatusBadge
+              status={data.status}
               className={cn(
                 "bg-white/20 hover:bg-white/30 border-none text-white font-bold",
-                getStatusColor(data.status)
+                getStatusColor(data.status),
               )}
             />
           </div>
@@ -190,10 +140,10 @@ export function RequestCard({ data, type, onUpdate }: Props) {
           )}
         </div>
 
-        <ActionButtons 
-          status={data.status} 
-          isUpdating={isUpdating} 
-          onUpdate={handleStatusUpdate} 
+        <ActionButtons
+          status={data.status}
+          isUpdating={isUpdating}
+          onUpdate={handleStatusUpdate}
           onDelete={handleDelete}
         />
       </DialogContent>

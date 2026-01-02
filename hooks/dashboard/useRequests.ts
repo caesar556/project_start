@@ -1,13 +1,8 @@
-import { ClearanceRequest, MoveRequest, RequestStatus } from "@/types";
+import { RequestStatus, UseRequestsProps } from "@/types";
 import { useState } from "react";
 import { toast } from "sonner";
 
-type Props = {
-  data: MoveRequest | ClearanceRequest;
-  type: "move" | "clearance";
-}
-
-export function useRequests({ data, type, onUpdate }: Props & { onUpdate?: () => void }) {
+export function useRequests({ data, type, onUpdate }: UseRequestsProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -29,7 +24,7 @@ export function useRequests({ data, type, onUpdate }: Props & { onUpdate?: () =>
 
       toast.success(`Status auf ${newStatus} aktualisiert`);
       onUpdate?.();
-    } catch (error) {
+    } catch {
       toast.error("Fehler beim Aktualisieren des Status");
     } finally {
       setIsUpdating(false);
@@ -43,16 +38,14 @@ export function useRequests({ data, type, onUpdate }: Props & { onUpdate?: () =>
           ? `/api/move-requests/${data._id}`
           : `/api/clear-requests/${data._id}`;
 
-      const res = await fetch(endpoint, {
-        method: "DELETE",
-      });
+      const res = await fetch(endpoint, { method: "DELETE" });
 
       if (!res.ok) throw new Error("Delete failed");
 
       toast.success("Anfrage gelöscht");
       setIsOpen(false);
       onUpdate?.();
-    } catch (error) {
+    } catch {
       toast.error("Fehler beim Löschen der Anfrage");
     }
   };
@@ -62,6 +55,6 @@ export function useRequests({ data, type, onUpdate }: Props & { onUpdate?: () =>
     setIsOpen,
     isUpdating,
     handleStatusUpdate,
-    handleDelete
+    handleDelete,
   };
 }
