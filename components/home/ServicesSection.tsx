@@ -34,6 +34,7 @@ const iconMap: Record<string, LucideIcon> = {
 };
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const fadeIn = {
   initial: { opacity: 0, y: 200 },
@@ -130,8 +131,10 @@ export default function ServicesSection() {
                       group-hover:opacity-100 group-hover:translate-y-0
                     "
                     >
-                      Mehr erfahren
-                      <ArrowRight className="h-4 w-4" />
+                      <Link href="/leistungen">
+                        Mehr erfahren
+                        <ArrowRight className="h-4 w-4" />
+                      </Link>
                     </div>
                   </CardContent>
                 </Card>

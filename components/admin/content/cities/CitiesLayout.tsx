@@ -83,7 +83,7 @@ export default function CitiesAdmin() {
               <Plus className="mr-2 h-4 w-4" /> Add New City
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-md bg-black/70 text-white border-none shadow-lg">
+          <DialogContent className="max-w-md bg-slate-800 text-white border-none shadow-lg">
             <DialogHeader>
               <DialogTitle>Add New City</DialogTitle>
               <CardDescription>Fill in the details to add a new service location.</CardDescription>
