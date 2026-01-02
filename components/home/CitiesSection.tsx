@@ -4,7 +4,7 @@ import { MapPin, ArrowRight, Truck, Users, Route, Globe } from "lucide-react";
 import { CitiesCta, CitiesHead } from "@/components/common";
 import { useCities } from "@/hooks/useData";
 
-export default async function CitiesSection() {
+export default function CitiesSection() {
   const { cities } = useCities();
   return (
     <section className="py-24 bg-card relative overflow-hidden">
