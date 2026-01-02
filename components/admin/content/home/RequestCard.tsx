@@ -55,6 +55,27 @@ export function RequestCard({ data, type, onUpdate }: Props) {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      const endpoint =
+        type === "move"
+          ? `/api/move-requests/${data._id}`
+          : `/api/clear-requests/${data._id}`;
+
+      const res = await fetch(endpoint, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) throw new Error("Delete failed");
+
+      toast.success("Anfrage gelöscht");
+      setIsOpen(false);
+      onUpdate?.();
+    } catch (error) {
+      toast.error("Fehler beim Löschen der Anfrage");
+    }
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <Card className="group border border-gray-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-200 rounded-xl overflow-hidden bg-white dark:bg-slate-900">
@@ -173,6 +194,7 @@ export function RequestCard({ data, type, onUpdate }: Props) {
           status={data.status} 
           isUpdating={isUpdating} 
           onUpdate={handleStatusUpdate} 
+          onDelete={handleDelete}
         />
       </DialogContent>
     </Dialog>

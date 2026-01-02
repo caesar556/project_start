@@ -4,9 +4,19 @@ import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Star, Quote, Trash } from "lucide-react";
+import { Star, Quote, Trash, Plus, Edit2, Loader2 } from "lucide-react";
 
 import { useApi } from "@/hooks/useApi";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
 
 type TestimonialType = {
   _id: string;
@@ -18,16 +28,53 @@ type TestimonialType = {
 };
 
 export default function DashboardTestimonials() {
-  const { data: testimonials, loading, del } = useApi<TestimonialType[]>("/api/testimonials");
+  const { data: testimonials, loading, del, post, patch, refresh } = useApi<TestimonialType[]>("/api/testimonials");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState<Partial<TestimonialType> | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const handleOpenAdd = () => {
+    setEditingItem({ name: "", city: "", rating: 5, text: "", date: new Date().toISOString() });
+    setIsDialogOpen(true);
+  };
+
+  const handleOpenEdit = (item: TestimonialType) => {
+    setEditingItem(item);
+    setIsDialogOpen(true);
+  };
+
+  const handleSave = async () => {
+    if (!editingItem?.name || !editingItem?.text) {
+      toast.error("Name und Text sind erforderlich");
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      if (editingItem._id) {
+        await patch(editingItem._id, editingItem);
+        toast.success("Testimonial aktualisiert");
+      } else {
+        await post(editingItem);
+        toast.success("Testimonial erstellt");
+      }
+      setIsDialogOpen(false);
+      refresh();
+    } catch (err) {
+      toast.error("Fehler beim Speichern");
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this testimonial?")) return;
+    if (!confirm("Möchten Sie dieses Testimonial wirklich löschen?")) return;
 
     try {
       await del(id);
+      toast.success("Testimonial gelöscht");
     } catch (err) {
-      console.error(err);
-      alert("Error deleting testimonial");
+      toast.error("Fehler beim Löschen");
     }
   };
 
@@ -54,11 +101,16 @@ export default function DashboardTestimonials() {
           <h2 className="text-2xl font-bold tracking-tight">Kundenbewertungen</h2>
           <p className="text-sm text-muted-foreground">Verwalten Sie die öffentlichen Testimonials Ihrer Kunden.</p>
         </div>
-        <div className="flex items-center gap-2 px-4 py-2 bg-orange-500/10 rounded-xl border border-orange-500/20">
-          <Star className="h-4 w-4 text-orange-500 fill-orange-500" />
-          <span className="text-sm font-bold text-orange-500">
-            {testimonials?.length || 0} Gesamtbewertungen
-          </span>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 px-4 py-2 bg-orange-500/10 rounded-xl border border-orange-500/20">
+            <Star className="h-4 w-4 text-orange-500 fill-orange-500" />
+            <span className="text-sm font-bold text-orange-500">
+              {testimonials?.length || 0} Gesamtbewertungen
+            </span>
+          </div>
+          <Button onClick={handleOpenAdd} className="bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl">
+            <Plus className="h-4 w-4 mr-2" /> Neu erstellen
+          </Button>
         </div>
       </div>
 
@@ -105,6 +157,14 @@ export default function DashboardTestimonials() {
                   <Button
                     variant="ghost"
                     size="icon"
+                    onClick={() => handleOpenEdit(t)}
+                    className="w-8 h-8 text-slate-400 hover:text-orange-500 hover:bg-orange-500/10 rounded-lg transition-colors"
+                  >
+                    <Edit2 size={16} />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
                     onClick={() => handleDelete(t._id)}
                     className="w-8 h-8 text-slate-400 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
                   >
@@ -125,6 +185,66 @@ export default function DashboardTestimonials() {
           </Card>
         ))}
       </div>
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="sm:max-w-[500px] rounded-2xl">
+          <DialogHeader>
+            <DialogTitle>{editingItem?._id ? "Bewertung bearbeiten" : "Neue Bewertung erstellen"}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase text-slate-500">Name</label>
+                <Input 
+                  value={editingItem?.name || ""} 
+                  onChange={(e) => setEditingItem({ ...editingItem!, name: e.target.value })}
+                  placeholder="Max Mustermann"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase text-slate-500">Stadt</label>
+                <Input 
+                  value={editingItem?.city || ""} 
+                  onChange={(e) => setEditingItem({ ...editingItem!, city: e.target.value })}
+                  placeholder="Wien"
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-bold uppercase text-slate-500">Bewertung (1-5)</label>
+              <div className="flex gap-2">
+                {[1, 2, 3, 4, 5].map((s) => (
+                  <Button
+                    key={s}
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setEditingItem({ ...editingItem!, rating: s })}
+                    className={`p-1 h-8 w-8 ${editingItem?.rating === s ? "bg-orange-100 text-orange-600" : ""}`}
+                  >
+                    <Star className={`h-4 w-4 ${editingItem?.rating && s <= editingItem.rating ? "fill-orange-500 text-orange-500" : "text-slate-300"}`} />
+                  </Button>
+                ))}
+              </div>
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-bold uppercase text-slate-500">Text</label>
+              <Textarea 
+                value={editingItem?.text || ""} 
+                onChange={(e) => setEditingItem({ ...editingItem!, text: e.target.value })}
+                placeholder="Ihre Bewertung..."
+                rows={4}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsDialogOpen(false)} disabled={isSaving}>Abbrechen</Button>
+            <Button onClick={handleSave} className="bg-orange-600 hover:bg-orange-700 text-white" disabled={isSaving}>
+              {isSaving && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
+              Speichern
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
