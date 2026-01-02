@@ -1,20 +1,8 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  Clock,
-  RefreshCw,
-  CheckCircle2,
-  XCircle,
-  ArrowUpRight,
-  Mail,
-  Phone,
   Calendar,
-  MapPin,
-  Building2,
   MessageSquare,
-  ChevronRight,
-  Loader2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { MoveRequest, ClearanceRequest, RequestStatus } from "@/types";
@@ -24,45 +12,18 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogFooter,
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import { toast } from "sonner";
+import { StatusBadge, getStatusColor } from "./request-card/StatusBadge";
+import { ContactInfo } from "./request-card/ContactInfo";
+import { ServiceDetails } from "./request-card/ServiceDetails";
+import { ActionButtons } from "./request-card/ActionButtons";
 
 type Props = {
   data: MoveRequest | ClearanceRequest;
   type: "move" | "clearance";
   onUpdate?: () => void;
-};
-
-const getStatusColor = (status: RequestStatus) => {
-  switch (status) {
-    case "new":
-      return "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20";
-    case "processing":
-      return "bg-yellow-100 text-yellow-700 border-yellow-200 dark:bg-yellow-500/10 dark:text-yellow-400 dark:border-yellow-500/20";
-    case "completed":
-      return "bg-green-100 text-green-700 border-green-200 dark:bg-green-500/10 dark:text-green-400 dark:border-green-500/20";
-    case "cancelled":
-      return "bg-red-100 text-red-700 border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20";
-    default:
-      return "bg-gray-100 text-gray-700 border-gray-200 dark:bg-gray-500/10 dark:text-gray-400 dark:border-gray-500/20";
-  }
-};
-
-const getStatusIcon = (status: RequestStatus) => {
-  switch (status) {
-    case "new":
-      return <Clock className="h-3 w-3 mr-1" />;
-    case "processing":
-      return <RefreshCw className="h-3 w-3 mr-1" />;
-    case "completed":
-      return <CheckCircle2 className="h-3 w-3 mr-1" />;
-    case "cancelled":
-      return <XCircle className="h-3 w-3 mr-1" />;
-    default:
-      return null;
-  }
 };
 
 export function RequestCard({ data, type, onUpdate }: Props) {
@@ -94,9 +55,6 @@ export function RequestCard({ data, type, onUpdate }: Props) {
     }
   };
 
-  const moveData = type === "move" ? (data as MoveRequest) : null;
-  const clearData = type === "clearance" ? (data as ClearanceRequest) : null;
-
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <Card className="group border border-gray-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-200 rounded-xl overflow-hidden bg-white dark:bg-slate-900">
@@ -110,59 +68,14 @@ export function RequestCard({ data, type, onUpdate }: Props) {
             </p>
           </div>
 
-          <Badge
-            variant="secondary"
-            className={cn(
-              "px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border",
-              getStatusColor(data.status),
-            )}
-          >
-            {getStatusIcon(data.status)}
-            {data.status}
-          </Badge>
+          <StatusBadge status={data.status} />
         </CardHeader>
 
         <CardContent className="space-y-4 px-4 py-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="text-[10px] font-bold text-gray-400 dark:text-slate-500 uppercase flex items-center gap-1">
-                <Mail className="h-2.5 w-2.5" /> Email
-              </label>
-              <p className="text-sm text-gray-700 dark:text-slate-300 font-medium truncate">
-                {data.email}
-              </p>
-            </div>
-            <div>
-              <label className="text-[10px] font-bold text-gray-400 dark:text-slate-500 uppercase flex items-center gap-1">
-                <Phone className="h-2.5 w-2.5" /> Telefon
-              </label>
-              <p className="text-sm text-gray-700 dark:text-slate-300 font-medium">
-                {data.phone}
-              </p>
-            </div>
-          </div>
+          <ContactInfo email={data.email} phone={data.phone} />
 
           <div className="pt-2 border-t border-gray-100 dark:border-slate-800">
-            {type === "move" ? (
-              <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-slate-400">
-                <span className="font-semibold text-gray-900 dark:text-white">
-                  {moveData?.fromCity}
-                </span>
-                <ArrowUpRight className="h-4 w-4 text-orange-500" />
-                <span className="font-semibold text-gray-900 dark:text-white">
-                  {moveData?.toCity}
-                </span>
-              </div>
-            ) : (
-              <div>
-                <label className="text-[10px] font-bold text-gray-400 dark:text-slate-500 uppercase">
-                  Stadt & Immobilie
-                </label>
-                <p className="text-sm text-gray-700 dark:text-slate-300 font-medium">
-                  {clearData?.city} • {clearData?.propertyType}
-                </p>
-              </div>
-            )}
+            <ServiceDetails data={data} type={type} />
           </div>
 
           <div className="flex items-center justify-between pt-2">
@@ -194,14 +107,13 @@ export function RequestCard({ data, type, onUpdate }: Props) {
                 ID: {data._id.toUpperCase()}
               </p>
             </div>
-            <Badge
+            <StatusBadge 
+              status={data.status} 
               className={cn(
                 "bg-white/20 hover:bg-white/30 border-none text-white font-bold",
-                getStatusColor(data.status),
+                getStatusColor(data.status)
               )}
-            >
-              {data.status}
-            </Badge>
+            />
           </div>
         </DialogHeader>
 
@@ -242,108 +154,7 @@ export function RequestCard({ data, type, onUpdate }: Props) {
             <h3 className="text-xs font-black text-gray-400 dark:text-slate-500 uppercase tracking-widest mb-4">
               Service Details
             </h3>
-            {type === "move" ? (
-              <div className="space-y-4">
-                {moveData?.estimatedPrice && (
-                  <div className="bg-orange-50 dark:bg-orange-500/5 p-3 rounded-lg border border-orange-100 dark:border-orange-500/10 mb-4">
-                    <p className="text-[10px] text-orange-400 font-bold uppercase mb-1">
-                      Berechneter Preis
-                    </p>
-                    <p className="text-xl font-black text-orange-600 dark:text-orange-500">
-                      € {moveData.estimatedPrice.toLocaleString("de-AT")}
-                    </p>
-                  </div>
-                )}
-                <div className="flex items-center justify-between">
-                  <div className="text-center flex-1">
-                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase mb-1">
-                      Von
-                    </p>
-                    <p className="text-sm font-black text-gray-900 dark:text-white">
-                      {moveData?.fromCity}
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-slate-400">
-                      {moveData?.fromAddress}
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-slate-400">
-                      {moveData?.rooms}
-                    </p>
-                  </div>
-                  <div className="px-4 text-orange-500">
-                    <ChevronRight className="h-6 w-6" />
-                  </div>
-                  <div className="text-center flex-1">
-                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase mb-1">
-                      Nach
-                    </p>
-                    <p className="text-sm font-black text-gray-900 dark:text-white">
-                      {moveData?.toCity}
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-slate-400">
-                      {moveData?.toAddress}
-                    </p>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-50 dark:border-slate-800">
-                  <div className="space-y-1">
-                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">
-                      Datum
-                    </p>
-                    <p className="text-sm font-bold text-gray-900 dark:text-white">
-                      {moveData?.moveDate
-                        ? new Date(moveData.moveDate).toLocaleDateString(
-                            "de-DE",
-                          )
-                        : "Flexibel"}
-                    </p>
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">
-                      Größe
-                    </p>
-                    <p className="text-sm font-bold text-gray-900 dark:text-white">
-                      {moveData?.area ? `${moveData.area} m²` : "K.A."}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1">
-                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">
-                      Ort
-                    </p>
-                    <p className="text-sm font-bold text-gray-900 dark:text-white">
-                      {clearData?.city}
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-slate-400">
-                      {clearData?.address}
-                    </p>
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">
-                      Immobilie
-                    </p>
-                    <p className="text-sm font-bold text-gray-900 dark:text-white">
-                      {clearData?.propertyType}
-                    </p>
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-[10px] text-gray-400 dark:text-slate-500 font-bold uppercase">
-                      Datum
-                    </p>
-                    <p className="text-sm font-bold text-gray-900 dark:text-white">
-                      {clearData?.preferredDate
-                        ? new Date(clearData.preferredDate).toLocaleDateString(
-                            "de-DE",
-                          )
-                        : "Flexibel"}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
+            <ServiceDetails data={data} type={type} isDialog />
           </section>
 
           {data.message && (
@@ -358,50 +169,11 @@ export function RequestCard({ data, type, onUpdate }: Props) {
           )}
         </div>
 
-        <DialogFooter className="p-6 bg-white dark:bg-slate-900 border-t border-gray-100 dark:border-slate-800 flex flex-col gap-3 sm:gap-3 ">
-          <div className="flex w-full gap-3">
-            <Button
-              variant="outline"
-              className="flex-1 border-yellow-200 dark:border-yellow-500/20 text-yellow-600 dark:text-yellow-500 hover:bg-yellow-50 dark:hover:bg-yellow-500/10 font-bold rounded-xl h-12"
-              onClick={() => handleStatusUpdate("processing")}
-              disabled={isUpdating || data.status === "processing"}
-            >
-              {isUpdating ? (
-                <Loader2 className="h-4 w-4 animate-spin mr-2" />
-              ) : (
-                <RefreshCw className="h-4 w-4 mr-2" />
-              )}
-              In Bearbeitung
-            </Button>
-          </div>
-          <div className="flex w-full gap-3">
-            <Button
-              variant="outline"
-              className="flex-1 border-red-200 dark:border-red-500/20 text-red-600 dark:text-red-500 hover:bg-red-50 font-bold rounded-xl h-12"
-              onClick={() => handleStatusUpdate("cancelled")}
-              disabled={isUpdating || data.status === "cancelled"}
-            >
-              {isUpdating ? (
-                <Loader2 className="h-4 w-4 animate-spin mr-2" />
-              ) : (
-                <XCircle className="h-4 w-4 mr-2" />
-              )}
-              Stornieren
-            </Button>
-            <Button
-              className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl h-12"
-              onClick={() => handleStatusUpdate("completed")}
-              disabled={isUpdating || data.status === "completed"}
-            >
-              {isUpdating ? (
-                <Loader2 className="h-4 w-4 animate-spin mr-2" />
-              ) : (
-                <CheckCircle2 className="h-4 w-4 mr-2" />
-              )}
-              Abschließen
-            </Button>
-          </div>
-        </DialogFooter>
+        <ActionButtons 
+          status={data.status} 
+          isUpdating={isUpdating} 
+          onUpdate={handleStatusUpdate} 
+        />
       </DialogContent>
     </Dialog>
   );
