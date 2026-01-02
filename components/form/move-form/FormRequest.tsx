@@ -60,8 +60,14 @@ export default function FormRequest() {
       message: "",
       rooms: searchParams.get("rooms") || "",
       area: searchParams.get("area") || "",
-      estimatedMin: searchParams.get("estimatedMin") ? Number(searchParams.get("estimatedMin")) : undefined,
-      estimatedMax: searchParams.get("estimatedMax") ? Number(searchParams.get("estimatedMax")) : undefined,
+      moveDate: "",
+      estimatedMin: searchParams.get("estimatedMin")
+        ? Number(searchParams.get("estimatedMin"))
+        : null,
+
+      estimatedMax: searchParams.get("estimatedMax")
+        ? Number(searchParams.get("estimatedMax"))
+        : null,
     },
   });
 
@@ -421,6 +427,7 @@ export default function FormRequest() {
                       type="date" 
                       className={cn(baseInput, fieldState.error && "border-red-500 ring-red-500")} 
                       {...field} 
+                      
                       disabled={isSubmitting}
                     />
                   </FormControl>
@@ -538,7 +545,6 @@ export default function FormRequest() {
           </div>
         </div>
 
-        {/* ================= Message ================= */}
         <FormField
           control={form.control}
           name="message"

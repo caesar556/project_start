@@ -83,7 +83,7 @@ export default function AboutUs() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <Link href="">
+              <Link href="/umzug-anfragen">
                 <Button
                   size="lg"
                   className="bg-[#FF6A00] hover:bg-[#e65f00] text-white font-bold rounded-xl shadow-lg shadow-[#FF6A00]/20 group"

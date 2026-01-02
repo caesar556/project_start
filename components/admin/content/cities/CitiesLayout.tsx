@@ -249,7 +249,7 @@ export default function CitiesAdmin() {
         open={!!editingCity}
         onOpenChange={(open) => !open && setEditingCity(null)}
       >
-        <DialogContent className="max-w-md bg-black/70 text-white border-none">
+        <DialogContent className="max-w-md bg-slate-800 text-white border-none">
           <DialogHeader>
             <DialogTitle>Edit City</DialogTitle>
             <CardDescription>Update details for {editingCity?.name}.</CardDescription>

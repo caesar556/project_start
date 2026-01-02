@@ -198,7 +198,7 @@ export default function ClearanceRequestForm() {
                             <SelectValue placeholder="Stadt wählen" />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent>
+                        <SelectContent className="bg-white">
                           {CITIES.map((city) => (
                             <SelectItem key={city.id} value={city.id}>
                               {city.name}
@@ -275,7 +275,7 @@ export default function ClearanceRequestForm() {
                             <SelectValue />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent>
+                        <SelectContent className="bg-white">
                           {[...Array(11)].map((_, i) => (
                             <SelectItem key={i} value={String(i)}>
                               {i === 0 ? "Erdgeschoss" : `${i}. Stock`}
