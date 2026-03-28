@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Richard Umzug - Moving Company Website
 
-## Getting Started
+## Overview
 
-First, run the development server:
+This is a Next.js 16 application for "Richard Umzug," an Austrian moving company website. The platform serves as both a customer-facing website with service information, cost calculators, and request forms, as well as an admin dashboard for managing business operations. The site is built for the Austrian and European market, featuring German-language content and location-based pricing for cities across Austria.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## User Preferences
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Preferred communication style: Simple, everyday language.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## System Architecture
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Frontend Architecture
+- **Framework**: Next.js 16 with App Router and React 19
+- **Styling**: Tailwind CSS 4 with CSS variables for theming (dark navy + orange accent color scheme)
+- **UI Components**: shadcn/ui component library (New York style) with Radix UI primitives
+- **Animations**: Framer Motion for smooth page transitions and interactive elements.
+- **Forms**: React Hook Form with Zod validation schemas
+- **Charts**: Chart.js with react-chartjs-2 for admin analytics
 
-## Learn More
+### Route Structure
+- `app/(root)/*` - Public-facing pages (home, services, city pages, contact forms)
+- `app/(admin)/dashboard/*` - Admin dashboard with sidebar navigation
+- `app/(auth)/login/*` - Authentication pages (placeholder)
+- `app/api/*` - REST API endpoints
 
-To learn more about Next.js, take a look at the following resources:
+### Backend Architecture
+- **Database**: MongoDB with Mongoose ODM
+- **Connection Pattern**: Cached connection pooling via `lib/db.ts` to prevent connection exhaustion
+- **Models**: Separate Mongoose schemas for Cities, Services, Testimonials, MoveRequests, ClearanceRequests, and GlobalSettings
+- **API Design**: RESTful endpoints under `/api/*` with standard CRUD operations
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Key Design Patterns
+- **Server Components**: Default usage with client components marked explicitly with "use client"
+- **Data Fetching**: Server-side data fetching in page components, client-side fetching for dynamic content
+- **Form Validation**: Centralized Zod schemas in `lib/form-validation/` for consistent validation
+- **Reusable Hooks**: Custom hooks for estimates calculation, global settings, mobile detection, and GSAP animations
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Component Organization
+- `components/ui/` - Base UI components from shadcn/ui
+- `components/home/` - Homepage sections (Hero, Services, Testimonials, etc.)
+- `components/calculator/` - Moving cost calculator components
+- `components/form/` - Form components for move and clearance requests
+- `components/admin/` - Admin dashboard components
+- `components/pages/` - Page-specific component compositions
 
-## Deploy on Vercel
+## External Dependencies
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Database
+- **MongoDB**: Primary database accessed via `MONGODB_URI` environment variable
+- **Mongoose**: ODM for schema definition and database operations
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Third-Party Services
+- No external payment processing or auth providers currently integrated
+- WhatsApp integration via direct links for customer contact
+- Google Reviews display (static data, no API integration)
+
+### Key NPM Packages
+- `mongoose` - MongoDB object modeling
+- `framer-motion` - Animation library
+- `react-hook-form` with `@hookform/resolvers` - Form handling
+- `zod` - Schema validation
+- `chart.js` with `react-chartjs-2` - Analytics charts
+- `embla-carousel-react` - Carousel/slider functionality
+- `lucide-react` - Icon library
+
+### Environment Variables Required
+- `MONGODB_URI` - MongoDB connection string
